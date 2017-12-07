@@ -1,6 +1,6 @@
 import Foundation
 
-enum RequestParserError: Error {
+public enum RequestParserError: Error {
     case InvalidStatusLine(String)
     case EmptyRequest
 }
@@ -9,7 +9,7 @@ public class RequestParser {
     public init() {}
 
     public func parse(request: String) throws {
-        guard !request.isEmpty else {
+        if request.isEmpty {
             throw RequestParserError.EmptyRequest
         }
 
@@ -29,7 +29,7 @@ public class RequestParser {
         let trimmedStatus = statusLine.trimmingCharacters(in: .whitespacesAndNewlines)
         let statusLineTokens = trimmedStatus.components(separatedBy: " ")
 
-        if statusLineTokens.count < 3 {
+        if statusLineTokens.count != 3 {
             throw RequestParserError.InvalidStatusLine(statusLine)
         }
 
