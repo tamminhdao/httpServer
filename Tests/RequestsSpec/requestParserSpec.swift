@@ -12,12 +12,26 @@ class RequestParseSpec: QuickSpec {
                 httpParser = RequestParser()
             }
 
-            it ("throw an error if the request is empty") {
+            it ("throws an empty request error if the request is empty") {
                 let emptyRequest = String()
                 expect{try httpParser.parse(request: emptyRequest)}.to(throwError(RequestParserError.EmptyRequest))
             }
 
-            it ("parse the status line correctly") {
+            it ("throws an invalid status line error if the request format is incorrect") {
+                let badRequest = """
+                Host: localhost:5000
+                User-Agent: curl/7.54.0
+                Accept: */*
+                """
+                expect{try httpParser.parse(request: badRequest)}.to(throwError(RequestParserError.InvalidStatusLine(badRequest)))
+            }
+
+            it ("throws an invalid status line error if the status line is incorrect") {
+                let badStatusLine = "GET "
+                expect{try httpParser.parseStatusLine(statusLine: badStatusLine)}.to(throwError(RequestParserError.InvalidStatusLine(badStatusLine)))
+            }
+
+            it ("parses the status line correctly") {
                 let sampleStatusLine = "GET / HTTP/1.1"
                 let expected = (method: "GET", url: "/", version: "HTTP/1.1")
                 do {
@@ -30,7 +44,7 @@ class RequestParseSpec: QuickSpec {
                 }
             }
 
-            it ("parse the headers correctly") {
+            it ("parses the headers correctly") {
                 let headerText = """
                     Host: localhost:8000
                     User-Agent: Chrome/61.0.3163.100 Safari/537.36
