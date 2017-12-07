@@ -29,6 +29,26 @@ class RequestParseSpec: QuickSpec {
                     expect(false).to(beTrue())
                 }
             }
+
+            it ("parse the headers correctly") {
+                let headerText = """
+                    Host: localhost:8000
+                    User-Agent: Chrome/61.0.3163.100 Safari/537.36
+                    Accept: text/html
+                    Accept-Encoding: gzip, deflate, br
+                """
+
+                let expected = [
+                    "Host": "localhost:8000",
+                    "Accept": "text/html",
+                    "User-Agent":"Chrome/61.0.3163.100 Safari/537.36",
+                    "Accept-Encoding": "gzip, deflate, br"
+                ]
+
+                let headerLines = httpParser.getLine(request: headerText)
+                let headers = httpParser.parseHeaders(headerLines: headerLines)
+                expect(headers).to(equal(expected))
+            }
         }
     }
 }

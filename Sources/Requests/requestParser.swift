@@ -21,7 +21,7 @@ public class RequestParser {
         let headers = parseHeaders(headerLines: lines)
     }
 
-    private func getLine(request: String) -> [String] {
+    public func getLine(request: String) -> [String] {
         return request.components(separatedBy: CharacterSet(charactersIn: "\r\n"))
     }
 
