@@ -25,5 +25,12 @@ public class RequestParser {
         let version = statusLineTokens[2]
 
         // parse header
+        var headers = [String: String]()
+        for line in lines {
+            let keyValue = line.split(separator: ":", maxSplits: 1)
+            let trimmedKey = keyValue[0].trimmingCharacters(in: .whitespacesAndNewlines)
+            let trimmedValue = keyValue[1].trimmingCharacters(in: .whitespacesAndNewlines)
+            headers[trimmedKey] = trimmedValue
+        }
     }
 }
