@@ -2,17 +2,30 @@ import Foundation
 
 enum RequestParserError: Error {
     case InvalidStatusLine(String)
+    case EmptyRequest
 }
 
 public class RequestParser {
     public init() {}
 
     public func parse(request: String) throws {
+        guard !request.isEmpty else {
+            throw RequestParserError.EmptyRequest
+        }
 
-        var lines = request.components(separatedBy: CharacterSet(charactersIn: "\r\n")) //returns an array
+        var lines = getLine(request: request)
 
-        // parse status line
-        let statusLine = lines.removeFirst()
+        let firstLine = lines.removeFirst()
+        let statusLine = try parseStatusLine(statusLine: firstLine)
+
+        let headers = parseHeaders(headerLines: lines)
+    }
+
+    private func getLine(request: String) -> [String] {
+        return request.components(separatedBy: CharacterSet(charactersIn: "\r\n"))
+    }
+
+    private func parseStatusLine(statusLine: String) throws -> (method: String, url: String, version: String) {
         let trimmedStatus = statusLine.trimmingCharacters(in: .whitespacesAndNewlines)
         let statusLineTokens = trimmedStatus.components(separatedBy: " ")
 
@@ -24,13 +37,19 @@ public class RequestParser {
         let url = statusLineTokens[1]
         let version = statusLineTokens[2]
 
-        // parse header
+        return (method: method, url: url, version: version)
+    }
+
+    private func parseHeaders(headerLines: [String]) -> [String: String] {
         var headers = [String: String]()
-        for line in lines {
+
+        for line in headerLines {
             let keyValue = line.split(separator: ":", maxSplits: 1)
             let trimmedKey = keyValue[0].trimmingCharacters(in: .whitespacesAndNewlines)
             let trimmedValue = keyValue[1].trimmingCharacters(in: .whitespacesAndNewlines)
             headers[trimmedKey] = trimmedValue
         }
+
+        return headers
     }
 }
