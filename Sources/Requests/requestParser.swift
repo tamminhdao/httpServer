@@ -8,17 +8,26 @@ public enum RequestParserError: Error {
 public class RequestParser {
     public init() {}
 
-    public func parse(request: String) throws {
-        if request.isEmpty {
-            throw RequestParserError.EmptyRequest
-        }
+    public func parse(request: String) throws -> HttpRequest {
+            if request.isEmpty {
+                throw RequestParserError.EmptyRequest
+            }
 
-        var lines = getLine(request: request)
+            var lines = getLine(request: request)
 
-        let firstLine = lines.removeFirst()
-        let statusLine = try parseStatusLine(statusLine: firstLine)
+            let firstLine = lines.removeFirst()
+            let statusLine = try parseStatusLine(statusLine: firstLine)
+        
+            let headers = parseHeaders(headerLines: lines)
 
-        let headers = parseHeaders(headerLines: lines)
+            let parsedRequest = HttpRequest(
+                method: statusLine.method,
+                url: statusLine.url,
+                version: statusLine.version,
+                headers: headers
+            )
+
+            return parsedRequest
     }
 
     public func getLine(request: String) -> [String] {

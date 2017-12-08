@@ -23,12 +23,38 @@ class RequestParseSpec: QuickSpec {
                 User-Agent: curl/7.54.0
                 Accept: */*
                 """
-                expect{try httpParser.parse(request: badRequest)}.to(throwError(RequestParserError.InvalidStatusLine(badRequest)))
+                expect {try httpParser.parse(request: badRequest)}.to(throwError(RequestParserError.InvalidStatusLine(badRequest)))
+            }
+
+            it ("returns an HttpRequest object if the incoming request is valid") {
+                let validRequest = """
+                    GET / HTTP/1.1
+                    Host: localhost:5000
+                    User-Agent: curl/7.54.0
+                    Accept: */*
+                """
+
+                let expected = HttpRequest(
+                        method: "GET",
+                        url: "/",
+                        version: "HTTP/1.1",
+                        headers: [
+                            "Host": "localhost:5000",
+                            "User-Agent": "curl/7.54.0",
+                            "Accept": "*/*"
+                        ]
+                )
+
+                do {
+                    let parsedRequest = try httpParser.parse(request: validRequest)
+                    expect(parsedRequest).to(equal(expected))
+                } catch {
+                }
             }
 
             it ("throws an invalid status line error if the status line is incorrect") {
                 let badStatusLine = "GET "
-                expect{try httpParser.parseStatusLine(statusLine: badStatusLine)}.to(throwError(RequestParserError.InvalidStatusLine(badStatusLine)))
+                expect {try httpParser.parseStatusLine(statusLine: badStatusLine)}.to(throwError(RequestParserError.InvalidStatusLine(badStatusLine)))
             }
 
             it ("parses the status line correctly") {
@@ -40,7 +66,6 @@ class RequestParseSpec: QuickSpec {
                     expect(url).to(equal(expected.url))
                     expect(version).to(equal(expected.version))
                 } catch {
-                    expect(false).to(beTrue())
                 }
             }
 
