@@ -21,8 +21,7 @@ public class Server {
                 try clientSocket = self.listeningSocket.acceptClientConnection()
                 let parsedIncomingRequest = parseRequest(socket: clientSocket)
                 let httpMethod = parsedIncomingRequest.returnMethod()
-            print ("what's the method")
-            print(httpMethod)
+
                 if (httpMethod == "GET" || httpMethod == "POST") {
                     response200(socket: clientSocket)
                 } else {
@@ -58,10 +57,7 @@ public class Server {
         do {
             _ = try socket.read(into: &readData)
             let incomingText = String(data: readData, encoding: .utf8)
-            print("It does get here so the problem is the next line")
             let parsedRequest = try self.parser.parse(request: incomingText!)
-            print("It does gets here")
-            print(parsedRequest)
             readData.count = 0
             return parsedRequest
         } catch let error {

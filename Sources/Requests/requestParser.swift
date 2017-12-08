@@ -14,25 +14,9 @@ public class RequestParser {
             }
 
             var lines = getLine(request: request)
-
             let firstLine = lines.removeFirst()
-
-        print("does it get to the first line")
-        print(firstLine)
-
             let statusLine = try parseStatusLine(statusLine: firstLine)
-
-        print("does it get to the status line")
-        print(statusLine)
-
-        print("Let's see how the array of lines looks like")
-        print(lines)
-
             let headers = parseHeaders(headerLines: lines)
-
-        print("does it get to the headers line? - NO")
-        print(headers)
-
 
             let parsedRequest = HttpRequest(
                 method: statusLine.method,
