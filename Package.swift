@@ -23,7 +23,7 @@ let package = Package(
             dependencies: []),
         .target(
             name: "Server",
-            dependencies: ["Socket"]),
+            dependencies: ["Socket", "Requests"]),
         .testTarget(
             name: "RequestsSpec",
             dependencies: ["Requests", "Quick", "Nimble"]),
