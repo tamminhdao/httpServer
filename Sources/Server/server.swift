@@ -25,15 +25,16 @@ public class Server {
             print(httpMethod)
                 if (httpMethod == "GET" || httpMethod == "POST") {
                     response200(socket: clientSocket)
+                } else {
+                    response404(socket: clientSocket)
                 }
-           //     response200(socket: clientSocket)
             } while true
         } catch let error {
             print (error.localizedDescription)
         }
     }
 
-    public func response200(socket: Socket) {
+    private func response200(socket: Socket) {
         do {
             let response = Data("HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n".utf8)
             try socket.write(from: response)
@@ -43,7 +44,17 @@ public class Server {
         }
     }
 
-    public func parseRequest(socket: Socket) -> HttpRequest {
+    private func response404(socket: Socket) {
+        do {
+            let response = Data("HTTP/1.1 404 NotFound\r\nContent-Length: 0\r\n\r\n".utf8)
+            try socket.write(from: response)
+        }
+        catch let error {
+            print (error.localizedDescription)
+        }
+    }
+
+    private func parseRequest(socket: Socket) -> HttpRequest {
         do {
             _ = try socket.read(into: &readData)
             let incomingText = String(data: readData, encoding: .utf8)
