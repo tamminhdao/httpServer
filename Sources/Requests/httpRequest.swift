@@ -12,6 +12,10 @@ public class HttpRequest {
         self.version = version
         self.headers = headers
     }
+
+    public func returnMethod () -> String {
+        return self.method
+    }
 }
 
 extension HttpRequest: Equatable {
