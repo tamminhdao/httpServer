@@ -28,20 +28,22 @@ class RequestParseSpec: QuickSpec {
 
             it ("returns an HttpRequest object if the incoming request is valid") {
                 let validRequest = """
-                    GET / HTTP/1.1
+                    GET /logs HTTP/1.1
                     Host: localhost:5000
-                    User-Agent: curl/7.54.0
-                    Accept: */*
+                    Connection: Keep-Alive
+                    User-Agent: Apache-HttpClient/4.3.5 (java 1.5)
+                    Accept-Encoding: gzip,deflate
                 """
 
                 let expected = HttpRequest(
                         method: "GET",
-                        url: "/",
+                        url: "/logs",
                         version: "HTTP/1.1",
                         headers: [
                             "Host": "localhost:5000",
-                            "User-Agent": "curl/7.54.0",
-                            "Accept": "*/*"
+                            "Connection": "Keep-Alive",
+                            "User-Agent": "Apache-HttpClient/4.3.5 (java 1.5)",
+                            "Accept-Encoding": "gzip,deflate"
                         ]
                 )
 
