@@ -1,13 +1,17 @@
 import Foundation
 import Socket
+import Requests
 
 public class Server {
 
     var listeningSocket: Socket!
     var clientSocket: Socket!
     var readData = Data()
+    var parser = RequestParser()
 
-    public init() {}
+    public init(parser: RequestParser) {
+        self.parser = parser
+    }
 
     public func run() {
         do {
@@ -15,9 +19,11 @@ public class Server {
             try self.listeningSocket.listen(on: 5000)
             repeat {
                 try clientSocket = self.listeningSocket.acceptClientConnection()
-                printRequest(socket: clientSocket)
-                response200(socket: clientSocket)
-//                clientSocket.close()
+                let parsedIncomingRequest = parseRequest(socket: clientSocket)
+                let httpMethod = parsedIncomingRequest.returnMethod()
+                if (httpMethod == "GET" || httpMethod == "POST") {
+                    response200(socket: clientSocket)
+                }
             } while true
         } catch let error {
             print (error.localizedDescription)
@@ -34,15 +40,16 @@ public class Server {
         }
     }
 
-    public func printRequest(socket: Socket) {
+    public func parseRequest(socket: Socket) -> HttpRequest {
         do {
-                _ = try socket.read(into: &readData)
-                let request = String(data: readData, encoding: .utf8)
-                let reply = "Received:\n \(request!)\n"
-                print(reply)
-                readData.count = 0
+            _ = try socket.read(into: &readData)
+            let incomingText = String(data: readData, encoding: .utf8)
+            let parsedRequest = try parser.parse(request: incomingText!)
+            readData.count = 0
+            return parsedRequest
         } catch let error {
             print (error.localizedDescription)
+            return HttpRequest(method: "", url: "", version: "", headers: ["" : ""])
         }
     }
 }

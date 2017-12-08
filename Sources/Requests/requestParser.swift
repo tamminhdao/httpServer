@@ -17,7 +17,7 @@ public class RequestParser {
 
             let firstLine = lines.removeFirst()
             let statusLine = try parseStatusLine(statusLine: firstLine)
-        
+
             let headers = parseHeaders(headerLines: lines)
 
             let parsedRequest = HttpRequest(

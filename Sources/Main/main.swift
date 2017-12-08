@@ -1,5 +1,7 @@
 import Foundation
 import Server
+import Requests
 
-let server = Server()
+let httpParser = RequestParser()
+let server = Server(parser: httpParser)
 server.run()
