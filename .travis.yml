@@ -1,3 +1,4 @@
 language: swift
+swift-tools-version: 4.0
 script: swift test
 
