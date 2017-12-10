@@ -5,6 +5,6 @@ sudo: required
 env: SWIFT_SNAPSHOT=4.0
 script: swift test
 notifications:
-    email:
-	- tam@8thlight.com
+  email:
+    - tam@8thlight.com
 
