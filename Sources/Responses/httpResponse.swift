@@ -4,11 +4,11 @@ public class HttpResponse {
     var version: String
     var statusCode: Int
     var statusPhrase: String
-    var headers: [String: String]? = nil
+    var headers: [String: String]
     var crlf: String
     var space: String
 
-    public init(version: String, statusCode: Int, statusPhrase: String, headers: [String:String]?) {
+    public init(version: String, statusCode: Int, statusPhrase: String, headers: [String:String]) {
         self.version = version
         self.statusCode = statusCode
         self.statusPhrase = statusPhrase
@@ -30,6 +30,6 @@ extension HttpResponse: Equatable {
             lhs.version == rhs.version &&
             lhs.statusCode == rhs.statusCode &&
             lhs.statusPhrase == rhs.statusPhrase &&
-            lhs.headers! == rhs.headers!
+            lhs.headers == rhs.headers
     }
 }

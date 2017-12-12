@@ -11,14 +11,14 @@ class HttpResponseSpec: QuickSpec {
                         version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["":""]
+                        headers: [:]
                 )
 
                 let response2 = HttpResponse(
                         version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["":""]
+                        headers: [:]
                 )
 
                 expect(response1).to(equal(response2))
