@@ -23,3 +23,13 @@ public class HttpResponse {
         return Data(responseText.utf8)
     }
 }
+
+extension HttpResponse: Equatable {
+    public static func ==(lhs: HttpResponse, rhs: HttpResponse) -> Bool {
+        return
+            lhs.version == rhs.version &&
+            lhs.statusCode == rhs.statusCode &&
+            lhs.statusPhrase == rhs.statusPhrase &&
+            lhs.headers! == rhs.headers!
+    }
+}
