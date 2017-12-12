@@ -20,6 +20,10 @@ public class HttpRequest {
     public func returnMethod () -> String {
         return self.method
     }
+
+    public func returnUrl () -> String {
+        return self.url
+    }
 }
 
 extension HttpRequest: Equatable {
