@@ -5,12 +5,16 @@ public class HttpRequest {
     var url: String
     var version: String
     var headers: [String: String]
+    var crlf: String
+    var space: String
 
     public init(method: String, url: String, version: String, headers: [String: String]) {
         self.method = method
         self.url = url
         self.version = version
         self.headers = headers
+        self.crlf = "\r\n"
+        self.space = " "
     }
 
     public func returnMethod () -> String {
