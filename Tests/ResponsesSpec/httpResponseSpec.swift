@@ -29,11 +29,12 @@ class HttpResponseSpec: QuickSpec {
                         version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: [:]
+                        headers: ["Content-Length":"0"]
                 )
 
                 let data = response.constructResponse()
-                let expected = Data("HTTP/1.1 200 OK\r\n\r\n".utf8)
+                //print(data)
+                let expected = Data("HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n".utf8)
                 expect(data).to(equal(expected))
             }
         }

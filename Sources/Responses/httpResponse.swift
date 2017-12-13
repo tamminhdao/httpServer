@@ -19,8 +19,17 @@ public class HttpResponse {
 
     public func constructResponse() -> Data {
         let responseText = self.version + self.space + String(self.statusCode) + self.space + self.statusPhrase
-                + self.crlf + self.crlf
+                + self.crlf + self.convertHeaders(headers: self.headers) + self.crlf
         return Data(responseText.utf8)
+    }
+    
+    private func convertHeaders(headers: [String: String]) -> String {
+        var headerString = String()
+        for header in headers {
+            headerString = header.key + ": " + header.value
+            headerString += self.crlf
+        }
+        return headerString
     }
 }
 
