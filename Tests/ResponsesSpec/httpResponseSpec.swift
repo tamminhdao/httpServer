@@ -33,7 +33,6 @@ class HttpResponseSpec: QuickSpec {
                 )
 
                 let data = response.constructResponse()
-                //print(data)
                 let expected = Data("HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n".utf8)
                 expect(data).to(equal(expected))
             }
