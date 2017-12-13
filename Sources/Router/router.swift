@@ -34,10 +34,19 @@ public class Router {
     }
 
     private func generate200Response() -> HttpResponse {
-        return HttpResponse(version: "HTTP/1.1", statusCode: 200, statusPhrase: "OK", headers: ["Content-Length":"0"])
+        return HttpResponse(version: "HTTP/1.1", statusCode: 200, statusPhrase: "OK", headers: ["Content-Length":"8", "Content-Type":"text/html"], body: pageTemplate(message: "All good"))
     }
 
     private func generate404Response() -> HttpResponse {
-        return HttpResponse(version: "HTTP/1.1", statusCode: 404, statusPhrase: "NotFound", headers: ["Content-Length":"0"])
+        return HttpResponse(version: "HTTP/1.1", statusCode: 404, statusPhrase: "NotFound", headers: ["Content-Length":"18", "Content-Type":"text/html"], body: pageTemplate(message: "URL does not exist"))
+    }
+
+    private func pageTemplate(message: String) -> String {
+        let html = "<!DOCTYPE html \"><html>" +
+                "<body>" +
+                "<p> \(message) </p>" +
+                "</body>" +
+                "</html>"
+        return html
     }
 }

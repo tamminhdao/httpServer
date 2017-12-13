@@ -5,21 +5,23 @@ public class HttpResponse {
     var statusCode: Int
     var statusPhrase: String
     var headers: [String: String]
+    var body: String
     var crlf: String
     var space: String
 
-    public init(version: String, statusCode: Int, statusPhrase: String, headers: [String:String]) {
+    public init(version: String, statusCode: Int, statusPhrase: String, headers: [String:String], body: String) {
         self.version = version
         self.statusCode = statusCode
         self.statusPhrase = statusPhrase
         self.headers = headers
+        self.body = body
         self.crlf = "\r\n"
         self.space = " "
     }
 
     public func constructResponse() -> Data {
         let responseText = self.version + self.space + String(self.statusCode) + self.space + self.statusPhrase
-                + self.crlf + self.convertHeaders(headers: self.headers) + self.crlf
+                + self.crlf + self.convertHeaders(headers: self.headers) + self.crlf + self.body
         return Data(responseText.utf8)
     }
 
