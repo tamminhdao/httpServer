@@ -5,6 +5,7 @@ import Responses
 public class Router {
 
     private var routes: [String: [String]]
+    private var errorMessage: String = "<p> URL does not exist </p>"
 
     private func routeSetUp() {
         routes["/"] = ["GET", "POST", "PUT"]
@@ -34,19 +35,10 @@ public class Router {
     }
 
     private func generate200Response() -> HttpResponse {
-        return HttpResponse(version: "HTTP/1.1", statusCode: 200, statusPhrase: "OK", headers: ["Content-Length":"8", "Content-Type":"text/html"], body: pageTemplate(message: "All good"))
+        return HttpResponse(version: "HTTP/1.1", statusCode: 200, statusPhrase: "OK", headers: ["Content-Length":"0", "Content-Type":"text/html"], body: "")
     }
 
     private func generate404Response() -> HttpResponse {
-        return HttpResponse(version: "HTTP/1.1", statusCode: 404, statusPhrase: "NotFound", headers: ["Content-Length":"18", "Content-Type":"text/html"], body: pageTemplate(message: "URL does not exist"))
-    }
-
-    private func pageTemplate(message: String) -> String {
-        let html = "<!DOCTYPE html \"><html>" +
-                "<body>" +
-                "<p> \(message) </p>" +
-                "</body>" +
-                "</html>"
-        return html
+        return HttpResponse(version: "HTTP/1.1", statusCode: 404, statusPhrase: "NotFound", headers: ["Content-Length":String(errorMessage.count), "Content-Type":"text/html"], body: errorMessage)
     }
 }

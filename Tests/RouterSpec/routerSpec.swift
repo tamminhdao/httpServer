@@ -30,9 +30,9 @@ class RouterSpec: QuickSpec {
                         version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length":"8",
+                        headers: ["Content-Length":"0",
                                   "Content-Type":"text/html"],
-                        body: "All good"
+                        body: ""
                 )
 
                 let response = router.checkRoute(request: validRequest)
@@ -55,9 +55,9 @@ class RouterSpec: QuickSpec {
                         version: "HTTP/1.1",
                         statusCode: 404,
                         statusPhrase: "NotFound",
-                        headers: ["Content-Length":"18",
+                        headers: ["Content-Length":"27",
                                   "Content-Type":"text/html"],
-                        body: "URL does not exist"
+                        body: "<p> URL does not exist </p>"
                 )
 
                 let response = router.checkRoute(request: validRequest)
