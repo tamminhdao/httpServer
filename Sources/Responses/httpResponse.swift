@@ -28,7 +28,7 @@ public class HttpResponse {
     private func convertHeaders(headers: [String: String]) -> String {
         var headerString = String()
         for header in headers {
-            headerString = header.key + ": " + header.value
+            headerString += header.key + ": " + header.value
             headerString += self.crlf
         }
         return headerString
