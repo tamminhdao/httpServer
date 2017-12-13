@@ -6,16 +6,18 @@
 
 ### Generate xcode project
 
-`cd` to the root folder
-`swift package generate-xcodeproj`
-`swift build`
+```
+* `cd` to the root folder
+* `swift package generate-xcodeproj`
+* `swift build`
+```
 
 ### Run the code
 
-`swift run`
-The server runs on localhost:5000
+```swift run```
+* The server runs on localhost:5000
 
 ### Run the tests
 
-`swift test`
+```swift test```
 
