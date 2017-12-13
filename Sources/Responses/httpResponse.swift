@@ -22,7 +22,7 @@ public class HttpResponse {
                 + self.crlf + self.convertHeaders(headers: self.headers) + self.crlf
         return Data(responseText.utf8)
     }
-    
+
     private func convertHeaders(headers: [String: String]) -> String {
         var headerString = String()
         for header in headers {

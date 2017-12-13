@@ -30,7 +30,7 @@ class RouterSpec: QuickSpec {
                         version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: [:]
+                        headers: ["Content-Length":"0"]
                 )
 
                 let response = router.checkRoute(request: validRequest)
@@ -53,7 +53,7 @@ class RouterSpec: QuickSpec {
                         version: "HTTP/1.1",
                         statusCode: 404,
                         statusPhrase: "NotFound",
-                        headers: [:]
+                        headers: ["Content-Length":"0"]
                 )
 
                 let response = router.checkRoute(request: validRequest)

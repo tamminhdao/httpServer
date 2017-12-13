@@ -34,10 +34,10 @@ public class Router {
     }
 
     private func generate200Response() -> HttpResponse {
-        return HttpResponse(version: "HTTP/1.1", statusCode: 200, statusPhrase: "OK", headers: [:])
+        return HttpResponse(version: "HTTP/1.1", statusCode: 200, statusPhrase: "OK", headers: ["Content-Length":"0"])
     }
 
     private func generate404Response() -> HttpResponse {
-        return HttpResponse(version: "HTTP/1.1", statusCode: 404, statusPhrase: "NotFound", headers: [:])
+        return HttpResponse(version: "HTTP/1.1", statusCode: 404, statusPhrase: "NotFound", headers: ["Content-Length":"0"])
     }
 }
