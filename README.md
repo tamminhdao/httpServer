@@ -7,9 +7,9 @@
 ### Generate xcode project
 
 ```
-* `cd` to the root folder
-* `swift package generate-xcodeproj`
-* `swift build`
+`cd` to the root folder
+swift package generate-xcodeproj
+swift build
 ```
 
 ### Run the code
