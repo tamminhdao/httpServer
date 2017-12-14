@@ -16,7 +16,7 @@ class HttpRequestSpec: QuickSpec {
                             "User-Agent": "curl/7.54.0",
                             "Accept": "*/*"
                         ],
-                        body: ""
+                        body: [:]
                 )
 
                 let method = request.returnMethod()
@@ -33,7 +33,7 @@ class HttpRequestSpec: QuickSpec {
                             "User-Agent": "curl/7.54.0",
                             "Accept": "*/*"
                         ],
-                        body: ""
+                        body: [:]
                 )
 
                 let method = request.returnUrl()

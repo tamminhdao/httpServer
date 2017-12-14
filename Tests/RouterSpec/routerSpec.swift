@@ -27,7 +27,7 @@ class RouterSpec: QuickSpec {
                             "User-Agent": "curl/7.54.0",
                             "Accept": "*/*"
                         ],
-                        body: ""
+                        body: [:]
                 )
 
                 let responseOK = HttpResponse(
@@ -53,7 +53,7 @@ class RouterSpec: QuickSpec {
                             "User-Agent": "curl/7.54.0",
                             "Accept": "*/*"
                         ],
-                        body: ""
+                        body: [:]
                 )
 
                 let notFound = HttpResponse(

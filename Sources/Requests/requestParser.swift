@@ -13,29 +13,38 @@ public class RequestParser {
                 throw RequestParserError.EmptyRequest
             }
 
-            let headAndBody = getLines(request: request, separator: "\r\n\r\n")
-
-            var head = getLines(request: headAndBody[0], separator: "\r\n")
-            let firstLine = head.removeFirst()
+            var lines = getLines(request: request)
+            let firstLine = lines.removeFirst()
             let statusLine = try parseStatusLine(statusLine: firstLine)
-            let headers = parseHeaders(headerLines: head)
+            let headers = parseHeaders(headerLines: lines)
 
-//            let body = parseBody(body: headAndBody[1])
+
+        print("this is how lines looks \(lines)")
+        print ("     ")
+
+            let numberOfHeaderLines = headers.count
+            for _ in 1...numberOfHeaderLines {
+                lines.removeFirst()
+            }
+
+        print("this is how lines looks \(lines)")
+
+          //  let body = parseBody (bodyLines: lines)
 
             let parsedRequest = HttpRequest(
                 method: statusLine.method,
                 url: statusLine.url,
                 version: statusLine.version,
                 headers: headers,
-                body : ""
+                body : [:]
             )
 
             return parsedRequest
     }
 
 
-    public func getLines(request: String, separator: String) -> [String] {
-        return request.components(separatedBy: CharacterSet(charactersIn: separator))
+    public func getLines(request: String) -> [String] {
+        return request.components(separatedBy: CharacterSet(charactersIn: "\r\n"))
     }
 
     public func parseStatusLine(statusLine: String) throws -> (method: String, url: String, version: String) {
@@ -66,7 +75,26 @@ public class RequestParser {
         return headers
     }
 
-//    public func parseBody(body: String) -> String {
-//
-//    }
+    public func parseBody(bodyLines: String) -> [String: String]  {
+        var result = [String: String]()
+        var keyValuePairs = [Substring]()
+
+        if (bodyLines.contains("&")) {
+            keyValuePairs = bodyLines.split(separator: "&")
+            print(keyValuePairs[0])
+        } else {
+            keyValuePairs[0] = Substring(bodyLines)
+            print(keyValuePairs[0])
+        }
+
+
+        for item in keyValuePairs {
+            let keyValue = item.split(separator: "=", maxSplits: 1)
+            let trimmedKey = keyValue[0].trimmingCharacters(in: .whitespacesAndNewlines)
+            let trimmedValue = keyValue[1].trimmingCharacters(in: .whitespacesAndNewlines)
+            result[trimmedKey] = trimmedValue
+        }
+
+        return result
+    }
 }
