@@ -15,7 +15,8 @@ class HttpRequestSpec: QuickSpec {
                             "Host": "localhost:5000",
                             "User-Agent": "curl/7.54.0",
                             "Accept": "*/*"
-                        ]
+                        ],
+                        body: ""
                 )
 
                 let method = request.returnMethod()
@@ -31,7 +32,8 @@ class HttpRequestSpec: QuickSpec {
                             "Host": "localhost:5000",
                             "User-Agent": "curl/7.54.0",
                             "Accept": "*/*"
-                        ]
+                        ],
+                        body: ""
                 )
 
                 let method = request.returnUrl()

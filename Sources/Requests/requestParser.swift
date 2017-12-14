@@ -13,23 +13,29 @@ public class RequestParser {
                 throw RequestParserError.EmptyRequest
             }
 
-            var lines = getLine(request: request)
-            let firstLine = lines.removeFirst()
+            let headAndBody = getLines(request: request, separator: "\r\n\r\n")
+
+            var head = getLines(request: headAndBody[0], separator: "\r\n")
+            let firstLine = head.removeFirst()
             let statusLine = try parseStatusLine(statusLine: firstLine)
-            let headers = parseHeaders(headerLines: lines)
+            let headers = parseHeaders(headerLines: head)
+
+//            let body = parseBody(body: headAndBody[1])
 
             let parsedRequest = HttpRequest(
                 method: statusLine.method,
                 url: statusLine.url,
                 version: statusLine.version,
-                headers: headers
+                headers: headers,
+                body : ""
             )
 
             return parsedRequest
     }
 
-    public func getLine(request: String) -> [String] {
-        return request.components(separatedBy: CharacterSet(charactersIn: "\r\n"))
+
+    public func getLines(request: String, separator: String) -> [String] {
+        return request.components(separatedBy: CharacterSet(charactersIn: separator))
     }
 
     public func parseStatusLine(statusLine: String) throws -> (method: String, url: String, version: String) {
@@ -59,4 +65,8 @@ public class RequestParser {
 
         return headers
     }
+
+//    public func parseBody(body: String) -> String {
+//
+//    }
 }

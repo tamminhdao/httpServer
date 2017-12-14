@@ -26,7 +26,8 @@ class RouterSpec: QuickSpec {
                             "Host": "localhost:5000",
                             "User-Agent": "curl/7.54.0",
                             "Accept": "*/*"
-                        ]
+                        ],
+                        body: ""
                 )
 
                 let responseOK = HttpResponse(
@@ -51,7 +52,8 @@ class RouterSpec: QuickSpec {
                             "Host": "localhost:5000",
                             "User-Agent": "curl/7.54.0",
                             "Accept": "*/*"
-                        ]
+                        ],
+                        body: ""
                 )
 
                 let notFound = HttpResponse(

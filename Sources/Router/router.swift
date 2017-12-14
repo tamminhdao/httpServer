@@ -43,7 +43,6 @@ public class Router {
             return handleGet(request: request)
 
         case "POST":
-
             return handlePost(request: request)
 
         case "PUT":
