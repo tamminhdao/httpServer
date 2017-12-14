@@ -1,9 +1,10 @@
 import Foundation
 import Requests
 import Responses
+import Values
 
 public class Router {
-
+    private var data: DataStorage
     private var routes: [String: [String]]
     private var errorMessage: String = "<p> URL does not exist </p>"
 
@@ -12,7 +13,8 @@ public class Router {
         routes["/form"] = ["GET", "POST", "PUT"]
     }
 
-    public init() {
+    public init(data: DataStorage) {
+        self.data = data
         self.routes = [:]
         self.routeSetUp()
     }
@@ -25,13 +27,43 @@ public class Router {
             if route.key == requestUrl {
                 for method in route.value {
                     if method == requestMethod {
-                        return generate200Response()
+                        return handleRequest(request: request)
                     }
                 }
             }
         }
 
         return generate404Response()
+    }
+
+    private func handleRequest(request: HttpRequest) -> HttpResponse {
+
+        switch request.returnMethod() {
+        case "GET":
+            return handleGet(request: request)
+
+        case "POST":
+
+            return handlePost(request: request)
+
+        case "PUT":
+            return handlePut(request: request)
+
+        default:
+            return generate404Response()
+        }
+    }
+
+    private func handleGet(request: HttpRequest) -> HttpResponse {
+        return generate200Response()
+    }
+
+    private func handlePost(request: HttpRequest) -> HttpResponse {
+        return generate200Response()
+    }
+
+    private func handlePut(request: HttpRequest) -> HttpResponse {
+        return generate200Response()
     }
 
     private func generate200Response() -> HttpResponse {

@@ -20,9 +20,12 @@ let package = Package(
             dependencies: ["Server", "Requests", "Router", "Responses"]),
         .target(
             name: "Requests",
-            dependencies: []),
+            dependencies: ["Values"]),
         .target(
             name: "Responses",
+            dependencies: []),
+        .target(
+            name: "Values",
             dependencies: []),
         .target(
             name: "Router",

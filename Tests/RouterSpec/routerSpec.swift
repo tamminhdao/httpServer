@@ -4,14 +4,17 @@ import Nimble
 import Router
 import Requests
 import Responses
+import Values
 
 class RouterSpec: QuickSpec {
     override func spec() {
         describe("#Router") {
             var router: Router!
+            var data: DataStorage!
 
             beforeEach {
-                router = Router()
+                data = DataStorage()
+                router = Router(data: data)
             }
 
             it ("return a 200 OK response if the method/url combo is correct") {
