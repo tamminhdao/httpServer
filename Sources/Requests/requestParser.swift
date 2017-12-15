@@ -13,18 +13,29 @@ public class RequestParser {
                 throw RequestParserError.EmptyRequest
             }
 
-            var lines = getLines(request: request)
+            var lines = getLines(request: request).filter {$0 != ""}
+
+    //    print("this is how lines look at first \(lines)")
+
             let firstLine = lines.removeFirst()
             let statusLine = try parseStatusLine(statusLine: firstLine)
             let headers = parseHeaders(headerLines: lines)
 
+    //    print("this is the headers \(headers)")
 
             let numberOfHeaderLines = headers.count
+
+    //    print("number of header lines = \(numberOfHeaderLines)")
+
             for _ in 1...numberOfHeaderLines {
                 lines.removeFirst()
             }
 
+    //   print("this is how lines look after removing the headers \(lines)")
+
             let body = parseBody (bodyLines: lines)
+
+    //    print("this is the body \(body)")
 
             let parsedRequest = HttpRequest(
                 method: statusLine.method,
@@ -72,20 +83,25 @@ public class RequestParser {
 
     private func parseBody(bodyLines: [String]) -> [String: String] {
         var body = [String: String]()
-        let bodyText = bodyLines[1].trimmingCharacters(in: .whitespacesAndNewlines)
-        var keyValuePairs = [Substring]()
 
-        if (bodyText.contains("&")) {
-            keyValuePairs = bodyText.split(separator: "&")
-        } else {
-            keyValuePairs[0] = Substring(bodyText)
-        }
+        if bodyLines.count > 1 {
 
-        for item in keyValuePairs {
-            let keyValue = item.split(separator: "=", maxSplits: 1)
-            let trimmedKey = keyValue[0].trimmingCharacters(in: .whitespacesAndNewlines)
-            let trimmedValue = keyValue[1].trimmingCharacters(in: .whitespacesAndNewlines)
-            body[trimmedKey] = trimmedValue
+            let bodyText = bodyLines[1].trimmingCharacters(in: .whitespacesAndNewlines)
+
+            var keyValuePairs = [Substring]()
+
+            if (bodyText.contains("&")) {
+                keyValuePairs = bodyText.split(separator: "&")
+            } else {
+                keyValuePairs[0] = Substring(bodyText)
+            }
+
+            for item in keyValuePairs {
+                let keyValue = item.split(separator: "=", maxSplits: 1)
+                let trimmedKey = keyValue[0].trimmingCharacters(in: .whitespacesAndNewlines)
+                let trimmedValue = keyValue[1].trimmingCharacters(in: .whitespacesAndNewlines)
+                body[trimmedKey] = trimmedValue
+            }
         }
 
         return body
