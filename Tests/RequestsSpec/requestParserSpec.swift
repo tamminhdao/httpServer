@@ -34,7 +34,7 @@ class RequestParseSpec: QuickSpec {
                     User-Agent: Apache-HttpClient/4.3.5 (java 1.5)
                     Accept-Encoding: gzip,deflate
 
-                    Content=Text
+                    Content=Text&My=Value
                 """
 
                 let expected = HttpRequest(
@@ -47,7 +47,7 @@ class RequestParseSpec: QuickSpec {
                             "User-Agent": "Apache-HttpClient/4.3.5 (java 1.5)",
                             "Accept-Encoding": "gzip,deflate"
                         ],
-                        body : ["Content":"Text"]
+                        body: ["Content":"Text", "My":"Value"]
                 )
 
                 do {

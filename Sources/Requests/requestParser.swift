@@ -19,24 +19,19 @@ public class RequestParser {
             let headers = parseHeaders(headerLines: lines)
 
 
-        print("this is how lines looks \(lines)")
-        print ("     ")
-
             let numberOfHeaderLines = headers.count
             for _ in 1...numberOfHeaderLines {
                 lines.removeFirst()
             }
 
-        print("this is how lines looks \(lines)")
-
-          //  let body = parseBody (bodyLines: lines)
+            let body = parseBody (bodyLines: lines)
 
             let parsedRequest = HttpRequest(
                 method: statusLine.method,
                 url: statusLine.url,
                 version: statusLine.version,
                 headers: headers,
-                body : [:]
+                body : body
             )
 
             return parsedRequest
@@ -75,26 +70,25 @@ public class RequestParser {
         return headers
     }
 
-    public func parseBody(bodyLines: String) -> [String: String]  {
-        var result = [String: String]()
+    public func parseBody(bodyLines: [String]) -> [String: String] {
+        var body = [String: String]()
+        let bodyText = bodyLines[1].trimmingCharacters(in: .whitespacesAndNewlines)
         var keyValuePairs = [Substring]()
 
-        if (bodyLines.contains("&")) {
-            keyValuePairs = bodyLines.split(separator: "&")
-            print(keyValuePairs[0])
+        if (bodyText.contains("&")) {
+            keyValuePairs = bodyText.split(separator: "&")
         } else {
-            keyValuePairs[0] = Substring(bodyLines)
-            print(keyValuePairs[0])
+            keyValuePairs[0] = Substring(bodyText)
         }
-
 
         for item in keyValuePairs {
             let keyValue = item.split(separator: "=", maxSplits: 1)
             let trimmedKey = keyValue[0].trimmingCharacters(in: .whitespacesAndNewlines)
             let trimmedValue = keyValue[1].trimmingCharacters(in: .whitespacesAndNewlines)
-            result[trimmedKey] = trimmedValue
+            body[trimmedKey] = trimmedValue
         }
 
-        return result
+        print(body)
+        return body
     }
 }
