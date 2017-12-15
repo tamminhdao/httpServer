@@ -19,12 +19,16 @@ public class HttpRequest {
         self.space = " "
     }
 
-    public func returnMethod () -> String {
+    public func returnMethod() -> String {
         return self.method
     }
 
-    public func returnUrl () -> String {
+    public func returnUrl() -> String {
         return self.url
+    }
+
+    public func returnBody() -> [String: String] {
+        return self.body
     }
 }
 
