@@ -19,7 +19,7 @@ class RouterSpec: QuickSpec {
 
             it ("return a 200 OK response if the method/url combo is correct") {
                 let validRequest = HttpRequest(
-                        method: "GET",
+                        method: HttpMethod.get,
                         url: "/",
                         version: "HTTP/1.1",
                         headers: [
@@ -45,7 +45,7 @@ class RouterSpec: QuickSpec {
 
             it ("returns a 400 NotFound if the method/url combo is not correct") {
                 let validRequest = HttpRequest(
-                        method: "GET",
+                        method: HttpMethod.get,
                         url: "/foobar",
                         version: "HTTP/1.1",
                         headers: [

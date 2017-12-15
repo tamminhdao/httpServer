@@ -38,7 +38,7 @@ class RequestParseSpec: QuickSpec {
                 """
 
                 let expected = HttpRequest(
-                        method: "GET",
+                        method: HttpMethod.get,
                         url: "/logs",
                         version: "HTTP/1.1",
                         headers: [

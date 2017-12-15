@@ -10,7 +10,7 @@ class HttpRequestSpec: QuickSpec {
 
             beforeEach {
                 request = HttpRequest(
-                        method: "GET",
+                        method: HttpMethod.get,
                         url: "/form",
                         version: "HTTP/1.1",
                         headers: [
@@ -24,7 +24,7 @@ class HttpRequestSpec: QuickSpec {
 
             it ("can return the method of a request") {
                 let method = request.returnMethod()
-                expect(method).to(equal("GET"))
+                expect(method).to(equal(HttpMethod.get))
             }
 
             it ("can return the url of a request") {
