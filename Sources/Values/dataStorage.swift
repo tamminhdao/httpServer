@@ -12,4 +12,10 @@ public class DataStorage {
         self.myVals[key] = value
         return self.myVals
     }
+
+    public func logValues() {
+        for item in self.myVals {
+            print("\(item.key)=\(item.value)")
+        }
+    }
 }
