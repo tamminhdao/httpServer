@@ -56,43 +56,6 @@ class RequestParseSpec: QuickSpec {
                 } catch {
                 }
             }
-
-//            it ("throws an invalid status line error if the status line is incorrect") {
-//                let badStatusLine = "GET "
-//                expect {try httpParser.parseStatusLine(statusLine: badStatusLine)}.to(throwError(RequestParserError.InvalidStatusLine(badStatusLine)))
-//            }
-//
-//            it ("parses the status line correctly") {
-//                let sampleStatusLine = "GET / HTTP/1.1"
-//                let expected = (method: "GET", url: "/", version: "HTTP/1.1")
-//                do {
-//                    let (method, url, version) = try httpParser.parseStatusLine(statusLine: sampleStatusLine)
-//                    expect(method).to(equal(expected.method))
-//                    expect(url).to(equal(expected.url))
-//                    expect(version).to(equal(expected.version))
-//                } catch {
-//                }
-//            }
-//
-//            it ("parses the headers correctly") {
-//                let headerText = """
-//                    Host: localhost:8000
-//                    User-Agent: Chrome/61.0.3163.100 Safari/537.36
-//                    Accept: text/html
-//                    Accept-Encoding: gzip, deflate, br
-//                """
-//
-//                let expected = [
-//                    "Host": "localhost:8000",
-//                    "Accept": "text/html",
-//                    "User-Agent":"Chrome/61.0.3163.100 Safari/537.36",
-//                    "Accept-Encoding": "gzip, deflate, br"
-//                ]
-//
-//                let headerLines = httpParser.getLines(request: headerText)
-//                let headers = httpParser.parseHeaders(headerLines: headerLines)
-//                expect(headers).to(equal(expected))
-//            }
         }
     }
 }
