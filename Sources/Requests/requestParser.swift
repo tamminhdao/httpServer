@@ -38,11 +38,11 @@ public class RequestParser {
     }
 
 
-    public func getLines(request: String) -> [String] {
+    private func getLines(request: String) -> [String] {
         return request.components(separatedBy: CharacterSet(charactersIn: "\r\n"))
     }
 
-    public func parseStatusLine(statusLine: String) throws -> (method: String, url: String, version: String) {
+    private func parseStatusLine(statusLine: String) throws -> (method: String, url: String, version: String) {
         let trimmedStatus = statusLine.trimmingCharacters(in: .whitespacesAndNewlines)
         let statusLineTokens = trimmedStatus.components(separatedBy: " ")
 
@@ -57,7 +57,7 @@ public class RequestParser {
         return (method: method, url: url, version: version)
     }
 
-    public func parseHeaders(headerLines: [String]) -> [String: String] {
+    private func parseHeaders(headerLines: [String]) -> [String: String] {
         var headers = [String: String]()
 
         for line in headerLines where line.contains(":") {
@@ -70,7 +70,7 @@ public class RequestParser {
         return headers
     }
 
-    public func parseBody(bodyLines: [String]) -> [String: String] {
+    private func parseBody(bodyLines: [String]) -> [String: String] {
         var body = [String: String]()
         let bodyText = bodyLines[1].trimmingCharacters(in: .whitespacesAndNewlines)
         var keyValuePairs = [Substring]()
@@ -88,7 +88,6 @@ public class RequestParser {
             body[trimmedKey] = trimmedValue
         }
 
-        print(body)
         return body
     }
 }
