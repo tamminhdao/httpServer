@@ -14,7 +14,7 @@ public class DataStorage {
 
     public func logValues() {
         for item in self.myVals {
-            print("\(item.key)=\(item.value)")
+            print("List all data persisted in the server: \(item.key)=\(item.value)")
         }
     }
 }

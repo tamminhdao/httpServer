@@ -15,27 +15,17 @@ public class RequestParser {
 
             var lines = getLines(request: request).filter {$0 != ""}
 
-    //    print("this is how lines look at first \(lines)")
-
             let firstLine = lines.removeFirst()
             let statusLine = try parseStatusLine(statusLine: firstLine)
             let headers = parseHeaders(headerLines: lines)
 
-    //    print("this is the headers \(headers)")
-
             let numberOfHeaderLines = headers.count
-
-    //    print("number of header lines = \(numberOfHeaderLines)")
 
             for _ in 1...numberOfHeaderLines {
                 lines.removeFirst()
             }
 
-    //   print("this is how lines look after removing the headers \(lines)")
-
             let body = parseBody (bodyLines: lines)
-
-    //    print("this is the body \(body)")
 
             let parsedRequest = HttpRequest(
                 method: statusLine.method,
@@ -47,7 +37,6 @@ public class RequestParser {
 
             return parsedRequest
     }
-
 
     private func getLines(request: String) -> [String] {
         return request.components(separatedBy: CharacterSet(charactersIn: "\r\n"))
@@ -84,16 +73,9 @@ public class RequestParser {
     private func parseBody(bodyLines: [String]) -> [String: String] {
         var body = [String: String]()
 
-        if (bodyLines != []) {
-            print ("is there a body somewhere \(bodyLines)")
-            // ["\"My\"=\"Data\""]
-        }
-
         if bodyLines.count > 0 {
             for item in bodyLines {
                 let bodyText = item.trimmingCharacters(in: .whitespacesAndNewlines)
-
-                print("this is the body text: \(bodyText)")
 
                 var keyValuePairs = [Substring]()
 
@@ -101,9 +83,6 @@ public class RequestParser {
                     keyValuePairs = bodyText.split(separator: "&")
                 } else {
                     keyValuePairs.append(Substring(bodyText))
-
-                    print("test a keyValuePair \(keyValuePairs)")
-                    print("test a keyValuePair \(keyValuePairs[0])")
                 }
 
 
