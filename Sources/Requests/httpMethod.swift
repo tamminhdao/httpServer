@@ -17,14 +17,14 @@ public enum HttpMethod {
     public static func resolveMethod(method: String) throws -> HttpMethod {
 
         let mapping : [String: HttpMethod] = [
-            "Get" : HttpMethod.get,
-            "Head": HttpMethod.head,
-            "Post": HttpMethod.post,
-            "Put" : HttpMethod.put,
-            "Delete" : HttpMethod.delete,
-            "Connect": HttpMethod.connect,
-            "Options": HttpMethod.options,
-            "Patch"  : HttpMethod.patch
+            "GET" : HttpMethod.get,
+            "HEAD": HttpMethod.head,
+            "POST": HttpMethod.post,
+            "PUT" : HttpMethod.put,
+            "DELETE" : HttpMethod.delete,
+            "CONNECT": HttpMethod.connect,
+            "OPTIONS": HttpMethod.options,
+            "PATCH"  : HttpMethod.patch
         ]
 
         if let result: HttpMethod = mapping[method] {
