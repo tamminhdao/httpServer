@@ -49,9 +49,6 @@ public class Server {
         do {
             _ = try socket.read(into: &readData)
             let incomingText = String(data: readData, encoding: .utf8)
-
-        //    print(incomingText!)
-
             let parsedRequest = try self.parser.parse(request: incomingText!)
             readData.count = 0
             return parsedRequest

@@ -58,20 +58,30 @@ public class Router {
     }
 
     private func handlePost(request: HttpRequest) -> HttpResponse {
-//        let requestBody : [String: String] = request.returnBody()
-//        for item in requestBody {
-//            data.addValues(key: item.key, value: item.value)
-//        }
-//        data.logValues()
+        print ("does it hit here in post?")
+        let requestBody : [String: String] = request.returnBody()
+
+        print("body of post request \(requestBody)") //empty
+
+        for item in requestBody {
+            data.addValues(key: item.key, value: item.value)
+        }
+        data.logValues()
         return generate200Response()
     }
 
     private func handlePut(request: HttpRequest) -> HttpResponse {
-//        let requestBody : [String: String] = request.returnBody()
-//        for item in requestBody {
-//            data.addValues(key: item.key, value: item.value)
-//        }
-//        data.logValues()
+        let requestBody : [String: String] = request.returnBody()
+
+        print("body of PUT request \(requestBody)") //empty
+
+        for item in requestBody {
+            data.addValues(key: "My", value: "value")
+        }
+
+        print("anything here \(data.myVals)") //empty
+
+        data.logValues()
         return generate200Response()
     }
 

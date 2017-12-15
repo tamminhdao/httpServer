@@ -2,7 +2,7 @@ import Foundation
 
 public class DataStorage {
 
-    private var myVals: [String: String]
+    public var myVals: [String: String]
 
     public init() {
         self.myVals = [:]

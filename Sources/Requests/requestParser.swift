@@ -84,23 +84,38 @@ public class RequestParser {
     private func parseBody(bodyLines: [String]) -> [String: String] {
         var body = [String: String]()
 
-        if bodyLines.count > 1 {
+        if (bodyLines != []) {
+            print ("is there a body somewhere \(bodyLines)")
+            // ["\"My\"=\"Data\""]
+        }
 
-            let bodyText = bodyLines[1].trimmingCharacters(in: .whitespacesAndNewlines)
+        if bodyLines.count > 0 {
+            for item in bodyLines {
+                let bodyText = item.trimmingCharacters(in: .whitespacesAndNewlines)
 
-            var keyValuePairs = [Substring]()
+                print("this is the body text: \(bodyText)")
 
-            if (bodyText.contains("&")) {
-                keyValuePairs = bodyText.split(separator: "&")
-            } else {
-                keyValuePairs[0] = Substring(bodyText)
-            }
+                var keyValuePairs = [Substring]()
 
-            for item in keyValuePairs {
-                let keyValue = item.split(separator: "=", maxSplits: 1)
-                let trimmedKey = keyValue[0].trimmingCharacters(in: .whitespacesAndNewlines)
-                let trimmedValue = keyValue[1].trimmingCharacters(in: .whitespacesAndNewlines)
-                body[trimmedKey] = trimmedValue
+                if (bodyText.contains("&")) {
+                    keyValuePairs = bodyText.split(separator: "&")
+                } else {
+                    keyValuePairs.append(Substring(bodyText))
+
+                    print("test a keyValuePair \(keyValuePairs)")
+                    print("test a keyValuePair \(keyValuePairs[0])")
+                }
+
+
+                for item in keyValuePairs {
+                    let keyValue = item.split(separator: "=", maxSplits: 1)
+                    if (keyValue.count > 1) {
+                        let trimmedKey = keyValue[0].trimmingCharacters(in: .whitespacesAndNewlines)
+                        let trimmedValue = keyValue[1].trimmingCharacters(in: .whitespacesAndNewlines)
+                        body[trimmedKey] = trimmedValue
+                    }
+                }
+
             }
         }
 
