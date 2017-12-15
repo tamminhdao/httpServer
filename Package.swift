@@ -16,31 +16,31 @@ let package = Package(
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
-            name: "Main",
-            dependencies: ["Server", "Requests", "Router", "Responses"]),
+                name: "Main",
+                dependencies: ["Server"]),
         .target(
-            name: "Requests",
-            dependencies: ["Values"]),
+                name: "Server",
+                dependencies: ["Socket", "Router"]),
         .target(
-            name: "Responses",
-            dependencies: []),
+                name: "Router",
+                dependencies: ["Requests", "Responses"]),
         .target(
-            name: "Values",
-            dependencies: []),
+                name: "Requests",
+                dependencies: ["Values"]),
         .target(
-            name: "Router",
-            dependencies: ["Requests", "Responses"]),
+                name: "Responses",
+                dependencies: []),
         .target(
-            name: "Server",
-            dependencies: ["Socket", "Requests", "Router", "Responses"]),
+                name: "Values",
+                dependencies: []),
         .testTarget(
-            name: "RequestsSpec",
-            dependencies: ["Requests", "Quick", "Nimble"]),
+                name: "RequestsSpec",
+                dependencies: ["Requests", "Quick", "Nimble"]),
         .testTarget(
-            name: "ResponsesSpec",
-            dependencies: ["Responses", "Quick", "Nimble"]),
+                name: "ResponsesSpec",
+                dependencies: ["Responses", "Quick", "Nimble"]),
         .testTarget(
-            name: "RouterSpec",
-            dependencies: ["Router", "Quick", "Nimble"]),
+                name: "RouterSpec",
+                dependencies: ["Router", "Quick", "Nimble"]),
     ]
 )
