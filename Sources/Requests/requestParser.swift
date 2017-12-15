@@ -27,8 +27,10 @@ public class RequestParser {
 
             let body = parseBody (bodyLines: lines)
 
+            //let method = try Method.resolveMethod(method: statusLine.method),
+
             let parsedRequest = HttpRequest(
-                method: statusLine.method,
+                method: try HttpMethod.resolveMethod(method: statusLine.method),
                 url: statusLine.url,
                 version: statusLine.version,
                 headers: headers,
@@ -37,6 +39,7 @@ public class RequestParser {
 
             return parsedRequest
     }
+
 
     private func getLines(request: String) -> [String] {
         return request.components(separatedBy: CharacterSet(charactersIn: "\r\n"))

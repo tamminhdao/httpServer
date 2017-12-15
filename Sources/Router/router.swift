@@ -5,12 +5,12 @@ import Values
 
 public class Router {
     private var data: DataStorage
-    private var routes: [String: [String]]
+    private var routes: [String: [HttpMethod]]
     private var errorMessage: String = "<p> URL does not exist </p>"
 
     private func routeSetUp() {
-        routes["/"] = ["GET", "POST", "PUT"]
-        routes["/form"] = ["GET", "POST", "PUT"]
+        routes["/"] = [HttpMethod.get, HttpMethod.post, HttpMethod.put]
+        routes["/form"] = [HttpMethod.get, HttpMethod.post, HttpMethod.put]
     }
 
     public init(data: DataStorage) {
@@ -39,13 +39,13 @@ public class Router {
     private func handleRequest(request: HttpRequest) -> HttpResponse {
 
         switch request.returnMethod() {
-        case "GET":
+        case HttpMethod.get:
             return handleGet(request: request)
 
-        case "POST":
+        case HttpMethod.post:
             return handlePost(request: request)
 
-        case "PUT":
+        case HttpMethod.put:
             return handlePut(request: request)
 
         default:
