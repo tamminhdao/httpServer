@@ -1,7 +1,7 @@
 import Foundation
 
 public class HttpRequest {
-    var method: HttpMethod
+    var method: HttpMethod?
     var url: String
     var version: String
     var headers: [String: String]
@@ -19,7 +19,7 @@ public class HttpRequest {
         self.space = " "
     }
 
-    public func returnMethod() -> HttpMethod {
+    public func returnMethod() -> HttpMethod? {
         return self.method
     }
 

@@ -27,10 +27,8 @@ public class RequestParser {
 
             let body = parseBody (bodyLines: lines)
 
-            //let method = try Method.resolveMethod(method: statusLine.method),
-
             let parsedRequest = HttpRequest(
-                method: try HttpMethod.resolveMethod(method: statusLine.method),
+                method: HttpMethod(rawValue: statusLine.method)!,
                 url: statusLine.url,
                 version: statusLine.version,
                 headers: headers,
