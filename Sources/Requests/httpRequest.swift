@@ -9,7 +9,7 @@ public class HttpRequest {
     var crlf: String
     var space: String
 
-    public init(method: HttpMethod, url: String, version: String, headers: [String: String], body: [String: String]) {
+    public init(method: HttpMethod?, url: String, version: String, headers: [String: String], body: [String: String]) {
         self.method = method
         self.url = url
         self.version = version
