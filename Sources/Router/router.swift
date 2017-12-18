@@ -20,35 +20,41 @@ public class Router {
     }
 
     public func checkRoute(request: HttpRequest) -> HttpResponse {
-        let requestMethod = request.returnMethod()
-        let requestUrl = request.returnUrl()
 
-        for route in routes {
-            if route.key == requestUrl {
-                for method in route.value {
-                    if method == requestMethod {
-                        return handleRequest(request: request)
+        if let validMethod = request.returnMethod() {
+            let requestUrl = request.returnUrl()
+            for route in routes {
+                if route.key == requestUrl {
+                    for method in route.value {
+                        if method == validMethod {
+                            return handleRequest(request: request)
+                        }
                     }
                 }
             }
+            return generate404Response()
+        } else {
+            return generate404Response()
         }
-
-        return generate404Response()
     }
 
     private func handleRequest(request: HttpRequest) -> HttpResponse {
 
-        switch request.returnMethod() {
-        case HttpMethod.get:
-            return handleGet(request: request)
+        if let validMethod = request.returnMethod() {
+            switch validMethod {
+            case HttpMethod.get:
+                return handleGet(request: request)
 
-        case HttpMethod.post:
-            return handlePost(request: request)
+            case HttpMethod.post:
+                return handlePost(request: request)
 
-        case HttpMethod.put:
-            return handlePut(request: request)
+            case HttpMethod.put:
+                return handlePut(request: request)
 
-        default:
+            default:
+                return generate404Response()
+            }
+        } else {
             return generate404Response()
         }
     }
