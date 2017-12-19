@@ -19,14 +19,6 @@ public class HttpRequest {
         self.space = " "
     }
 
-//    public func returnMethod() -> HttpMethod {
-//        if let method = self.method {
-//            return method
-//        } else {
-//            return HttpMethod.error
-//        }
-//    }
-
     public func returnMethod() -> HttpMethod? {
         return self.method
     }
