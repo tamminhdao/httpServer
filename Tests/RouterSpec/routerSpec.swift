@@ -4,26 +4,30 @@ import Nimble
 import Router
 import Requests
 import Responses
+import Values
 
 class RouterSpec: QuickSpec {
     override func spec() {
         describe("#Router") {
             var router: Router!
+            var data: DataStorage!
 
             beforeEach {
-                router = Router()
+                data = DataStorage()
+                router = Router(data: data)
             }
 
             it ("return a 200 OK response if the method/url combo is correct") {
                 let validRequest = HttpRequest(
-                        method: "GET",
+                        method: HttpMethod.get,
                         url: "/",
                         version: "HTTP/1.1",
                         headers: [
                             "Host": "localhost:5000",
                             "User-Agent": "curl/7.54.0",
                             "Accept": "*/*"
-                        ]
+                        ],
+                        body: [:]
                 )
 
                 let responseOK = HttpResponse(
@@ -41,14 +45,15 @@ class RouterSpec: QuickSpec {
 
             it ("returns a 400 NotFound if the method/url combo is not correct") {
                 let validRequest = HttpRequest(
-                        method: "GET",
+                        method: HttpMethod.get,
                         url: "/foobar",
                         version: "HTTP/1.1",
                         headers: [
                             "Host": "localhost:5000",
                             "User-Agent": "curl/7.54.0",
                             "Accept": "*/*"
-                        ]
+                        ],
+                        body: [:]
                 )
 
                 let notFound = HttpResponse(
