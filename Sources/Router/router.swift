@@ -9,7 +9,7 @@ public class Router {
     private var errorMessage: String = "<p> URL does not exist </p>"
 
     private func routeSetUp() {
-        routes["/"] = [HttpMethod.get, HttpMethod.post, HttpMethod.put]
+        routes["/"] = [HttpMethod.get, HttpMethod.post, HttpMethod.put, HttpMethod.head]
         routes["/form"] = [HttpMethod.get, HttpMethod.post, HttpMethod.put]
     }
 
@@ -51,6 +51,9 @@ public class Router {
             case HttpMethod.put:
                 return handlePut(request: request)
 
+            case HttpMethod.head:
+                return handleHead(request: request)
+
             default:
                 return generate404Response()
             }
@@ -58,6 +61,10 @@ public class Router {
 
             return generate404Response()
         }
+    }
+
+    private func handleHead(request: HttpRequest) -> HttpResponse {
+        return generate200Response()
     }
 
     private func handleGet(request: HttpRequest) -> HttpResponse {
