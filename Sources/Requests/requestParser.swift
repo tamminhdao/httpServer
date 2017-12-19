@@ -28,7 +28,7 @@ public class RequestParser {
             let body = parseBody (bodyLines: lines)
 
             let parsedRequest = HttpRequest(
-                method: HttpMethod(rawValue: statusLine.method)!,
+                method: HttpMethod(rawValue: statusLine.method),
                 url: statusLine.url,
                 version: statusLine.version,
                 headers: headers,

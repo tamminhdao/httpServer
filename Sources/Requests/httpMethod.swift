@@ -9,4 +9,5 @@ public enum HttpMethod: String {
     case connect = "CONNECT"
     case options = "OPTIONS"
     case patch = "PATCH"
+    case error
 }

@@ -20,7 +20,6 @@ public class Router {
     }
 
     public func checkRoute(request: HttpRequest) -> HttpResponse {
-
         if let validMethod = request.returnMethod() {
             let requestUrl = request.returnUrl()
             for route in routes {
@@ -41,6 +40,7 @@ public class Router {
     private func handleRequest(request: HttpRequest) -> HttpResponse {
 
         if let validMethod = request.returnMethod() {
+
             switch validMethod {
             case HttpMethod.get:
                 return handleGet(request: request)
@@ -55,6 +55,7 @@ public class Router {
                 return generate404Response()
             }
         } else {
+
             return generate404Response()
         }
     }
