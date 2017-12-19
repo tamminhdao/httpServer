@@ -17,15 +17,27 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "Main",
-            dependencies: ["Server", "Requests"]),
+            dependencies: ["Server", "Requests", "Router", "Responses"]),
         .target(
             name: "Requests",
             dependencies: []),
         .target(
+            name: "Responses",
+            dependencies: []),
+        .target(
+            name: "Router",
+            dependencies: ["Requests", "Responses"]),
+        .target(
             name: "Server",
-            dependencies: ["Socket", "Requests"]),
+            dependencies: ["Socket", "Requests", "Router", "Responses"]),
         .testTarget(
             name: "RequestsSpec",
             dependencies: ["Requests", "Quick", "Nimble"]),
+        .testTarget(
+            name: "ResponsesSpec",
+            dependencies: ["Responses", "Quick", "Nimble"]),
+        .testTarget(
+            name: "RouterSpec",
+            dependencies: ["Router", "Quick", "Nimble"]),
     ]
 )

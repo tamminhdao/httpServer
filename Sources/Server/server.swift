@@ -1,6 +1,8 @@
 import Foundation
 import Socket
 import Requests
+import Responses
+import Router
 
 public class Server {
 
@@ -8,9 +10,11 @@ public class Server {
     var clientSocket: Socket!
     var readData = Data()
     var parser: RequestParser
+    var router: Router
 
-    public init(parser: RequestParser) {
+    public init(parser: RequestParser, router: Router) {
         self.parser = parser
+        self.router = router
     }
 
     public func run() {
@@ -20,33 +24,21 @@ public class Server {
             repeat {
                 try clientSocket = self.listeningSocket.acceptClientConnection()
                 let parsedIncomingRequest = parseRequest(socket: clientSocket)
-                let httpMethod = parsedIncomingRequest.returnMethod()
 
-                if (httpMethod == "GET" || httpMethod == "POST") {
-                    response200(socket: clientSocket)
-                } else {
-                    response404(socket: clientSocket)
-                }
+                let categorizedResponse = router.checkRoute(request: parsedIncomingRequest)
+
+                sendBackResponse(socket: clientSocket, response: categorizedResponse)
+
             } while true
         } catch let error {
             print (error.localizedDescription)
         }
     }
 
-    private func response200(socket: Socket) {
+    private func sendBackResponse (socket: Socket, response: HttpResponse) {
         do {
-            let response = Data("HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n".utf8)
-            try socket.write(from: response)
-        }
-        catch let error {
-            print (error.localizedDescription)
-        }
-    }
-
-    private func response404(socket: Socket) {
-        do {
-            let response = Data("HTTP/1.1 404 NotFound\r\nContent-Length: 0\r\n\r\n".utf8)
-            try socket.write(from: response)
+            let data = response.constructResponse()
+            try socket.write(from: data)
         }
         catch let error {
             print (error.localizedDescription)
