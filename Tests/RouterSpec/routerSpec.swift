@@ -34,9 +34,9 @@ class RouterSpec: QuickSpec {
                         version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length":"0",
+                        headers: ["Content-Length":String(("<p> Get Request has a body! </p>").count),
                                   "Content-Type":"text/html"],
-                        body: ""
+                        body: "<p> Get Request has a body! </p>"
                 )
 
                 let response = router.checkRoute(request: validRequest)
