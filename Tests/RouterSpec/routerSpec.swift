@@ -14,7 +14,7 @@ class RouterSpec: QuickSpec {
 
             beforeEach {
                 data = DataStorage()
-                router = Router(data: data)
+                router = Router(input: data)
             }
 
             it ("return a 200 OK response if the method/url combo is correct") {

@@ -4,7 +4,7 @@ import Responses
 import Values
 
 public class Router {
-    private var data: DataStorage
+    private var input: DataStorage
     private var routes: [String: [HttpMethod]]
     private var errorMessage: String = "<p> URL does not exist </p>"
     private var getRequestMessage: String = "<p> Get Request has a body! </p>"
@@ -14,8 +14,8 @@ public class Router {
         routes["/form"] = [HttpMethod.get, HttpMethod.post, HttpMethod.put]
     }
 
-    public init(data: DataStorage) {
-        self.data = data
+    public init(input: DataStorage) {
+        self.input = input
         self.routes = [:]
         self.routeSetUp()
     }
@@ -75,18 +75,18 @@ public class Router {
     private func handlePost(request: HttpRequest) -> HttpResponse {
         let requestBody : [String: String] = request.returnBody()
         for item in requestBody {
-            data.addValues(key: item.key, value: item.value)
+            input.addValues(key: item.key, value: item.value)
         }
-        data.logValues()
+        input.logValues()
         return generateResponse(version: "HTTP/1.1", statusCode: 200, statusPhrase: "OK", headers: ["Content-Length":"0", "Content-Type":"text/html"], body: "")
     }
 
     private func handlePut(request: HttpRequest) -> HttpResponse {
         let requestBody : [String: String] = request.returnBody()
         for item in requestBody {
-            data.addValues(key: item.key, value: item.value)
+            input.addValues(key: item.key, value: item.value)
         }
-        data.logValues()
+        input.logValues()
         return generateResponse(version: "HTTP/1.1", statusCode: 200, statusPhrase: "OK", headers: ["Content-Length":"0", "Content-Type":"text/html"], body: "")
     }
 

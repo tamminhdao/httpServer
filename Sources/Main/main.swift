@@ -6,6 +6,6 @@ import Values
 
 let data = DataStorage()
 let httpParser = RequestParser()
-let router = Router(data: data)
+let router = Router(input: data)
 let server = Server(parser: httpParser, router: router)
 server.run()
