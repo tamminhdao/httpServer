@@ -22,11 +22,7 @@ class RouterSpec: QuickSpec {
                         method: HttpMethod.get,
                         url: "/",
                         version: "HTTP/1.1",
-                        headers: [
-                            "Host": "localhost:5000",
-                            "User-Agent": "curl/7.54.0",
-                            "Accept": "*/*"
-                        ],
+                        headers: [:],
                         body: [:]
                 )
 
@@ -45,14 +41,10 @@ class RouterSpec: QuickSpec {
 
             it ("returns a 400 NotFound if the method/url combo is not correct") {
                 let validRequest = HttpRequest(
-                        method: HttpMethod.get,
+                        method: HttpMethod.head,
                         url: "/foobar",
                         version: "HTTP/1.1",
-                        headers: [
-                            "Host": "localhost:5000",
-                            "User-Agent": "curl/7.54.0",
-                            "Accept": "*/*"
-                        ],
+                        headers: [:],
                         body: [:]
                 )
 
