@@ -1,0 +1,3 @@
+[submodule "cob_spec"]
+	path = cob_spec
+	url = git@github.com:tamminhdao/cob_spec.git
