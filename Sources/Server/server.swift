@@ -23,6 +23,7 @@ public class Server {
             try self.listeningSocket.listen(on: 5000)
             repeat {
                 try clientSocket = self.listeningSocket.acceptClientConnection()
+
                 let parsedIncomingRequest = parseRequest(socket: clientSocket)
 
                 let categorizedResponse = router.checkRoute(request: parsedIncomingRequest)

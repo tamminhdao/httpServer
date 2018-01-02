@@ -78,16 +78,16 @@ public class RequestParser {
             for item in bodyLines {
                 let bodyText = item.trimmingCharacters(in: .whitespacesAndNewlines)
 
-                var keyValuePairs = [Substring]()
+                var bodyValues = [Substring]()
 
                 if (bodyText.contains("&")) {
-                    keyValuePairs = bodyText.split(separator: "&")
+                    bodyValues = bodyText.split(separator: "&")
                 } else {
-                    keyValuePairs.append(Substring(bodyText))
+                    bodyValues.append(Substring(bodyText))
                 }
 
 
-                for item in keyValuePairs {
+                for item in bodyValues {
                     let keyValue = item.split(separator: "=", maxSplits: 1)
                     if (keyValue.count > 1) {
                         let trimmedKey = keyValue[0].trimmingCharacters(in: .whitespacesAndNewlines)
