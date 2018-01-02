@@ -15,6 +15,14 @@ class RouterSpec: QuickSpec {
             beforeEach {
                 data = DataStorage()
                 router = Router(input: data)
+                router.addRoute(route: ("/", HttpMethod.get))
+            }
+
+            it ("add new route to the list of available routes") {
+                let allRoutes = router.showAllRoutes()
+                expect(allRoutes[0].0).to(equal("/"))
+                expect(allRoutes[0].1).to(equal(HttpMethod.get))
+
             }
 
             it ("return a 200 OK response if the method/url combo is correct") {

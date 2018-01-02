@@ -5,31 +5,29 @@ import Values
 
 public class Router {
     private var input: DataStorage
-    private var routes: [String: [HttpMethod]]
+    private var routes: [(String, HttpMethod)]
     private var errorMessage: String = "<p> URL does not exist </p>"
     private var getRequestMessage: String = "<p> Get Request has a body! </p>"
 
-    private func routeSetUp() {
-        routes["/"] = [HttpMethod.get, HttpMethod.post, HttpMethod.put, HttpMethod.head]
-        routes["/form"] = [HttpMethod.get, HttpMethod.post, HttpMethod.put]
-    }
-
     public init(input: DataStorage) {
         self.input = input
-        self.routes = [:]
-        self.routeSetUp()
+        self.routes = []
+    }
+
+    public func addRoute(route: (String, HttpMethod)) {
+        self.routes.append(route)
+    }
+
+    public func showAllRoutes() -> [(String, HttpMethod)] {
+        return self.routes
     }
 
     public func checkRoute(request: HttpRequest) -> HttpResponse {
         if let validMethod = request.returnMethod() {
             let requestUrl = request.returnUrl()
             for route in routes {
-                if route.key == requestUrl {
-                    for method in route.value {
-                        if method == validMethod {
-                            return handleRequest(request: request)
-                        }
-                    }
+                if route.0 == requestUrl && route.1 == validMethod {
+                    return handleRequest(request: request)
                 }
             }
             return generateResponse(version: "HTTP/1.1", statusCode: 404, statusPhrase: "NotFound", headers: ["Content-Length":String(errorMessage.count), "Content-Type":"text/html"], body: errorMessage)
