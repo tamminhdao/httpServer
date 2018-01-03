@@ -23,7 +23,10 @@ let package = Package(
                 dependencies: ["Socket", "Router"]),
         .target(
                 name: "Router",
-                dependencies: ["Requests", "Responses"]),
+                dependencies: ["Requests", "Responses", "Actions"]),
+        .target(
+                name: "Actions",
+                dependencies: ["Requests", "Values"]),
         .target(
                 name: "Requests",
                 dependencies: ["Values"]),
@@ -33,6 +36,9 @@ let package = Package(
         .target(
                 name: "Values",
                 dependencies: []),
+        .testTarget(
+                name: "ActionsSpec",
+                dependencies: ["Actions", "Requests", "Quick", "Nimble"]),
         .testTarget(
                 name: "RequestsSpec",
                 dependencies: ["Requests", "Quick", "Nimble"]),
