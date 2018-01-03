@@ -4,21 +4,21 @@ import Responses
 import Actions
 
 public class Router {
-    private var action: HttpActions
-    private var routes: [(String, HttpMethod)]
+   // private var action: HttpAction
+    private var routes: [Route]
     private var errorMessage: String = "<p> URL does not exist </p>"
     private var getRequestMessage: String = "<p> Get Request has a body! </p>"
 
-    public init(action: HttpActions) {
-        self.action = action
+    public init() {
+     //   self.action = action
         self.routes = []
     }
 
-    public func addRoute(route: (String, HttpMethod)) {
+    public func addRoute(route: Route) {
         self.routes.append(route)
     }
 
-    public func showAllRoutes() -> [(String, HttpMethod)] {
+    public func showAllRoutes() -> [Route] {
         return self.routes
     }
 
@@ -26,7 +26,8 @@ public class Router {
         if let validMethod = request.returnMethod() {
             let requestUrl = request.returnUrl()
             for route in routes {
-                if route.0 == requestUrl && route.1 == validMethod {
+                if route.url == requestUrl && route.method == validMethod {
+                    route.action.execute(request: request)
                     return handleRequest(request: request)
                 }
             }
@@ -71,12 +72,12 @@ public class Router {
     }
 
     private func handlePost(request: HttpRequest) -> HttpResponse {
-        action.putAction(request: request)
+        //action.execute(request: request)
         return generateResponse(version: "HTTP/1.1", statusCode: 200, statusPhrase: "OK", headers: ["Content-Length":"0", "Content-Type":"text/html"], body: "")
     }
 
     private func handlePut(request: HttpRequest) -> HttpResponse {
-        action.putAction(request: request)
+        //action.execute(request: request)
         return generateResponse(version: "HTTP/1.1", statusCode: 200, statusPhrase: "OK", headers: ["Content-Length":"0", "Content-Type":"text/html"], body: "")
     }
 
