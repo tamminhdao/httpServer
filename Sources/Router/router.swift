@@ -72,12 +72,10 @@ public class Router {
     }
 
     private func handlePost(request: HttpRequest) -> HttpResponse {
-        //action.execute(request: request)
         return generateResponse(version: "HTTP/1.1", statusCode: 200, statusPhrase: "OK", headers: ["Content-Length":"0", "Content-Type":"text/html"], body: "")
     }
 
     private func handlePut(request: HttpRequest) -> HttpResponse {
-        //action.execute(request: request)
         return generateResponse(version: "HTTP/1.1", statusCode: 200, statusPhrase: "OK", headers: ["Content-Length":"0", "Content-Type":"text/html"], body: "")
     }
 
