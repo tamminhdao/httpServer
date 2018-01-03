@@ -1,16 +1,16 @@
 import Foundation
 import Requests
 import Responses
-import Values
+import Actions
 
 public class Router {
-    private var input: DataStorage
+    private var action: HttpActions
     private var routes: [(String, HttpMethod)]
     private var errorMessage: String = "<p> URL does not exist </p>"
     private var getRequestMessage: String = "<p> Get Request has a body! </p>"
 
-    public init(input: DataStorage) {
-        self.input = input
+    public init(action: HttpActions) {
+        self.action = action
         self.routes = []
     }
 
@@ -71,20 +71,12 @@ public class Router {
     }
 
     private func handlePost(request: HttpRequest) -> HttpResponse {
-        let requestBody : [String: String] = request.returnBody()
-        for item in requestBody {
-            input.addValues(key: item.key, value: item.value)
-        }
-        input.logValues()
+        action.putAction(request: request)
         return generateResponse(version: "HTTP/1.1", statusCode: 200, statusPhrase: "OK", headers: ["Content-Length":"0", "Content-Type":"text/html"], body: "")
     }
 
     private func handlePut(request: HttpRequest) -> HttpResponse {
-        let requestBody : [String: String] = request.returnBody()
-        for item in requestBody {
-            input.addValues(key: item.key, value: item.value)
-        }
-        input.logValues()
+        action.putAction(request: request)
         return generateResponse(version: "HTTP/1.1", statusCode: 200, statusPhrase: "OK", headers: ["Content-Length":"0", "Content-Type":"text/html"], body: "")
     }
 

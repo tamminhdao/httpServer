@@ -5,16 +5,19 @@ import Router
 import Requests
 import Responses
 import Values
+import Actions
 
 class RouterSpec: QuickSpec {
     override func spec() {
         describe("#Router") {
             var router: Router!
-            var data: DataStorage!
+            var dataStorage: DataStorage!
+            var action: HttpActions!
 
             beforeEach {
-                data = DataStorage()
-                router = Router(input: data)
+                dataStorage = DataStorage()
+                action = HttpActions(dataStorage: dataStorage)
+                router = Router(action: action)
                 router.addRoute(route: ("/", HttpMethod.get))
             }
 

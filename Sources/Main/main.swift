@@ -3,10 +3,12 @@ import Server
 import Requests
 import Router
 import Values
+import Actions
 
 let data = DataStorage()
+let action = HttpActions(dataStorage: data)
 let httpParser = RequestParser()
-let router = Router(input: data)
+let router = Router(action: action)
 let server = Server(parser: httpParser, router: router)
 
 router.addRoute(route: ("/", HttpMethod.get))
