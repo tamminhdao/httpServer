@@ -5,16 +5,16 @@ import Values
 import Quick
 import Nimble
 
-class HttpActionsSpec: QuickSpec {
+class PutActionsSpec: QuickSpec {
     override func spec() {
-        describe ("#HttpActions") {
-            var action: HttpActions!
+        describe ("#PutAction") {
+            var action: PutAction!
             var dataStorage: DataStorage!
             var request: HttpRequest!
 
             beforeEach {
                 dataStorage = DataStorage()
-                action = HttpActions(dataStorage: dataStorage)
+                action = PutAction(dataStorage: dataStorage)
                 request = HttpRequest(
                         method: HttpMethod.put,
                         url: "/form",
@@ -25,7 +25,7 @@ class HttpActionsSpec: QuickSpec {
             }
 
             it ("can perform a put action") {
-                action.putAction(request: request)
+                action.execute(request: request)
                 let allValues = dataStorage.logValues()
                 let expectedValues = ["Content":"Text", "My":"Value"]
                 expect(allValues).to(equal(expectedValues))

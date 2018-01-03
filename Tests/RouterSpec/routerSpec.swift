@@ -12,19 +12,21 @@ class RouterSpec: QuickSpec {
         describe("#Router") {
             var router: Router!
             var dataStorage: DataStorage!
-            var action: HttpActions!
+//            var action: HttpActions!
+            var nullAction: NullAction!
 
             beforeEach {
                 dataStorage = DataStorage()
-                action = HttpActions(dataStorage: dataStorage)
-                router = Router(action: action)
-                router.addRoute(route: ("/", HttpMethod.get))
+//                action = HttpActions(dataStorage: dataStorage)
+                nullAction = NullAction(dataStorage: dataStorage)
+                router = Router()
+                router.addRoute(route: Route(url: "/", method: HttpMethod.get, action: nullAction))
             }
 
             it ("add new route to the list of available routes") {
                 let allRoutes = router.showAllRoutes()
-                expect(allRoutes[0].0).to(equal("/"))
-                expect(allRoutes[0].1).to(equal(HttpMethod.get))
+                expect(allRoutes[0].url).to(equal("/"))
+                expect(allRoutes[0].method).to(equal(HttpMethod.get))
 
             }
 
