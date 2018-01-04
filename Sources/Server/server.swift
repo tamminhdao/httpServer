@@ -26,7 +26,7 @@ public class Server {
 
                 let parsedIncomingRequest = parseRequest(socket: clientSocket)
 
-                let categorizedResponse = router.checkRoute(request: parsedIncomingRequest)
+                let categorizedResponse = router.route(request: parsedIncomingRequest)
 
                 sendBackResponse(socket: clientSocket, response: categorizedResponse)
 

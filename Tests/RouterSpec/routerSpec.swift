@@ -12,12 +12,10 @@ class RouterSpec: QuickSpec {
         describe("#Router") {
             var router: Router!
             var dataStorage: DataStorage!
-//            var action: HttpActions!
             var nullAction: NullAction!
 
             beforeEach {
                 dataStorage = DataStorage()
-//                action = HttpActions(dataStorage: dataStorage)
                 nullAction = NullAction(dataStorage: dataStorage)
                 router = Router()
                 router.addRoute(route: Route(url: "/", method: HttpMethod.get, action: nullAction))
@@ -43,12 +41,12 @@ class RouterSpec: QuickSpec {
                         version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length":String(("<p> Get Request has a body! </p>").count),
+                        headers: ["Content-Length":"0",
                                   "Content-Type":"text/html"],
-                        body: "<p> Get Request has a body! </p>"
+                        body: ""
                 )
 
-                let response = router.checkRoute(request: validRequest)
+                let response = router.route(request: validRequest)
                 expect(response).to(equal(responseOK))
             }
 
@@ -70,7 +68,7 @@ class RouterSpec: QuickSpec {
                         body: "<p> URL does not exist </p>"
                 )
 
-                let response = router.checkRoute(request: validRequest)
+                let response = router.route(request: validRequest)
                 expect(response).to(equal(notFound))
             }
         }
