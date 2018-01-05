@@ -11,11 +11,13 @@ class RouterSpec: QuickSpec {
     override func spec() {
         describe("#Router") {
             var router: Router!
+            var routesTable: RoutesTable!
             var nullAction: NullAction!
 
             beforeEach {
                 nullAction = NullAction()
-                router = Router()
+                routesTable = RoutesTable()
+                router = Router(routesTable: routesTable)
                 router.addRoute(route: Route(url: "/", method: HttpMethod.get, action: nullAction))
                 router.addRoute(route: Route(url: "/method_options2", method: HttpMethod.get, action: nullAction))
             }
@@ -24,12 +26,7 @@ class RouterSpec: QuickSpec {
                 let allRoutes = router.showAllRoutes()
                 expect(allRoutes[0].url).to(equal("/"))
                 expect(allRoutes[0].method).to(equal(HttpMethod.get))
-            }
-
-            it ("identifies all allowed methods on an url") {
-                let expectedVerbs = ["GET", "OPTIONS"]
-                let allowedMethods = router.obtainMethods("method_options2")
-                expect(allowedMethods).to(equal(allowedMethods))
+                expect(allRoutes[0].action).to(be(nullAction))
             }
 
             it ("returns a 200 OK response if the method/url combo is correct") {

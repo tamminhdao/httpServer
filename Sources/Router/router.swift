@@ -4,22 +4,20 @@ import Responses
 import Actions
 
 public class Router {
-    private var routes: [Route]
+    private var routesTable: RoutesTable
     private var responseGenerator: ResponseGenerator
-    private var errorMessage: String = "<p> URL does not exist </p>"
-    private var getRequestMessage: String = "<p> Get Request has a body! </p>"
 
-    public init() {
-        self.routes = []
+    public init(routesTable: RoutesTable) {
+        self.routesTable = routesTable
         self.responseGenerator = ResponseGenerator()
     }
 
     public func addRoute(route: Route) {
-        self.routes.append(route)
+        self.routesTable.addRoute(route: route)
     }
 
     public func showAllRoutes() -> [Route] {
-        return self.routes
+        return self.routesTable.showAllRoutes()
     }
 
     public func route(request: HttpRequest) -> HttpResponse {
@@ -32,10 +30,10 @@ public class Router {
     }
 
     private func checkRoutes(request: HttpRequest, requestMethod: HttpMethod, requestUrl: String) -> HttpResponse {
-        for route in routes {
+        for route in routesTable.showAllRoutes() {
             if route.url == requestUrl && route.method == requestMethod {
                 route.action.execute(request: request)
-                return responseGenerator.generate200Response()
+                return responseGenerator.generate200Response(method: requestMethod)
             }
         }
         return responseGenerator.generate404Response()

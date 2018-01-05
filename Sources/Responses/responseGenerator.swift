@@ -7,7 +7,6 @@ public class ResponseGenerator {
 
     public init() {}
 
-
     public func generate200Response(method: HttpMethod) -> HttpResponse {
         switch method {
             case HttpMethod.get:
