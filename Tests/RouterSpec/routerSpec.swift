@@ -11,24 +11,28 @@ class RouterSpec: QuickSpec {
     override func spec() {
         describe("#Router") {
             var router: Router!
-            var dataStorage: DataStorage!
             var nullAction: NullAction!
 
             beforeEach {
-                dataStorage = DataStorage()
-                nullAction = NullAction(dataStorage: dataStorage)
+                nullAction = NullAction()
                 router = Router()
                 router.addRoute(route: Route(url: "/", method: HttpMethod.get, action: nullAction))
+                router.addRoute(route: Route(url: "/method_options2", method: HttpMethod.get, action: nullAction))
             }
 
-            it ("add new route to the list of available routes") {
+            it ("adds new route to the list of available routes") {
                 let allRoutes = router.showAllRoutes()
                 expect(allRoutes[0].url).to(equal("/"))
                 expect(allRoutes[0].method).to(equal(HttpMethod.get))
-
             }
 
-            it ("return a 200 OK response if the method/url combo is correct") {
+            it ("identifies all allowed methods on an url") {
+                let expectedVerbs = ["GET", "OPTIONS"]
+                let allowedMethods = router.obtainMethods("method_options2")
+                expect(allowedMethods).to(equal(allowedMethods))
+            }
+
+            it ("returns a 200 OK response if the method/url combo is correct") {
                 let validRequest = HttpRequest(
                         method: HttpMethod.get,
                         url: "/",
@@ -41,9 +45,9 @@ class RouterSpec: QuickSpec {
                         version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length":"0",
+                        headers: ["Content-Length":String(("<p> Get Request has a body! </p>").count),
                                   "Content-Type":"text/html"],
-                        body: ""
+                        body: "<p> Get Request has a body! </p>"
                 )
 
                 let response = router.route(request: validRequest)
@@ -63,7 +67,7 @@ class RouterSpec: QuickSpec {
                         version: "HTTP/1.1",
                         statusCode: 404,
                         statusPhrase: "NotFound",
-                        headers: ["Content-Length":"27",
+                        headers: ["Content-Length":String(("<p> URL does not exist </p>").count),
                                   "Content-Type":"text/html"],
                         body: "<p> URL does not exist </p>"
                 )
