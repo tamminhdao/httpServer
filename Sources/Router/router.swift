@@ -30,7 +30,7 @@ public class Router {
     }
 
     private func checkRoutes(request: HttpRequest, requestMethod: HttpMethod, requestUrl: String) -> HttpResponse {
-        for route in routesTable.showAllRoutes() {
+        for route in showAllRoutes() {
             if route.url == requestUrl && route.method == requestMethod {
                 route.action.execute(request: request)
                 return responseGenerator.generate200Response(method: requestMethod)

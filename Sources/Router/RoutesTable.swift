@@ -15,9 +15,13 @@ public class RoutesTable {
         return self.routes
     }
 
-
-
-//    public func getOptions (url: String) -> [String] {
-//
-//    }
+    public func options (url: String) -> [String] {
+        var methods : [String] = ["OPTIONS"]
+        for route in routes {
+            if route.url == url {
+                methods.append(route.method.rawValue)
+            }
+        }
+        return methods
+    }
 }
