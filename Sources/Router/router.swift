@@ -9,7 +9,7 @@ public class Router {
 
     public init(routesTable: RoutesTable) {
         self.routesTable = routesTable
-        self.responseGenerator = ResponseGenerator()
+        self.responseGenerator = ResponseGenerator(routesTable: routesTable)
     }
 
     public func addRoute(route: Route) {
@@ -33,7 +33,7 @@ public class Router {
         for route in showAllRoutes() {
             if route.url == requestUrl && route.method == requestMethod {
                 route.action.execute(request: request)
-                return responseGenerator.generate200Response(method: requestMethod)
+                return responseGenerator.generate200Response(method: requestMethod, url: requestUrl)
             }
         }
         return responseGenerator.generate404Response()

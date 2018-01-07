@@ -25,7 +25,7 @@ class RoutesTableSpec: QuickSpec {
             }
 
             it ("can support the OPTIONS request by identifying all allowed methods on an url") {
-                let expectedVerbs = ["GET", "OPTIONS"]
+                let expectedVerbs = ["GET"]
                 let allowedMethods = routesTable.options(url: "/")
                 expect(allowedMethods).to(equal(expectedVerbs))
             }

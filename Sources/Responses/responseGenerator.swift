@@ -1,13 +1,17 @@
 import Foundation
 import Requests
+import Router
 
 public class ResponseGenerator {
     private var errorMessage: String = "<p> URL does not exist </p>"
     private var getRequestMessage: String = "<p> Get Request has a body! </p>"
+    private var routesTable: RoutesTable
 
-    public init() {}
+    public init(routesTable: RoutesTable) {
+        self.routesTable = routesTable
+    }
 
-    public func generate200Response(method: HttpMethod) -> HttpResponse {
+    public func generate200Response(method: HttpMethod, url: String) -> HttpResponse {
         switch method {
             case HttpMethod.get:
                 return HttpResponse(version: "HTTP/1.1",
@@ -27,9 +31,18 @@ public class ResponseGenerator {
                 return HttpResponse(version: "HTTP/1.1",
                                     statusCode: 200,
                                     statusPhrase: "OK",
-                                    headers: [:],
+                                    headers: ["Allow": options(url: url)],
                                     body: "")
             }
+    }
+
+    private func options(url: String) -> String {
+        var allMethods = "OPTIONS"
+        let listOfMethods = routesTable.options(url: url)
+        for method in listOfMethods {
+            allMethods = allMethods + " , \(method)"
+        }
+        return allMethods
     }
 
     public func generate404Response() -> HttpResponse {

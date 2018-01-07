@@ -23,15 +23,18 @@ let package = Package(
                 dependencies: ["Socket", "Router"]),
         .target(
                 name: "Router",
-                dependencies: ["Requests", "Responses", "Actions"]),
+                dependencies: ["Requests", "Responses", "Actions", "Route"]),
         .target(
                 name: "Actions",
                 dependencies: ["Requests", "Values"]),
         .target(
+                name: "Responses",
+                dependencies: ["Requests", "Route"]),
+        .target(
                 name: "Requests",
                 dependencies: []),
         .target(
-                name: "Responses",
+                name: "Route",
                 dependencies: []),
         .target(
                 name: "Values",
