@@ -31,16 +31,16 @@ public class ResponseGenerator {
                 return HttpResponse(version: "HTTP/1.1",
                                     statusCode: 200,
                                     statusPhrase: "OK",
-                                    headers: ["Allow": options(url: url)],
+                                    headers: ["Content-Length":"0", "Content-Type":"text/html", "Allow": (options(url: url))],
                                     body: "")
             }
     }
 
     private func options(url: String) -> String {
-        var allMethods = "OPTIONS"
+        var allMethods = ""
         let listOfMethods = routesTable.options(url: url)
         for method in listOfMethods {
-            allMethods = allMethods + " , \(method)"
+            allMethods = allMethods + "\(method),"
         }
         return allMethods
     }
