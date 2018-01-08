@@ -1,14 +1,17 @@
 import Foundation
 import Requests
 import Route
+import Values
 
 public class ResponseGenerator {
     private var errorMessage: String = "<p> URL does not exist </p>"
     private var getRequestMessage: String = "<p> Get Request has a body! </p>"
     private var routesTable: RoutesTable
+    private var dataStorage: DataStorage
 
-    public init(routesTable: RoutesTable) {
+    public init(routesTable: RoutesTable, dataStorage: DataStorage) {
         self.routesTable = routesTable
+        self.dataStorage = dataStorage
     }
 
     public func generate200Response(method: HttpMethod, url: String) -> HttpResponse {
@@ -17,8 +20,8 @@ public class ResponseGenerator {
                 return HttpResponse(version: "HTTP/1.1",
                                     statusCode: 200,
                                     statusPhrase: "OK",
-                                    headers: ["Content-Length":String(getRequestMessage.count), "Content-Type":"text/html"],
-                                    body: getRequestMessage)
+                                    headers: ["Content-Length":String(obtainDataFromStorage().count), "Content-Type":"text/html"],
+                                    body: obtainDataFromStorage())
 
             case HttpMethod.post, HttpMethod.put, HttpMethod.head, HttpMethod.delete, HttpMethod.connect, HttpMethod.patch:
                 return HttpResponse(version: "HTTP/1.1",
@@ -34,6 +37,14 @@ public class ResponseGenerator {
                                     headers: ["Content-Length":"0", "Content-Type":"text/html", "Allow": (options(url: url))],
                                     body: "")
             }
+    }
+
+    private func obtainDataFromStorage() -> String {
+        var result = ""
+        for item in dataStorage.myVals {
+            result = result + "\(item.key)=\(item.value)"
+        }
+        return result
     }
 
     private func options(url: String) -> String {

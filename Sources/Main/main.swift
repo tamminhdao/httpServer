@@ -1,6 +1,7 @@
 import Foundation
 import Server
 import Requests
+import Responses
 import Router
 import Route
 import Values
@@ -9,7 +10,8 @@ import Actions
 let data = DataStorage()
 let httpParser = RequestParser()
 let routesTable = RoutesTable()
-let router = Router(routesTable: routesTable)
+let responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: data)
+let router = Router(routesTable: routesTable, responseGenerator: responseGenerator)
 let server = Server(parser: httpParser, router: router)
 let nullAction = NullAction()
 let putAction = PutAction(dataStorage: data)
