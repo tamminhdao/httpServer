@@ -51,5 +51,8 @@ let package = Package(
         .testTarget(
                 name: "RouterSpec",
                 dependencies: ["Router", "Quick", "Nimble"]),
+        .testTarget(
+                name: "RouteSpec",
+                dependencies: ["Route", "Quick", "Nimble"]),
     ]
 )
