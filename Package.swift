@@ -25,6 +25,9 @@ let package = Package(
                 name: "Router",
                 dependencies: ["Requests", "Responses", "Actions", "Route"]),
         .target(
+                name: "Route",
+                dependencies: ["Actions"]),
+        .target(
                 name: "Actions",
                 dependencies: ["Requests", "Values"]),
         .target(
@@ -32,9 +35,6 @@ let package = Package(
                 dependencies: ["Requests", "Route"]),
         .target(
                 name: "Requests",
-                dependencies: []),
-        .target(
-                name: "Route",
                 dependencies: []),
         .target(
                 name: "Values",
