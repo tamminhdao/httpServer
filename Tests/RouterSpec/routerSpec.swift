@@ -13,17 +13,20 @@ class RouterSpec: QuickSpec {
         describe("#Router") {
             var router: Router!
             var routesTable: RoutesTable!
+            var responseGenerator: ResponseGenerator!
+            var dataStorage: DataStorage!
             var nullAction: NullAction!
 
             beforeEach {
-                nullAction = NullAction()
                 routesTable = RoutesTable()
+                nullAction = NullAction()
                 router = Router(routesTable: routesTable)
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: nullAction))
                 routesTable.addRoute(route: Route(url: "/method_options2", method: HttpMethod.get, action: nullAction))
             }
 
             it ("returns a 200 OK response if the method/url combo is correct") {
+
                 let validRequest = HttpRequest(
                         method: HttpMethod.get,
                         url: "/",
@@ -36,9 +39,9 @@ class RouterSpec: QuickSpec {
                         version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length":String(("<p> Get Request has a body! </p>").count),
+                        headers: ["Content-Length":String("data=fatcat".count),
                                   "Content-Type":"text/html"],
-                        body: "<p> Get Request has a body! </p>"
+                        body: "data=fatcat"
                 )
 
                 let response = router.route(request: validRequest)
