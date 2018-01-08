@@ -8,9 +8,9 @@ public class Router {
     private var routesTable: RoutesTable
     private var responseGenerator: ResponseGenerator
 
-    public init(routesTable: RoutesTable) {
+    public init(routesTable: RoutesTable, responseGenerator: ResponseGenerator) {
         self.routesTable = routesTable
-        self.responseGenerator = ResponseGenerator(routesTable: routesTable)
+        self.responseGenerator = responseGenerator
     }
 
     public func route(request: HttpRequest) -> HttpResponse {
