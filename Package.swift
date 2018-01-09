@@ -23,16 +23,25 @@ let package = Package(
                 dependencies: ["Socket", "Router"]),
         .target(
                 name: "Router",
-                dependencies: ["Requests", "Responses"]),
+                dependencies: ["Requests", "Responses", "Actions", "Route"]),
         .target(
-                name: "Requests",
-                dependencies: ["Values"]),
+                name: "Route",
+                dependencies: ["Actions"]),
+        .target(
+                name: "Actions",
+                dependencies: ["Requests", "Values"]),
         .target(
                 name: "Responses",
+                dependencies: ["Requests", "Route"]),
+        .target(
+                name: "Requests",
                 dependencies: []),
         .target(
                 name: "Values",
                 dependencies: []),
+        .testTarget(
+                name: "ActionsSpec",
+                dependencies: ["Actions", "Quick", "Nimble"]),
         .testTarget(
                 name: "RequestsSpec",
                 dependencies: ["Requests", "Quick", "Nimble"]),
@@ -42,5 +51,8 @@ let package = Package(
         .testTarget(
                 name: "RouterSpec",
                 dependencies: ["Router", "Quick", "Nimble"]),
+        .testTarget(
+                name: "RouteSpec",
+                dependencies: ["Route", "Quick", "Nimble"]),
     ]
 )
