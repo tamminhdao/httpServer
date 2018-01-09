@@ -52,4 +52,12 @@ public class ResponseGenerator {
                             headers: ["Content-Length":String(errorMessage.count), "Content-Type":"text/html"],
                             body: errorMessage)
     }
+
+    public func generate405Response() -> HttpResponse {
+        return HttpResponse(version: "HTTP/1.1",
+                statusCode: 405,
+                statusPhrase: "MethodNotAllowed",
+                headers: ["Content-Length":String(errorMessage.count), "Content-Type":"text/html"],
+                body: errorMessage)
+    }
 }
