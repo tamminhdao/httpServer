@@ -35,8 +35,10 @@ public class Router {
             if route.url == requestUrl && route.method == requestMethod {
                 route.action.execute(request: request)
                 return responseGenerator.generate200Response(method: requestMethod, url: requestUrl)
+            } else if route.url == requestUrl && route.method != requestMethod {
+                return responseGenerator.generate405Response()
             }
         }
-        return responseGenerator.generate405Response()
+        return responseGenerator.generate404Response()
     }
 }
