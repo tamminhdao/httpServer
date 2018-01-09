@@ -19,9 +19,14 @@ router.addRoute(route: Route(url: "/", method: HttpMethod.get, action: nullActio
 router.addRoute(route: Route(url: "/", method: HttpMethod.head, action: nullAction))
 router.addRoute(route: Route(url: "/", method: HttpMethod.put, action: putAction))
 router.addRoute(route: Route(url: "/", method: HttpMethod.post, action: postAction))
+
 router.addRoute(route: Route(url: "/form", method: HttpMethod.get, action: nullAction))
 router.addRoute(route: Route(url: "/form", method: HttpMethod.put, action: putAction))
 router.addRoute(route: Route(url: "/form", method: HttpMethod.post, action: postAction))
+
+router.addRoute(route: Route(url: "/file1", method: HttpMethod.get, action: nullAction))
+router.addRoute(route: Route(url: "/text-file.txt", method: HttpMethod.get, action: nullAction))
+
 router.addRoute(route: Route(url: "/method_options", method: HttpMethod.head, action: nullAction))
 router.addRoute(route: Route(url: "/method_options", method: HttpMethod.get, action: nullAction))
 router.addRoute(route: Route(url: "/method_options", method: HttpMethod.put, action: putAction))
