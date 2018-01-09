@@ -25,7 +25,7 @@ router.addRoute(route: Route(url: "/", method: HttpMethod.post, action: postActi
 router.addRoute(route: Route(url: "/form", method: HttpMethod.get, action: nullAction))
 router.addRoute(route: Route(url: "/form", method: HttpMethod.put, action: putAction))
 router.addRoute(route: Route(url: "/form", method: HttpMethod.post, action: postAction))
-router.addRoute(route: Route(url: "/form", method: HttpMethod.delete, action: postAction))
+router.addRoute(route: Route(url: "/form", method: HttpMethod.delete, action: deleteAction))
 router.addRoute(route: Route(url: "/method_options", method: HttpMethod.head, action: nullAction))
 router.addRoute(route: Route(url: "/method_options", method: HttpMethod.get, action: nullAction))
 router.addRoute(route: Route(url: "/method_options", method: HttpMethod.put, action: putAction))
