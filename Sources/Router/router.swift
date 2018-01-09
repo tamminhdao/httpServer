@@ -37,6 +37,6 @@ public class Router {
                 return responseGenerator.generate200Response(method: requestMethod, url: requestUrl)
             }
         }
-        return responseGenerator.generate404Response()
+        return responseGenerator.generate405Response()
     }
 }
