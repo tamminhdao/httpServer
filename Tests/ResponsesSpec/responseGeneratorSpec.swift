@@ -29,7 +29,7 @@ class responseGeneratorSpec: QuickSpec {
                         body: "data=fatcat"
                 )
 
-                let response = responseGenerator.generate200Response(method: HttpMethod.get, url: "/form")
+                let response = responseGenerator.generate200Response(method: HttpMethod.get, url: "/")
 
                 expect(response).to(equal(expectedResponse))
             }
