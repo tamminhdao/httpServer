@@ -14,5 +14,4 @@ public class DeleteAction: HttpAction {
             dataStorage.myVals.removeValue(forKey: item.key)
         }
     }
-
 }
