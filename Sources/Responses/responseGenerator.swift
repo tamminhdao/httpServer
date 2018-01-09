@@ -57,7 +57,7 @@ public class ResponseGenerator {
         return HttpResponse(version: "HTTP/1.1",
                 statusCode: 405,
                 statusPhrase: "MethodNotAllowed",
-                headers: ["Content-Length":String(errorMessage.count), "Content-Type":"text/html"],
-                body: errorMessage)
+                headers: ["Content-Length":"0", "Content-Type":"text/html"],
+                body: "")
     }
 }
