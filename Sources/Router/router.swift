@@ -13,14 +13,6 @@ public class Router {
         self.responseGenerator = ResponseGenerator(routesTable: routesTable)
     }
 
-    public func addRoute(route: Route) {
-        self.routesTable.addRoute(route: route)
-    }
-
-    public func showAllRoutes() -> [Route] {
-        return self.routesTable.showAllRoutes()
-    }
-
     public func route(request: HttpRequest) -> HttpResponse {
         if let validMethod = request.returnMethod() {
             let requestUrl = request.returnUrl()
@@ -31,13 +23,13 @@ public class Router {
     }
 
     private func checkRoutes(request: HttpRequest, requestMethod: HttpMethod, requestUrl: String) -> HttpResponse {
-        for route in showAllRoutes() {
+        for route in self.routesTable.showAllRoutes() {
             if route.url == requestUrl && route.method == requestMethod {
                 route.action.execute(request: request)
                 return responseGenerator.generate200Response(method: requestMethod, url: requestUrl)
             }
         }
-        for route in showAllRoutes() {
+        for route in self.routesTable.showAllRoutes() {
             if route.url == requestUrl && route.method != requestMethod {
                 return responseGenerator.generate405Response()
             }

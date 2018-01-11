@@ -23,13 +23,6 @@ class RouterSpec: QuickSpec {
                 routesTable.addRoute(route: Route(url: "/method_options2", method: HttpMethod.get, action: nullAction))
             }
 
-//            it ("adds new route to the list of available routes") {
-//                let allRoutes = router.showAllRoutes()
-//                expect(allRoutes[0].url).to(equal("/"))
-//                expect(allRoutes[0].method).to(equal(HttpMethod.get))
-//                expect(allRoutes[0].action).to(be(nullAction))
-//            }
-
             it ("returns a 200 OK response if the method/url combo is correct") {
                 let validRequest = HttpRequest(
                         method: HttpMethod.get,
