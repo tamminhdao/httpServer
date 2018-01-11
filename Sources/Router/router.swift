@@ -26,7 +26,7 @@ public class Router {
             let requestUrl = request.returnUrl()
             return checkRoutes(request: request, requestMethod: validMethod, requestUrl: requestUrl)
         } else {
-            return responseGenerator.generate404Response()
+            return responseGenerator.generate405Response()
         }
     }
 
@@ -35,7 +35,10 @@ public class Router {
             if route.url == requestUrl && route.method == requestMethod {
                 route.action.execute(request: request)
                 return responseGenerator.generate200Response(method: requestMethod, url: requestUrl)
-            } else if route.url == requestUrl && route.method != requestMethod {
+            }
+        }
+        for route in showAllRoutes() {
+            if route.url == requestUrl && route.method != requestMethod {
                 return responseGenerator.generate405Response()
             }
         }
