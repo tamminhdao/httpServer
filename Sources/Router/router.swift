@@ -23,17 +23,41 @@ public class Router {
     }
 
     private func checkRoutes(request: HttpRequest, requestMethod: HttpMethod, requestUrl: String) -> HttpResponse {
-        for route in self.routesTable.showAllRoutes() {
-            if route.url == requestUrl && route.method == requestMethod {
-                route.action.execute(request: request)
-                return responseGenerator.generate200Response(method: requestMethod, url: requestUrl)
-            }
+        let route = routeExists(requestUrl: requestUrl, requestMethod: requestMethod)
+
+        if let validRoute = route {
+            perform_action(request: request, route: validRoute)
+            return responseGenerator.generate200Response(method: requestMethod, url: requestUrl)
         }
+
+        if methodDoesNotExists(requestUrl: requestUrl, requestMethod: requestMethod) {
+            return responseGenerator.generate405Response()
+        }
+
+        return responseGenerator.generate404Response()
+
+    }
+
+    private func methodDoesNotExists(requestUrl: String, requestMethod: HttpMethod) -> Bool {
         for route in self.routesTable.showAllRoutes() {
             if route.url == requestUrl && route.method != requestMethod {
-                return responseGenerator.generate405Response()
+                return true
             }
         }
-        return responseGenerator.generate404Response()
+        return false
+    }
+
+    private func routeExists(requestUrl: String, requestMethod: HttpMethod) -> Route? {
+        for route in self.routesTable.showAllRoutes() {
+            if route.url == requestUrl && route.method == requestMethod {
+                return route
+            }
+        }
+        return nil
+    }
+
+    private func perform_action(request: HttpRequest, route: Route) {
+        route.action.execute(request: request)
     }
 }
+
