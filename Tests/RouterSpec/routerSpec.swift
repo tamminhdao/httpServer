@@ -19,8 +19,11 @@ class RouterSpec: QuickSpec {
 
             beforeEach {
                 routesTable = RoutesTable()
+                dataStorage = DataStorage()
+                dataStorage.addValues(key: "data", value: "fatcat")
+                responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
                 nullAction = NullAction()
-                router = Router(routesTable: routesTable)
+                router = Router(routesTable: routesTable, responseGenerator: responseGenerator)
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: nullAction))
                 routesTable.addRoute(route: Route(url: "/method_options2", method: HttpMethod.get, action: nullAction))
             }
