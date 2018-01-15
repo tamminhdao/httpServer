@@ -39,5 +39,4 @@ routesTable.addRoute(route: Route(url: "/method_options", method: HttpMethod.pos
 routesTable.addRoute(route: Route(url: "/method_options2", method: HttpMethod.get, action: nullAction))
 routesTable.addRoute(route: Route(url: "/method_options2", method: HttpMethod.options, action: nullAction))
 
-
 server.run()
