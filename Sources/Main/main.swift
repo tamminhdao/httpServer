@@ -26,6 +26,7 @@ routesTable.addRoute(route: Route(url: "/", method: HttpMethod.post, action: pos
 routesTable.addRoute(route: Route(url: "/form", method: HttpMethod.get, action: nullAction))
 routesTable.addRoute(route: Route(url: "/form", method: HttpMethod.put, action: putAction))
 routesTable.addRoute(route: Route(url: "/form", method: HttpMethod.post, action: postAction))
+routesTable.addRoute(route: Route(url: "/form", method: HttpMethod.delete, action: deleteAction))
 
 routesTable.addRoute(route: Route(url: "/file1", method: HttpMethod.get, action: nullAction))
 routesTable.addRoute(route: Route(url: "/text-file.txt", method: HttpMethod.get, action: nullAction))
