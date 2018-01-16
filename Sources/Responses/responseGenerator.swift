@@ -59,8 +59,16 @@ public class ResponseGenerator {
     public func generate404Response() -> HttpResponse {
         return HttpResponse(version: "HTTP/1.1",
                             statusCode: 404,
-                            statusPhrase: "NotFound",
+                            statusPhrase: "Not Found",
                             headers: ["Content-Length":String(errorMessage.count), "Content-Type":"text/html"],
                             body: errorMessage)
+    }
+
+    public func generate405Response() -> HttpResponse {
+        return HttpResponse(version: "HTTP/1.1",
+                statusCode: 405,
+                statusPhrase: "Method Not Allowed",
+                headers: ["Content-Length":"0", "Content-Type":"text/html"],
+                body: "")
     }
 }

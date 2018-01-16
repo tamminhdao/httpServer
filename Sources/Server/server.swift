@@ -30,6 +30,8 @@ public class Server {
 
                 sendBackResponse(socket: clientSocket, response: categorizedResponse)
 
+                clientSocket.close()
+
             } while true
         } catch let error {
             print (error.localizedDescription)
