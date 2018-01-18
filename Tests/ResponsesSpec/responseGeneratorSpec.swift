@@ -4,7 +4,7 @@ import Nimble
 import Responses
 import Requests
 import Route
-import Values
+import Data
 
 class responseGeneratorSpec: QuickSpec {
     override func spec() {

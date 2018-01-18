@@ -3,7 +3,7 @@ import Quick
 import Nimble
 import Actions
 import Requests
-import Values
+import Data
 
 class RedirectActionSpec: QuickSpec {
     override func spec() {

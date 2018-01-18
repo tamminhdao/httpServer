@@ -1,6 +1,6 @@
 import Foundation
 import Requests
-import Values
+import Data
 
 public class RedirectAction: HttpAction {
     private var redirectPath: String
@@ -12,8 +12,6 @@ public class RedirectAction: HttpAction {
     }
 
     public func execute(request: HttpRequest) {
-        print("A")
         dataStorage.addValues(key: "location", value: redirectPath)
-        print("B")
     }
 }
