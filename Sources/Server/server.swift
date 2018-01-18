@@ -10,7 +10,6 @@ public class Server {
     var listeningSocket: Socket!
     var parser: RequestParser
     var router: Router
-    var numberOfThread = 0
 
     public init(parser: RequestParser, router: Router) {
         self.parser = parser
@@ -18,19 +17,16 @@ public class Server {
     }
 
     public func run() {
-        let queue = DispatchQueue(label: "Queue", attributes: .concurrent)
+        let queue = DispatchQueue.global(qos: .userInteractive)
 
         do {
             try self.listeningSocket = Socket.create()
             try self.listeningSocket.listen(on: 5000)
 
             repeat {
-                if numberOfThread < 5 {
-                    let clientSocket = try self.listeningSocket.acceptClientConnection()
-                    numberOfThread += 1
-                    queue.async {
-                        self.handleRequest(socket: clientSocket)
-                    }
+                let clientSocket = try self.listeningSocket.acceptClientConnection()
+                queue.async {
+                    self.handleRequest(socket: clientSocket)
                 }
             } while true
         } catch let error {
@@ -46,7 +42,6 @@ public class Server {
         sendBackResponse(socket: socket, response: categorizedResponse)
 
         socket.close()
-        numberOfThread -= 1
     }
 
     private func sendBackResponse (socket: Socket, response: HttpResponse) {
