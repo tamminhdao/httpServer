@@ -71,4 +71,12 @@ public class ResponseGenerator {
                 headers: ["Content-Length":"0", "Content-Type":"text/html"],
                 body: "")
     }
+
+    public func generate302Response() -> HttpResponse {
+        return HttpResponse(version: "HTTP/1.1",
+                statusCode: 302,
+                statusPhrase: "Found",
+                headers: ["Location": dataStorage.myVals["location"]!],
+                body: "")
+    }
 }
