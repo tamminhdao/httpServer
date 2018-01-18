@@ -27,7 +27,11 @@ public class Router {
 
         if let validRoute = route {
             perform_action(request: request, route: validRoute)
-            return responseGenerator.generate200Response(method: requestMethod, url: requestUrl)
+            if redirect(route: validRoute) {
+                return responseGenerator.generate302Response()
+            } else {
+                return responseGenerator.generate200Response(method: requestMethod, url: requestUrl)
+            }
         }
 
         if methodDoesNotExists(requestUrl: requestUrl, requestMethod: requestMethod) {
@@ -36,6 +40,10 @@ public class Router {
 
         return responseGenerator.generate404Response()
 
+    }
+
+    private func redirect(route: Route) -> Bool {
+        return type(of: route.action) == RedirectAction.self
     }
 
     private func methodDoesNotExists(requestUrl: String, requestMethod: HttpMethod) -> Bool {
@@ -60,4 +68,3 @@ public class Router {
         route.action.execute(request: request)
     }
 }
-
