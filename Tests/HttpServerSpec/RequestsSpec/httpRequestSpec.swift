@@ -1,7 +1,7 @@
 import Foundation
 import Quick
 import Nimble
-import Requests
+import HttpServer
 
 class HttpRequestSpec: QuickSpec {
     override func spec() {

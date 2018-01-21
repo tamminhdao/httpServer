@@ -1,8 +1,8 @@
-import Foundation
-import Requests
-import Data
+//import Foundation
+//import Requests
+//import Values
 
-public class PostAction: HttpAction {
+public class PutAction: HttpAction {
     public var dataStorage: DataStorage
 
     public init(dataStorage: DataStorage) {

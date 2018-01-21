@@ -1,10 +1,7 @@
 import Foundation
 import Quick
 import Nimble
-import Responses
-import Requests
-import Route
-import Data
+import HttpServer
 
 class responseGeneratorSpec: QuickSpec {
     override func spec() {

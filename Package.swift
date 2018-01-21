@@ -17,8 +17,9 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
                 name: "Main",
-                dependencies: ["Server"]),
+                dependencies: ["HttpServer"]),
         .target(
+<<<<<<< HEAD
                 name: "Server",
                 dependencies: ["Socket", "Router"]),
         .target(
@@ -51,8 +52,12 @@ let package = Package(
         .testTarget(
                 name: "RouterSpec",
                 dependencies: ["Router", "Quick", "Nimble"]),
+=======
+                name: "HttpServer",
+                dependencies: ["Socket"]),
+>>>>>>> rearrange Targets
         .testTarget(
-                name: "RouteSpec",
-                dependencies: ["Route", "Quick", "Nimble"]),
+                name: "HttpServerSpec",
+                dependencies: ["HttpServer", "Quick", "Nimble"])
     ]
 )
