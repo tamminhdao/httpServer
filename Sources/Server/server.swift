@@ -1,4 +1,5 @@
 import Foundation
+import Dispatch
 import Socket
 import Requests
 import Responses
@@ -7,8 +8,6 @@ import Router
 public class Server {
 
     var listeningSocket: Socket!
-    var clientSocket: Socket!
-    var readData = Data()
     var parser: RequestParser
     var router: Router
 
@@ -18,24 +17,31 @@ public class Server {
     }
 
     public func run() {
+        let queue = DispatchQueue.global(qos: .userInteractive)
+
         do {
             try self.listeningSocket = Socket.create()
             try self.listeningSocket.listen(on: 5000)
+
             repeat {
-                try clientSocket = self.listeningSocket.acceptClientConnection()
-
-                let parsedIncomingRequest = parseRequest(socket: clientSocket)
-
-                let categorizedResponse = router.route(request: parsedIncomingRequest)
-
-                sendBackResponse(socket: clientSocket, response: categorizedResponse)
-
-                clientSocket.close()
-
+                let clientSocket = try self.listeningSocket.acceptClientConnection()
+                queue.async {
+                    self.handleRequest(socket: clientSocket)
+                }
             } while true
         } catch let error {
             print (error.localizedDescription)
         }
+    }
+
+    private func handleRequest(socket: Socket) {
+        let parsedIncomingRequest = parseRequest(socket: socket)
+
+        let categorizedResponse = router.route(request: parsedIncomingRequest)
+
+        sendBackResponse(socket: socket, response: categorizedResponse)
+
+        socket.close()
     }
 
     private func sendBackResponse (socket: Socket, response: HttpResponse) {
@@ -50,6 +56,7 @@ public class Server {
 
     private func parseRequest(socket: Socket) -> HttpRequest {
         do {
+            var readData = Data()
             _ = try socket.read(into: &readData)
             let incomingText = String(data: readData, encoding: .utf8)
             let parsedRequest = try self.parser.parse(request: incomingText!)
