@@ -29,7 +29,7 @@ let package = Package(
                 dependencies: ["Actions"]),
         .target(
                 name: "Actions",
-                dependencies: ["Requests", "Values"]),
+                dependencies: ["Requests", "Data"]),
         .target(
                 name: "Responses",
                 dependencies: ["Requests", "Route"]),
@@ -37,7 +37,7 @@ let package = Package(
                 name: "Requests",
                 dependencies: []),
         .target(
-                name: "Values",
+                name: "Data",
                 dependencies: []),
         .testTarget(
                 name: "ActionsSpec",

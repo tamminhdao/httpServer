@@ -2,7 +2,7 @@ import Foundation
 import Quick
 import Nimble
 import Actions
-import Values
+import Data
 import Requests
 
 class DeleteActionSpec: QuickSpec {

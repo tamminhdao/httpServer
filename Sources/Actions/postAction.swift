@@ -1,6 +1,6 @@
 import Foundation
 import Requests
-import Values
+import Data
 
 public class PostAction: HttpAction {
     public var dataStorage: DataStorage

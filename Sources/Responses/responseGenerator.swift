@@ -1,7 +1,7 @@
 import Foundation
 import Requests
 import Route
-import Values
+import Data
 
 public class ResponseGenerator {
     private var errorMessage: String = "<p> URL does not exist </p>"
@@ -69,6 +69,14 @@ public class ResponseGenerator {
                 statusCode: 405,
                 statusPhrase: "Method Not Allowed",
                 headers: ["Content-Length":"0", "Content-Type":"text/html"],
+                body: "")
+    }
+
+    public func generate302Response() -> HttpResponse {
+        return HttpResponse(version: "HTTP/1.1",
+                statusCode: 302,
+                statusPhrase: "Found",
+                headers: ["Location": dataStorage.myVals["location"]!],
                 body: "")
     }
 }

@@ -5,7 +5,7 @@ import Router
 import Route
 import Requests
 import Responses
-import Values
+import Data
 import Actions
 
 class RouterSpec: QuickSpec {
@@ -26,6 +26,7 @@ class RouterSpec: QuickSpec {
                 nullAction = NullAction()
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: nullAction))
                 routesTable.addRoute(route: Route(url: "/method_options2", method: HttpMethod.get, action: nullAction))
+                routesTable.addRoute(route: Route(url: "/redirect", method: HttpMethod.get, action: RedirectAction(redirectPath: "/", dataStorage: dataStorage)))
             }
 
             it ("returns a 200 OK response if the method/url combo is correct") {
@@ -60,7 +61,7 @@ class RouterSpec: QuickSpec {
                         body: [:]
                 )
 
-                let notFound = HttpResponse(
+                let notFoundResponse = HttpResponse(
                         version: "HTTP/1.1",
                         statusCode: 404,
                         statusPhrase: "Not Found",
@@ -70,7 +71,7 @@ class RouterSpec: QuickSpec {
                 )
 
                 let response = router.route(request: validRequest)
-                expect(response).to(equal(notFound))
+                expect(response).to(equal(notFoundResponse))
             }
 
             it ("returns a 405 Method Not Allowed if the url exists but it doesn't accept the verb") {
@@ -82,7 +83,7 @@ class RouterSpec: QuickSpec {
                         body: [:]
                 )
 
-                let notFound = HttpResponse(
+                let notAllowedResponse = HttpResponse(
                         version: "HTTP/1.1",
                         statusCode: 405,
                         statusPhrase: "Method Not Allowed",
@@ -92,7 +93,28 @@ class RouterSpec: QuickSpec {
                 )
 
                 let response = router.route(request: validRequest)
-                expect(response).to(equal(notFound))
+                expect(response).to(equal(notAllowedResponse))
+            }
+
+            it ("returns a 302 Found in case of a redirect") {
+                let validRequest = HttpRequest(
+                        method: HttpMethod.get,
+                        url: "/redirect",
+                        version: "HTTP/1.1",
+                        headers: [:],
+                        body: [:]
+                )
+
+                let redirectResponse = HttpResponse(
+                        version: "HTTP/1.1",
+                        statusCode: 302,
+                        statusPhrase: "Found",
+                        headers: ["Location": "/"],
+                        body: ""
+                )
+
+                let response = router.route(request: validRequest)
+                expect(response).to(equal(redirectResponse))
             }
         }
     }

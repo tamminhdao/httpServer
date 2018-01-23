@@ -1,6 +1,6 @@
 import Foundation
 import Requests
-import Values
+import Data
 
 public protocol HttpAction {
     func execute(request: HttpRequest)
