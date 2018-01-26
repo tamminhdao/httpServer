@@ -1,15 +1,4 @@
-<<<<<<< HEAD
-import Foundation
-import Server
-import Requests
-import Responses
-import Router
-import Route
-import Data
-import Actions
-=======
 import HttpServer
->>>>>>> rearrange Targets
 
 let data = DataStorage()
 let httpParser = RequestParser()
