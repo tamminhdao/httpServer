@@ -1,7 +1,3 @@
-//import Foundation
-//import Requests
-//import Values
-
 public class NullAction: HttpAction {
 
     public init() {}

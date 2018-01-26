@@ -1,5 +1,3 @@
-import Foundation
-
 public enum RequestParserError: Error {
     case InvalidStatusLine(String)
     case EmptyRequest

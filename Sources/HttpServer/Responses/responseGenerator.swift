@@ -1,8 +1,3 @@
-//import Foundation
-//import Requests
-//import Route
-//import Values
-
 public class ResponseGenerator {
     private var errorMessage: String = "<p> URL does not exist </p>"
     private var getRequestMessage: String = "<p> Get Request has a body! </p>"

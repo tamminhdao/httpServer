@@ -1,5 +1,3 @@
-import Foundation
-
 public enum HttpMethod: String {
     case get = "GET"
     case head = "HEAD"

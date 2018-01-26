@@ -1,5 +1,3 @@
-import Foundation
-
 public class HttpResponse {
     var version: String
     var statusCode: Int

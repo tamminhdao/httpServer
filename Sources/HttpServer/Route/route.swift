@@ -1,7 +1,3 @@
-//import Foundation
-//import Requests
-//import Actions
-
 public class Route {
     public var url: String
     public var method: HttpMethod

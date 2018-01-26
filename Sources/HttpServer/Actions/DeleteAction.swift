@@ -1,7 +1,3 @@
-//import Foundation
-//import Requests
-//import Values
-
 public class DeleteAction: HttpAction {
     public var dataStorage: DataStorage
 

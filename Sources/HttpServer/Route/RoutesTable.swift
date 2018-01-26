@@ -1,5 +1,3 @@
-import Foundation
-
 public class RoutesTable {
     private var routes: [Route]
 

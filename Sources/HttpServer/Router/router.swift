@@ -1,9 +1,3 @@
-//import Foundation
-//import Requests
-//import Responses
-//import Route
-//import Actions
-
 public class Router {
     private var routesTable: RoutesTable
     private var responseGenerator: ResponseGenerator
