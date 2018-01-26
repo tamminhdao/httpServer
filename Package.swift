@@ -19,43 +19,8 @@ let package = Package(
                 name: "CobSpec",
                 dependencies: ["HttpServer"]),
         .target(
-<<<<<<< HEAD
-                name: "Server",
-                dependencies: ["Socket", "Router"]),
-        .target(
-                name: "Router",
-                dependencies: ["Requests", "Responses", "Actions", "Route"]),
-        .target(
-                name: "Route",
-                dependencies: ["Actions"]),
-        .target(
-                name: "Actions",
-                dependencies: ["Requests", "Data"]),
-        .target(
-                name: "Responses",
-                dependencies: ["Requests", "Route"]),
-        .target(
-                name: "Requests",
-                dependencies: []),
-        .target(
-                name: "Data",
-                dependencies: []),
-        .testTarget(
-                name: "ActionsSpec",
-                dependencies: ["Actions", "Quick", "Nimble"]),
-        .testTarget(
-                name: "RequestsSpec",
-                dependencies: ["Requests", "Quick", "Nimble"]),
-        .testTarget(
-                name: "ResponsesSpec",
-                dependencies: ["Responses", "Quick", "Nimble"]),
-        .testTarget(
-                name: "RouterSpec",
-                dependencies: ["Router", "Quick", "Nimble"]),
-=======
                 name: "HttpServer",
                 dependencies: ["Socket"]),
->>>>>>> rearrange Targets
         .testTarget(
                 name: "HttpServerSpec",
                 dependencies: ["HttpServer", "Quick", "Nimble"])

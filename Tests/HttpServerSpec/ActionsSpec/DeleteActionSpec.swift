@@ -2,9 +2,6 @@ import Foundation
 import Quick
 import Nimble
 import HttpServer
-//import Actions
-//import Values
-//import Requests
 
 class DeleteActionSpec: QuickSpec {
     override func spec() {
