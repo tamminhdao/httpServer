@@ -9,15 +9,25 @@ public class DisplayDirectoryAction: HttpAction {
         self.dataStorage = dataStorage
     }
 
-    // add directory content to dataStorage.directory
     public func execute(request: HttpRequest) {
         do {
             let content = try directoryNavigator.contentsOfDirectory(atPath: "/Users/tamdao/Swift/httpServer/cob_spec/public")
-            let contentString = content.joined(separator: "\n")
-            dataStorage.addToDirectory(content: contentString)
+            let htmlContent = convertToHTML(content: content)
+            dataStorage.addToDirectory(content: htmlContent)
         } catch let error {
             print(error.localizedDescription)
         }
     }
 
+    private func convertToHTML(content: [String]) -> String {
+        var htmlBody = "<!DOCTYPE html><html><head><title>Directory Listing</title></head><body><ul>"
+        let path = "/Users/tamdao/Swift/httpServer/cob_spec/public/"
+        for item in content {
+            htmlBody += "<li><a href=" + "\(path)/\(item)> \(item) </a></li>"
+        }
+
+        htmlBody += "</ul></body></html>"
+
+        return htmlBody
+    }
 }
