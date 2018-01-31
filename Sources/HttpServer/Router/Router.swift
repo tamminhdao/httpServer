@@ -21,7 +21,10 @@ public class Router {
 
         if let validRoute = route {
             perform_action(request: request, route: validRoute)
-            if redirect(route: validRoute) {
+            if directoryRoot(route: validRoute) {
+                return responseGenerator.generateDirectory()
+            }
+            else if redirect(route: validRoute) {
                 return responseGenerator.generate302Response()
             } else {
                 return responseGenerator.generate200Response(method: requestMethod, url: requestUrl)
@@ -34,6 +37,10 @@ public class Router {
 
         return responseGenerator.generate404Response()
 
+    }
+
+    private func directoryRoot(route: Route) -> Bool {
+        return route.url == "/"
     }
 
     private func redirect(route: Route) -> Bool {

@@ -3,9 +3,11 @@ import Foundation
 public class DataStorage {
 
     public var myVals: [String: String]
+    public var directory: String
 
     public init() {
         self.myVals = [:]
+        self.directory = ""
     }
 
     public func addValues(key: String, value: String) {
@@ -18,5 +20,13 @@ public class DataStorage {
             print("\(item.key)=\(item.value)")
         }
         return myVals
+    }
+
+    public func addToDirectory(content: String) {
+        directory += content
+    }
+
+    public func returnDirectory() -> String {
+        return self.directory
     }
 }
