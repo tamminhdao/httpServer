@@ -11,7 +11,7 @@ public class DisplayDirectoryAction: HttpAction {
 
     public func execute(request: HttpRequest) {
         do {
-            let content = try directoryNavigator.contentsOfDirectory(atPath: "/Users/tamdao/Swift/httpServer/cob_spec/public")
+            let content = try directoryNavigator.contentsOfDirectory(atPath:directoryNavigator.currentPath() + "/cob_spec/public")
             let htmlContent = convertToHTML(content: content)
             dataStorage.addToDirectory(content: htmlContent)
         } catch let error {
@@ -22,6 +22,7 @@ public class DisplayDirectoryAction: HttpAction {
     private func convertToHTML(content: [String]) -> String {
         var htmlBody = "<!DOCTYPE html><html><head><title>Directory Listing</title></head><body><ul>"
         let path = directoryNavigator.currentPath() + "/cob_spec/public"
+        print(path)
         for item in content {
             htmlBody += "<li><a href=" + "\(path)/\(item)> \(item) </a></li>"
         }
