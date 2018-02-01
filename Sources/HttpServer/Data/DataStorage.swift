@@ -23,10 +23,11 @@ public class DataStorage {
     }
 
     public func addToDirectory(content: String) {
+        directory = ""
         directory += content
     }
 
     public func returnDirectory() -> String {
-        return self.directory
+        return directory
     }
 }

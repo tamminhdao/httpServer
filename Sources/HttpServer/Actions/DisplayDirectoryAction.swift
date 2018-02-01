@@ -21,10 +21,8 @@ public class DisplayDirectoryAction: HttpAction {
 
     private func convertToHTML(content: [String]) -> String {
         var htmlBody = "<!DOCTYPE html><html><head><title>Directory Listing</title></head><body><ul>"
-        let path = directoryNavigator.currentPath() + "/cob_spec/public"
-        print(path)
         for item in content {
-            htmlBody += "<li><a href=" + "\(path)/\(item)> \(item) </a></li>"
+            htmlBody += "<li><a href=" + "\(item)> \(item) </a></li>"
         }
 
         htmlBody += "</ul></body></html>"
