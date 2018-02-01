@@ -73,7 +73,7 @@ public class ResponseGenerator {
         return HttpResponse(version: "HTTP/1.1",
                 statusCode: 302,
                 statusPhrase: "Found",
-                headers: ["Location": dataStorage.myVals["location"]!],
+                headers: ["Content-Length":"0", "Location": dataStorage.myVals["location"]!],
                 body: "")
     }
 
@@ -81,7 +81,7 @@ public class ResponseGenerator {
         return HttpResponse(version: "HTTP/1.1",
                             statusCode: 200,
                             statusPhrase: "OK",
-                            headers: ["Content-Type":"text/html"],
+                            headers: ["Content-Length":String(dataStorage.returnDirectory().count), "Content-Type":"text/html"],
                             body: dataStorage.returnDirectory())
     }
 }
