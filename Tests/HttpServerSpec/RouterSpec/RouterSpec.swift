@@ -27,7 +27,7 @@ class RouterSpec: QuickSpec {
 
                 let validRequest = HttpRequest(
                         method: HttpMethod.get,
-                        url: "/",
+                        url: "/method_options2",
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]
@@ -103,7 +103,7 @@ class RouterSpec: QuickSpec {
                         version: "HTTP/1.1",
                         statusCode: 302,
                         statusPhrase: "Found",
-                        headers: ["Location": "/"],
+                        headers: ["Content-Length": "0", "Location": "/"],
                         body: ""
                 )
 
