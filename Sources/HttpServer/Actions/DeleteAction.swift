@@ -1,10 +1,15 @@
 public class DeleteAction: HttpAction {
-    public var dataStorage: DataStorage
-    private var responseGenerator: ResponseGenerator
 
-    public init(dataStorage: DataStorage, responseGenerator: ResponseGenerator) {
+    private var directoryNavigator: DirectoryNavigator
+    private var responseGenerator: ResponseGenerator
+    public var dataStorage: DataStorage
+    private var routesTable: RoutesTable
+
+    public init(directoryNavigator: DirectoryNavigator, dataStorage: DataStorage, routesTable: RoutesTable) {
+        self.routesTable = routesTable
+        self.directoryNavigator = directoryNavigator
         self.dataStorage = dataStorage
-        self.responseGenerator = responseGenerator
+        self.responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
     }
 
     public func execute(request: HttpRequest) -> HttpResponse {
