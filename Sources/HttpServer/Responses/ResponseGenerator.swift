@@ -53,6 +53,15 @@ public class ResponseGenerator {
         return allMethods
     }
 
+
+    public func generate400Response() -> HttpResponse {
+        return HttpResponse(version: "HTTP/1.1",
+                statusCode: 400,
+                statusPhrase: "Bad Request",
+                headers: ["Content-Length": "0", "Content-Type":"text/html"],
+                body: "")
+    }
+
     public func generate404Response() -> HttpResponse {
         return HttpResponse(version: "HTTP/1.1",
                             statusCode: 404,

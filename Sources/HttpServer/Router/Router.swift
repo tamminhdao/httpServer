@@ -8,46 +8,30 @@ public class Router {
     }
 
     public func route(request: HttpRequest) -> HttpResponse {
-        if let validMethod = request.returnMethod() {
-            let requestUrl = request.returnUrl()
-            return checkRoutes(request: request, requestMethod: validMethod, requestUrl: requestUrl)
-        } else {
+        let requestUrl = request.returnUrl()
+        let requestMethod = request.returnMethod()
+
+        if requestMethod == HttpMethod.other { return responseGenerator.generate400Response() }
+
+        if methodNotAllowed(requestUrl: requestUrl, requestMethod: requestMethod) {
             return responseGenerator.generate405Response()
         }
+
+        return checkRoutes(request: request, requestMethod: request.returnMethod(), requestUrl: requestUrl)
     }
 
     private func checkRoutes(request: HttpRequest, requestMethod: HttpMethod, requestUrl: String) -> HttpResponse {
         let route = routeExists(requestUrl: requestUrl, requestMethod: requestMethod)
 
         if let validRoute = route {
-            perform_action(request: request, route: validRoute)
-            if directoryRoot(route: validRoute) {
-                return responseGenerator.generateDirectory()
-            }
-            else if redirect(route: validRoute) {
-                return responseGenerator.generate302Response()
-            } else {
-                return responseGenerator.generate200Response(method: requestMethod, url: requestUrl)
-            }
+            return validRoute.action.execute(request: request)
+        } else {
+            return responseGenerator.generate404Response()
         }
 
-        if methodDoesNotExists(requestUrl: requestUrl, requestMethod: requestMethod) {
-            return responseGenerator.generate405Response()
-        }
-
-        return responseGenerator.generate404Response()
-
     }
 
-    private func directoryRoot(route: Route) -> Bool {
-        return route.url == "/"
-    }
-
-    private func redirect(route: Route) -> Bool {
-        return type(of: route.action) == RedirectAction.self
-    }
-
-    private func methodDoesNotExists(requestUrl: String, requestMethod: HttpMethod) -> Bool {
+    private func methodNotAllowed(requestUrl: String, requestMethod: HttpMethod) -> Bool {
         for route in self.routesTable.showAllRoutes() {
             if route.url == requestUrl && route.method != requestMethod {
                 return true
@@ -63,9 +47,5 @@ public class Router {
             }
         }
         return nil
-    }
-
-    private func perform_action(request: HttpRequest, route: Route) {
-        route.action.execute(request: request)
     }
 }

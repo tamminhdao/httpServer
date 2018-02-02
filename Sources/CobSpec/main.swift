@@ -34,6 +34,6 @@ routesTable.addRoute(route: Route(url: "/method_options", method: HttpMethod.put
 routesTable.addRoute(route: Route(url: "/method_options", method: HttpMethod.options, action: nullAction))
 routesTable.addRoute(route: Route(url: "/method_options", method: HttpMethod.post, action: postAction))
 routesTable.addRoute(route: Route(url: "/method_options2", method: HttpMethod.get, action: nullAction))
-routesTable.addRoute(route: Route(url: "/method_options2", method: HttpMethod.options, action: nullAction))
+routesTable.addRoute(route: Route(url: "/method_options2", methods: HttpMethod.options,  action: nullAction))
 
 server.run()
