@@ -22,9 +22,14 @@ public class Router {
 
         if let validRoute = route {
             return validRoute.action.execute(request: request)
-        } else {
-            return responseGenerator.generate404Response()
         }
+
+        if methodNotAllowed(requestUrl: requestUrl, requestMethod:requestMethod) {
+            return responseGenerator.generate405Response()
+        }
+
+        return responseGenerator.generate404Response()
+
 
     }
 
