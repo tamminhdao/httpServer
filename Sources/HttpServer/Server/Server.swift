@@ -61,7 +61,7 @@ public class Server {
             return parsedRequest
         } catch let error {
             print (error.localizedDescription)
-            return HttpRequest(method: HttpMethod.get, url: "", version: "", headers: ["" : ""], body: ["": ""])
+            return HttpRequest(method: nil, url: "", version: "", headers: ["" : ""], body: ["": ""])
         }
     }
 }
