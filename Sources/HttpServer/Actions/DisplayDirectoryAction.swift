@@ -5,13 +5,11 @@ public class DisplayDirectoryAction: HttpAction {
     private var directoryNavigator: DirectoryNavigator
     private var responseGenerator: ResponseGenerator
     public var dataStorage: DataStorage
-    private var routesTable: RoutesTable
 
-    public init(directoryNavigator: DirectoryNavigator, dataStorage: DataStorage, routesTable: RoutesTable) {
-        self.routesTable = routesTable
+    public init(directoryNavigator: DirectoryNavigator, responseGenerator: ResponseGenerator, dataStorage: DataStorage) {
         self.directoryNavigator = directoryNavigator
         self.dataStorage = dataStorage
-        self.responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
+        self.responseGenerator = responseGenerator
     }
 
     public func execute(request: HttpRequest) -> HttpResponse {
@@ -20,11 +18,11 @@ public class DisplayDirectoryAction: HttpAction {
             let htmlContent = convertToHTML(content: content)
             dataStorage.addToDirectory(content: htmlContent)
 
-            return resopnseGenerator.generateDirectory()
+            return responseGenerator.generateDirectory()
 
         } catch let error {
             print(error.localizedDescription)
-            return responseGenerator.generate404response()
+            return responseGenerator.generate404Response()
         }
     }
 

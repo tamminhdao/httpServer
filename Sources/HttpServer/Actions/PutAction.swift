@@ -1,16 +1,12 @@
 public class PutAction: HttpAction {
 
 
-    private var directoryNavigator: DirectoryNavigator
     private var responseGenerator: ResponseGenerator
     public var dataStorage: DataStorage
-    private var routesTable: RoutesTable
 
-    public init(directoryNavigator: DirectoryNavigator, dataStorage: DataStorage, routesTable: RoutesTable) {
-        self.routesTable = routesTable
-        self.directoryNavigator = directoryNavigator
+    public init(responseGenerator: ResponseGenerator, dataStorage: DataStorage) {
         self.dataStorage = dataStorage
-        self.responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
+        self.responseGenerator = responseGenerator
     }
 
     public func execute(request: HttpRequest) -> HttpResponse {

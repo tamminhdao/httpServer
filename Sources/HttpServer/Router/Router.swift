@@ -8,16 +8,13 @@ public class Router {
     }
 
     public func route(request: HttpRequest) -> HttpResponse {
-        let requestUrl = request.returnUrl()
-        let requestMethod = request.returnMethod()
 
-        if requestMethod == HttpMethod.other { return responseGenerator.generate400Response() }
-
-        if methodNotAllowed(requestUrl: requestUrl, requestMethod: requestMethod) {
+        if let validMethod = request.returnMethod() {
+            let requestUrl = request.returnUrl()
+            return checkRoutes(request: request, requestMethod: validMethod, requestUrl: requestUrl)
+        } else {
             return responseGenerator.generate405Response()
         }
-
-        return checkRoutes(request: request, requestMethod: request.returnMethod(), requestUrl: requestUrl)
     }
 
     private func checkRoutes(request: HttpRequest, requestMethod: HttpMethod, requestUrl: String) -> HttpResponse {

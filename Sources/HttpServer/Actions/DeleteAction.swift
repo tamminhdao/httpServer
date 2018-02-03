@@ -1,15 +1,11 @@
 public class DeleteAction: HttpAction {
 
-    private var directoryNavigator: DirectoryNavigator
     private var responseGenerator: ResponseGenerator
     public var dataStorage: DataStorage
-    private var routesTable: RoutesTable
 
-    public init(directoryNavigator: DirectoryNavigator, dataStorage: DataStorage, routesTable: RoutesTable) {
-        self.routesTable = routesTable
-        self.directoryNavigator = directoryNavigator
+    public init(responseGenerator: ResponseGenerator, dataStorage: DataStorage) {
+        self.responseGenerator = responseGenerator
         self.dataStorage = dataStorage
-        self.responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
     }
 
     public func execute(request: HttpRequest) -> HttpResponse {
@@ -17,6 +13,6 @@ public class DeleteAction: HttpAction {
             dataStorage.myVals.removeValue(forKey: item.key)
         }
          return responseGenerator.generate200Response(
-                 method: request.returnMethod(), url: request.returnUrl())
+                 method: HttpMethod.delete, url: request.returnUrl())
     }
 }
