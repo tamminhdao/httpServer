@@ -11,7 +11,7 @@ class RouterSpec: QuickSpec {
             var dataStorage: DataStorage!
             var directoryNavigator: DirectoryNavigator!
             var nullAction: NullAction!
-            var directoryAction : DisplayDirectoryAction!
+            var displayDirectoryAction : DisplayDirectoryAction!
 
             beforeEach {
                 routesTable = RoutesTable()
@@ -20,11 +20,11 @@ class RouterSpec: QuickSpec {
                 directoryNavigator = DirectoryNavigator()
                 responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
                 router = Router(routesTable: routesTable, responseGenerator: responseGenerator)
-                nullAction = NullAction()
-                directoryAction = DisplayDirectoryAction(directoryNavigator: directoryNavigator, dataStorage: dataStorage)
-                routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: directoryAction))
+                nullAction = NullAction(responseGenerator: responseGenerator)
+                displayDirectoryAction = DisplayDirectoryAction(directoryNavigator: directoryNavigator, responseGenerator: responseGenerator, dataStorage: dataStorage)
+                routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: displayDirectoryAction))
                 routesTable.addRoute(route: Route(url: "/method_options2", method: HttpMethod.get, action: nullAction))
-                routesTable.addRoute(route: Route(url: "/redirect", method: HttpMethod.get, action: RedirectAction(redirectPath: "/", dataStorage: dataStorage)))
+                routesTable.addRoute(route: Route(url: "/redirect", method: HttpMethod.get, action: RedirectAction(redirectPath: "/", responseGenerator: responseGenerator, dataStorage: dataStorage)))
             }
 
             it ("returns a 200 OK response if the method/url combo is correct") {

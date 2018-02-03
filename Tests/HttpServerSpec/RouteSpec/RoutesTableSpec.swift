@@ -7,10 +7,14 @@ class RoutesTableSpec: QuickSpec {
         describe("#RoutesTable") {
             var routesTable: RoutesTable!
             var nullAction: NullAction!
+            var dataStorage: DataStorage!
+            var responseGenerator: ResponseGenerator!
 
             beforeEach {
                 routesTable = RoutesTable()
-                nullAction = NullAction()
+                dataStorage = DataStorage()
+                responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
+                nullAction = NullAction(responseGenerator: responseGenerator)
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: nullAction))
             }
 
