@@ -3,12 +3,10 @@ public class ResponseGenerator {
     private var getRequestMessage: String = "<p> Get Request has a body! </p>"
     private var routesTable: RoutesTable
     private var dataStorage: DataStorage
-    private var directoryNavigator: DirectoryNavigator
 
     public init(routesTable: RoutesTable, dataStorage: DataStorage) {
         self.routesTable = routesTable
         self.dataStorage = dataStorage
-        self.directoryNavigator = DirectoryNavigator()
     }
 
     public func generate200Response(method: HttpMethod, url: String) -> HttpResponse {
@@ -85,15 +83,4 @@ public class ResponseGenerator {
                 headers: ["Content-Length":"0", "Location": dataStorage.myVals["location"]!],
                 body: "")
     }
-
-    public func generateDirectory() -> HttpResponse {
-        return HttpResponse(version: "HTTP/1.1",
-                            statusCode: 200,
-                            statusPhrase: "OK",
-                            headers: ["Content-Length":String(dataStorage.returnDirectory().count), "Content-Type":"text/html"],
-                            body: dataStorage.returnDirectory())
-    }
 }
-
-
-

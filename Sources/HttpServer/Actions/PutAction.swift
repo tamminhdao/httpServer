@@ -14,8 +14,6 @@ public class PutAction: HttpAction {
         for item in requestBody {
             dataStorage.addValues(key: item.key, value: item.value)
         }
-//        dataStorage.logValues()
-
         return responseGenerator.generate200Response(method: HttpMethod.put, url: request.returnUrl())
     }
 }
