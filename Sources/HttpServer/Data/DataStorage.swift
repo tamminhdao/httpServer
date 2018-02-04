@@ -3,11 +3,14 @@ import Foundation
 public class DataStorage {
 
     public var myVals: [String: String]
-    public var directory: String
+    public var incomingRequests: [String]
+    private var location: String
+
 
     public init() {
         self.myVals = [:]
-        self.directory = ""
+        self.incomingRequests = []
+        self.location = ""
     }
 
     public func addValues(key: String, value: String) {
@@ -18,12 +21,20 @@ public class DataStorage {
         return myVals
     }
 
-    public func addToDirectory(content: String) {
-        directory = ""
-        directory += content
+    public func addToRequestList(request: String) {
+        self.incomingRequests.append(request)
     }
 
-    public func returnDirectory() -> String {
-        return directory
+    public func logRequests() -> [String] {
+//        print(self.incomingRequests)
+        return self.incomingRequests
+    }
+
+    public func setLocation(location: String) {
+        self.location = location
+    }
+
+    public func getLocation() -> String {
+        return self.location
     }
 }
