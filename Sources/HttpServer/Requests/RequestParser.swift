@@ -38,7 +38,6 @@ public class RequestParser {
             return parsedRequest
     }
 
-
     private func getLines(request: String) -> [String] {
         return request.components(separatedBy: CharacterSet(charactersIn: "\r\n"))
     }
