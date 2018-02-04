@@ -37,7 +37,7 @@ public class ResponseGenerator {
     private func obtainDataFromStorage() -> String {
         var result = ""
         for item in dataStorage.myVals {
-            result = result + "\(item.key)=\(item.value)"
+            result = result + "\(item.key)=\(item.value)" + "\n"
         }
 
         for item in dataStorage.incomingRequests {
