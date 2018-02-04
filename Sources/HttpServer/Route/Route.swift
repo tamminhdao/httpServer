@@ -40,3 +40,15 @@ public class Route {
         }
     }
 }
+
+extension Route: Equatable {
+    public static func == (lhs: Route, rhs: Route) -> Bool {
+        return
+            lhs.url == rhs.url &&
+            lhs.method == rhs.method &&
+            type(of: rhs.action) == type(of: lhs.action) &&
+            lhs.realm == rhs.realm &&
+            lhs.credentials == rhs.credentials
+
+    }
+}
