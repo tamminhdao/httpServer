@@ -39,6 +39,11 @@ public class ResponseGenerator {
         for item in dataStorage.myVals {
             result = result + "\(item.key)=\(item.value)"
         }
+
+        for item in dataStorage.incomingRequests {
+            result += item + "\n"
+        }
+
         return result
     }
 

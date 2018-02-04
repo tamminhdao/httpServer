@@ -7,10 +7,13 @@ public class Server {
     var listeningSocket: Socket!
     var parser: RequestParser
     var router: Router
+    var dataStorage: DataStorage
+    let serialQueue = DispatchQueue(label: "log queue", qos: .background)
 
-    public init(parser: RequestParser, router: Router) {
+    public init(parser: RequestParser, router: Router, dataStorage: DataStorage) {
         self.parser = parser
         self.router = router
+        self.dataStorage = dataStorage
     }
 
     public func run() {
@@ -58,10 +61,22 @@ public class Server {
             let incomingText = String(data: readData, encoding: .utf8)
             let parsedRequest = try self.parser.parse(request: incomingText!)
             readData.count = 0
+
+            serialQueue.async {
+                self.logRequest(parsedRequest: parsedRequest)
+            }
+
             return parsedRequest
         } catch let error {
             print (error.localizedDescription)
             return HttpRequest(method: nil, url: "", version: "", headers: ["" : ""], body: ["": ""])
+        }
+    }
+
+    private func logRequest(parsedRequest: HttpRequest) {
+        if let validMethod = parsedRequest.returnMethod() {
+            let statusLine = validMethod.rawValue + " " + parsedRequest.returnUrl() + " " + parsedRequest.returnVersion()
+            dataStorage.addToRequestList(request: statusLine)
         }
     }
 }
