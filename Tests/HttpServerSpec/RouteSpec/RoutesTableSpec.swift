@@ -16,6 +16,7 @@ class RoutesTableSpec: QuickSpec {
                 responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
                 nullAction = NullAction(responseGenerator: responseGenerator)
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: nullAction))
+                routesTable.addRoute(route: Route(url: "/table", method: HttpMethod.get, action: nullAction))
             }
 
             it ("can add a new route to the collection") {
@@ -23,6 +24,16 @@ class RoutesTableSpec: QuickSpec {
                 expect(allRoutes[0].url).to(equal("/"))
                 expect(allRoutes[0].method).to(equal(HttpMethod.get))
                 expect(allRoutes[0].action).to(be(nullAction))
+            }
+
+            it ("can return all existing routes in the table") {
+                let allRoutes = routesTable.showAllRoutes()
+                let expectedTable : [Route] = [
+                    Route(url: "/", method: HttpMethod.get, action: nullAction),
+                    Route(url: "/table", method: HttpMethod.get, action: nullAction)
+                ]
+                expect(allRoutes[0]).to(equal(expectedTable[0]))
+                expect(allRoutes[1]).to(equal(expectedTable[1]))
             }
 
             it ("can support the OPTIONS request by identifying all allowed methods on an url") {
