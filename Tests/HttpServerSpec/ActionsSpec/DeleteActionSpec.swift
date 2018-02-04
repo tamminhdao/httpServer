@@ -28,7 +28,7 @@ class DeleteActionSpec: QuickSpec {
             }
 
             it ("deletes all data in the data storage") {
-                action.execute(request: request)
+                let _ = action.execute(request: request)
                 let allValues = dataStorage.logValues()
                 let expectedValues : [String: String] = [:]
                 expect(allValues).to(equal(expectedValues))
