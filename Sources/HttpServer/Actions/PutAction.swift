@@ -1,6 +1,5 @@
 public class PutAction: HttpAction {
 
-
     private var responseGenerator: ResponseGenerator
     public var dataStorage: DataStorage
 

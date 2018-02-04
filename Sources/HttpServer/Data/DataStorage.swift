@@ -26,7 +26,6 @@ public class DataStorage {
     }
 
     public func logRequests() -> [String] {
-//        print(self.incomingRequests)
         return self.incomingRequests
     }
 
