@@ -33,8 +33,6 @@ public class Router {
         }
 
         return responseGenerator.generate404Response()
-
-
     }
 
     private func methodNotAllowed(requestUrl: String, requestMethod: HttpMethod) -> Bool {
