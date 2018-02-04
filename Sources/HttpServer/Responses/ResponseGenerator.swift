@@ -60,6 +60,14 @@ public class ResponseGenerator {
                 body: "")
     }
 
+    public func generate401Response(realm: String) -> HttpResponse {
+        return HttpResponse(version: "HTTP/1.1",
+                statusCode: 401,
+                statusPhrase: "Unauthorized",
+                headers: ["WWW-Authenticate": "Basic realm=\(realm)", "Content-Type":"text/html"],
+                body: "")
+    }
+
     public func generate404Response() -> HttpResponse {
         return HttpResponse(version: "HTTP/1.1",
                             statusCode: 404,

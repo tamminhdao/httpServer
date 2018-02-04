@@ -24,4 +24,19 @@ public class Route {
     public func getCredentials() -> String {
         return self.credentials
     }
+
+    public func authorizeSucceeded(requestHeaders: [String: String]) -> Bool {
+        if !needsAuthorization() {
+            return true
+        } else {
+            var status = false
+            let credential = getCredentials()
+            for line in requestHeaders {
+                if line.key == "Authorization" {
+                    status = (line.value == "Basic " + credential)
+                }
+            }
+            return status
+        }
+    }
 }

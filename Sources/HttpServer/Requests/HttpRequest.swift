@@ -29,6 +29,10 @@ public class HttpRequest {
     public func returnBody() -> [String: String] {
         return self.body
     }
+
+    public func returnHeaders() -> [String:String] {
+        return self.headers
+    }
 }
 
 extension HttpRequest: Equatable {

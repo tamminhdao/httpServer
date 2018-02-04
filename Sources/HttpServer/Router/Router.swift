@@ -21,7 +21,11 @@ public class Router {
         let route = routeExists(requestUrl: requestUrl, requestMethod: requestMethod)
 
         if let validRoute = route {
-            return validRoute.action.execute(request: request)
+            if validRoute.authorizeSucceeded(requestHeaders: request.returnHeaders()) {
+                return validRoute.action.execute(request: request)
+            } else {
+                return responseGenerator.generate401Response(realm: validRoute.getRealm())
+            }
         }
 
         if methodNotAllowed(requestUrl: requestUrl, requestMethod:requestMethod) {
