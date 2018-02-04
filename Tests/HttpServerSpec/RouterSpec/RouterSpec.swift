@@ -10,7 +10,6 @@ class RouterSpec: QuickSpec {
             var responseGenerator: ResponseGenerator!
             var dataStorage: DataStorage!
             var nullAction: NullAction!
-//            var authorizeAction : AuthorizeAction!
 
             beforeEach {
                 routesTable = RoutesTable()
@@ -19,7 +18,6 @@ class RouterSpec: QuickSpec {
                 responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
                 router = Router(routesTable: routesTable, responseGenerator: responseGenerator)
                 nullAction = NullAction(responseGenerator: responseGenerator)
-//                authorizeAction = AuthorizeAction(responseGenerator: responseGenerator)
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: nullAction))
                 routesTable.addRoute(route: Route(url: "/method_options2", method: HttpMethod.get, action: nullAction))
                 routesTable.addRoute(route: Route(url: "/redirect", method: HttpMethod.get, action: RedirectAction(redirectPath: "/", responseGenerator: responseGenerator, dataStorage: dataStorage)))
