@@ -40,9 +40,9 @@ class RouterSpec: QuickSpec {
                         version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length": String("data=fatcat".count),
+                        headers: ["Content-Length": String(("data=fatcat" + "\n").count),
                                   "Content-Type": "text/html"],
-                        body: "data=fatcat"
+                        body: "data=fatcat" + "\n"
                 )
 
                 let response = router.route(request: validRequest)
@@ -127,9 +127,9 @@ class RouterSpec: QuickSpec {
                         version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length": String("data=fatcat".count),
+                        headers: ["Content-Length": String(("data=fatcat" + "\n").count),
                                   "Content-Type": "text/html"],
-                        body: "data=fatcat"
+                        body: "data=fatcat" + "\n"
                 )
 
                 let response = router.route(request: validRequest)
