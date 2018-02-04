@@ -2,7 +2,7 @@ import Quick
 import Nimble
 import HttpServer
 
-class RequestParseSpec: QuickSpec {
+class RequestParserSpec: QuickSpec {
     override func spec() {
         describe("#RequestParser") {
             var httpParser: RequestParser!

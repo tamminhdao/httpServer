@@ -2,7 +2,7 @@ import Quick
 import Nimble
 import HttpServer
 
-class PostActionsSpec: QuickSpec {
+class PostActionSpec: QuickSpec {
     override func spec() {
         describe("#PostAction") {
             var action: PostAction!
@@ -34,10 +34,8 @@ class PostActionsSpec: QuickSpec {
                                       "Content-Type": "text/html"],
                             body: ""
                     )
-
                     expect(response).to(equal(expected))
                 }
-
 
                 it("adds the content in the post request to dataStorage") {
                     let _ = action.execute(request: request)

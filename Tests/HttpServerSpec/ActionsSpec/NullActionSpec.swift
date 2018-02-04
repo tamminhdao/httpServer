@@ -1,11 +1,11 @@
+import HttpServer
 import Quick
 import Nimble
-import HttpServer
 
-class PutActionSpec: QuickSpec {
+class NullActionSpec: QuickSpec {
     override func spec() {
-        describe("#PutAction") {
-            var action: PutAction!
+        describe("#NullAction") {
+            var action: NullAction!
             var dataStorage: DataStorage!
             var request: HttpRequest!
             var routesTable: RoutesTable!
@@ -15,16 +15,16 @@ class PutActionSpec: QuickSpec {
                 dataStorage = DataStorage()
                 routesTable = RoutesTable()
                 responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
-                action = PutAction(responseGenerator: responseGenerator, dataStorage: dataStorage)
+                action = NullAction(responseGenerator: responseGenerator)
                 request = HttpRequest(
-                        method: HttpMethod.put,
-                        url: "/form",
+                        method: HttpMethod.get,
+                        url: "/",
                         version: "HTTP/1.1",
                         headers: [:],
-                        body: ["Content": "Text", "My": "Value"]
+                        body: [:]
                 )
 
-                it("generates a 200 response to an appropriate put request") {
+                it ("generates a 200 response to an appropriate request") {
                     let response = action.execute(request: request)
                     let expected = HttpResponse(
                             version: "HTTP/1.1",
@@ -35,13 +35,6 @@ class PutActionSpec: QuickSpec {
                             body: ""
                     )
                     expect(response).to(equal(expected))
-                }
-
-                it("adds the content in the put request to dataStorage") {
-                    let _ = action.execute(request: request)
-                    let allValues = dataStorage.logValues()
-                    let expectedValues = ["Content": "Text", "My": "Value"]
-                    expect(allValues).to(equal(expectedValues))
                 }
             }
         }

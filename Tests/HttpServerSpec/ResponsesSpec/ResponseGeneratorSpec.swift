@@ -2,7 +2,7 @@ import Quick
 import Nimble
 import HttpServer
 
-class responseGeneratorSpec: QuickSpec {
+class ResponseGeneratorSpec: QuickSpec {
     override func spec() {
         describe("#ResponseGenerator") {
             var responseGenerator: ResponseGenerator!
