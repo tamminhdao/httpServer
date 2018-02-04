@@ -80,7 +80,7 @@ public class ResponseGenerator {
         return HttpResponse(version: "HTTP/1.1",
                 statusCode: 302,
                 statusPhrase: "Found",
-                headers: ["Content-Length":"0", "Location": dataStorage.myVals["location"]!],
+                headers: ["Content-Length":"0", "Location": dataStorage.getLocation()],
                 body: "")
     }
 }

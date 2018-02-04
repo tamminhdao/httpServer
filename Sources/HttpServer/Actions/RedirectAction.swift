@@ -11,7 +11,7 @@ public class RedirectAction: HttpAction {
     }
 
     public func execute(request: HttpRequest) -> HttpResponse {
-        dataStorage.addValues(key: "location", value: redirectPath)
+        dataStorage.setLocation(location: redirectPath)
 
         return responseGenerator.generate302Response()
     }
