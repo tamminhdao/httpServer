@@ -23,19 +23,19 @@ class NullActionSpec: QuickSpec {
                         headers: [:],
                         body: [:]
                 )
+            }
 
-                it ("generates a 200 response to an appropriate request") {
-                    let response = action.execute(request: request)
-                    let expected = HttpResponse(
-                            version: "HTTP/1.1",
-                            statusCode: 200,
-                            statusPhrase: "OK",
-                            headers: ["Content-Length": "0",
-                                      "Content-Type": "text/html"],
-                            body: ""
-                    )
-                    expect(response).to(equal(expected))
-                }
+            it ("generates a 200 response to an appropriate request") {
+                let response = action.execute(request: request)
+                let expected = HttpResponse(
+                        version: "HTTP/1.1",
+                        statusCode: 200,
+                        statusPhrase: "OK",
+                        headers: ["Content-Length": "0",
+                                  "Content-Type": "text/html"],
+                        body: ""
+                )
+                expect(response).to(equal(expected))
             }
         }
     }
