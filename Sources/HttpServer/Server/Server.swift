@@ -8,7 +8,7 @@ public class Server {
     var parser: RequestParser
     var router: Router
     var dataStorage: DataStorage
-    let serialQueue = DispatchQueue(label: "log queue", qos: .background)
+    let serialQueue = DispatchQueue(label: "logging incoming requests", qos: .background)
 
     public init(parser: RequestParser, router: Router, dataStorage: DataStorage) {
         self.parser = parser
