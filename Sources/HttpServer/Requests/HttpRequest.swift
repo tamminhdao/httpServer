@@ -33,6 +33,10 @@ public class HttpRequest {
     public func returnHeaders() -> [String:String] {
         return self.headers
     }
+
+    public func returnVersion() -> String {
+        return self.version
+    }
 }
 
 extension HttpRequest: Equatable {
