@@ -3,6 +3,7 @@ import HttpServer
 let dataStorage = DataStorage()
 let httpParser = RequestParser()
 let routesTable = RoutesTable()
+let directoryNavigator = DirectoryNavigator()
 let responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
 let router = Router(routesTable: routesTable, responseGenerator: responseGenerator)
 let server = Server(parser: httpParser, router: router, dataStorage: dataStorage)
@@ -11,8 +12,9 @@ let putAction = PutAction(responseGenerator: responseGenerator, dataStorage: dat
 let postAction = PostAction(responseGenerator: responseGenerator, dataStorage: dataStorage)
 let deleteAction = DeleteAction(responseGenerator: responseGenerator, dataStorage: dataStorage)
 let logRequestAction = LogRequestsAction(responseGenerator: responseGenerator)
+let directoryListingAction = DirectoryListingAction(directoryNavigator: directoryNavigator, responseGenerator: responseGenerator)
 
-routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: nullAction))
+routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: directoryListingAction))
 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.head, action: nullAction))
 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.put, action: putAction))
 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.post, action: postAction))

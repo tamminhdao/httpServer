@@ -10,15 +10,20 @@ class RouterSpec: QuickSpec {
             var responseGenerator: ResponseGenerator!
             var dataStorage: DataStorage!
             var nullAction: NullAction!
+            var directoryNavigator: DirectoryNavigator!
+            var directoryListingAction: DirectoryListingAction!
 
             beforeEach {
                 routesTable = RoutesTable()
                 dataStorage = DataStorage()
+                directoryNavigator = DirectoryNavigator()
                 dataStorage.addValues(key: "data", value: "fatcat")
                 responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
                 router = Router(routesTable: routesTable, responseGenerator: responseGenerator)
                 nullAction = NullAction(responseGenerator: responseGenerator)
+                directoryListingAction = DirectoryListingAction(directoryNavigator: directoryNavigator, responseGenerator: responseGenerator)
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: nullAction))
+                routesTable.addRoute(route: Route(url: "/directory", method: HttpMethod.get, action: directoryListingAction))
                 routesTable.addRoute(route: Route(url: "/method_options2", method: HttpMethod.get, action: nullAction))
                 routesTable.addRoute(route: Route(url: "/redirect", method: HttpMethod.get, action: RedirectAction(redirectPath: "/", responseGenerator: responseGenerator, dataStorage: dataStorage)))
                 routesTable.addRoute(route: Route(url: "/logs", method: HttpMethod.get, action: nullAction, realm: "basic-auth", credentials: "YWRtaW46aHVudGVyMg=="))
@@ -153,6 +158,67 @@ class RouterSpec: QuickSpec {
 
                 let response = router.route(request: validRequest)
                 expect(response).to(equal(unauthorizedResponse))
+            }
+
+            it ("lists a directory with links to each file") {
+
+                let validRequest = HttpRequest(
+                        method: HttpMethod.get,
+                        url: "/directory",
+                        version: "HTTP/1.1",
+                        headers: [:],
+                        body: [:]
+                )
+
+                let folderContent =
+                        """
+                         <!DOCTYPE html>
+                             <html>
+                                 <head>
+                                     <title>Directory Listing</title>
+                                 </head>
+                                 <body>
+                                     <ul>
+                                         <li>
+                                             <a href=file1> file1 </a>
+                                         </li>
+                                         <li>
+                                             <a href=file2> file2 </a>
+                                         </li>
+                                         <li>
+                                             <a href=image.gif> image.gif </a>
+                                         </li>
+                                         <li>
+                                             <a href=image.jpeg> image.jpeg </a>
+                                         </li>
+                                         <li>
+                                             <a href=image.png> image.png </a>
+                                         </li>
+                                         <li>
+                                             <a href=partial_content.txt> partial_content.txt </a>
+                                         </li>
+                                         <li>
+                                             <a href=patch-content.txt> patch-content.txt </a>
+                                         </li>
+                                         <li>
+                                             <a href=text-file.txt> text-file.txt </a>
+                                         </li>
+                                     </ul>
+                                 </body>
+                             </html>
+                         """
+
+                let responseOK = HttpResponse(
+                        version: "HTTP/1.1",
+                        statusCode: 200,
+                        statusPhrase: "OK",
+                        headers: ["Content-Length":"461",
+                                  "Content-Type":"text/html"],
+                        body: folderContent
+                )
+
+                let response = router.route(request: validRequest)
+                expect(response).to(equal(responseOK))
             }
         }
     }
