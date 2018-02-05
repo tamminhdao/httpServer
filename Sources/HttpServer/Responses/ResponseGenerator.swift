@@ -2,7 +2,6 @@ import Foundation
 
 public class ResponseGenerator {
     private var errorMessage: String = "<p> URL does not exist </p>"
-    private var getRequestMessage: String = "<p> Get Request has a body! </p>"
     private var routesTable: RoutesTable
     private var dataStorage: DataStorage
 
@@ -121,8 +120,7 @@ public class ResponseGenerator {
         return HttpResponse(version: "HTTP/1.1",
                 statusCode: 200,
                 statusPhrase: "OK",
-                headers: ["Content-Length":String(body!.count), "Content-Type":"text/html"],
+                headers: ["Content-Length":String(body!.count)],
                 body: String(data: body!, encoding: .utf8)!)
     }
-
 }
