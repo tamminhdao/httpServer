@@ -29,9 +29,8 @@ routesTable.addRoute(route: Route(url: "/redirect", method: HttpMethod.get, acti
 
 routesTable.addRoute(route: Route(url: "/file1", method: HttpMethod.get, action: fetchFileAction))
 routesTable.addRoute(route: Route(url: "/file2", method: HttpMethod.get, action: fetchFileAction))
-routesTable.addRoute(route: Route(url: "/image.gif", method: HttpMethod.get, action: fetchFileAction))
-routesTable.addRoute(route: Route(url: "/image.jpeg", method: HttpMethod.get, action: fetchFileAction))
-routesTable.addRoute(route: Route(url: "/image.png", method: HttpMethod.get, action: fetchFileAction))
+routesTable.addRoute(route: Route(url: "/partial_content.txt", method: HttpMethod.get, action: fetchFileAction))
+routesTable.addRoute(route: Route(url: "/patch-content.txt", method: HttpMethod.get, action: fetchFileAction))
 routesTable.addRoute(route: Route(url: "/text-file.txt", method: HttpMethod.get, action: fetchFileAction))
 
 routesTable.addRoute(route: Route(url: "/method_options", method: HttpMethod.head, action: nullAction))
