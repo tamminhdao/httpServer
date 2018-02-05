@@ -96,4 +96,12 @@ public class ResponseGenerator {
                 headers: ["Content-Length":"0", "Location": dataStorage.getLocation()],
                 body: "")
     }
+
+    public func generateDirectory(body: String) -> HttpResponse {
+        return HttpResponse(version: "HTTP/1.1",
+                statusCode: 200,
+                statusPhrase: "OK",
+                headers: ["Content-Length":String(body.count), "Content-Type":"text/html"],
+                body: body)
+    }
 }
