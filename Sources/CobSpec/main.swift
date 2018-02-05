@@ -13,6 +13,7 @@ let postAction = PostAction(responseGenerator: responseGenerator, dataStorage: d
 let deleteAction = DeleteAction(responseGenerator: responseGenerator, dataStorage: dataStorage)
 let logRequestAction = LogRequestsAction(responseGenerator: responseGenerator)
 let directoryListingAction = DirectoryListingAction(directoryNavigator: directoryNavigator, responseGenerator: responseGenerator)
+let fetchFileAction = FetchFileAction(directoryNavigator: directoryNavigator, responseGenerator: responseGenerator)
 
 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: directoryListingAction))
 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.head, action: nullAction))
@@ -26,8 +27,12 @@ routesTable.addRoute(route: Route(url: "/form", method: HttpMethod.delete, actio
 
 routesTable.addRoute(route: Route(url: "/redirect", method: HttpMethod.get, action: RedirectAction(redirectPath: "/", responseGenerator:responseGenerator, dataStorage: dataStorage)))
 
-routesTable.addRoute(route: Route(url: "/file1", method: HttpMethod.get, action: nullAction))
-routesTable.addRoute(route: Route(url: "/text-file.txt", method: HttpMethod.get, action: nullAction))
+routesTable.addRoute(route: Route(url: "/file1", method: HttpMethod.get, action: fetchFileAction))
+routesTable.addRoute(route: Route(url: "/file2", method: HttpMethod.get, action: fetchFileAction))
+routesTable.addRoute(route: Route(url: "/image.gif", method: HttpMethod.get, action: fetchFileAction))
+routesTable.addRoute(route: Route(url: "/image.jpeg", method: HttpMethod.get, action: fetchFileAction))
+routesTable.addRoute(route: Route(url: "/image.png", method: HttpMethod.get, action: fetchFileAction))
+routesTable.addRoute(route: Route(url: "/text-file.txt", method: HttpMethod.get, action: fetchFileAction))
 
 routesTable.addRoute(route: Route(url: "/method_options", method: HttpMethod.head, action: nullAction))
 routesTable.addRoute(route: Route(url: "/method_options", method: HttpMethod.get, action: nullAction))
