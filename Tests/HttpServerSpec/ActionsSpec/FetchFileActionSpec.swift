@@ -5,11 +5,11 @@ import Nimble
 class FetchFileActionSpec : QuickSpec {
     override func spec() {
         describe("#FetchFileAction") {
-            var fetchFileAction = FetchFileAction!
-            var request = HttpRequest!
-            var responseGenerator = ResponseGenerator!
-            var dataStorage = DataStorage!
-            var routesTable = RoutesTable!
+            var action: FetchFileAction!
+            var request: HttpRequest!
+            var responseGenerator: ResponseGenerator!
+            var dataStorage: DataStorage!
+            var routesTable: RoutesTable!
             var directoryNavigator: DirectoryNavigator!
 
             beforeEach {
@@ -17,7 +17,7 @@ class FetchFileActionSpec : QuickSpec {
                 routesTable = RoutesTable()
                 directoryNavigator = DirectoryNavigator()
                 responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
-                action = fetchFileAction(directoryNavigator: directoryNavigator, responseGenerator: responseGenerator)
+                action = FetchFileAction(directoryNavigator: directoryNavigator, responseGenerator: responseGenerator)
                 request = HttpRequest(
                         method: HttpMethod.get,
                         url: "/image",
@@ -29,7 +29,6 @@ class FetchFileActionSpec : QuickSpec {
 
             it ("returns the requested file in the body of the response") {
                 let response = action.execute(request: request)
-
             }
         }
     }
