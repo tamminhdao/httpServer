@@ -39,12 +39,15 @@ public class ResponseGenerator {
         for item in dataStorage.myVals {
             result = result + "\(item.key)=\(item.value)" + "\n"
         }
-
-        for item in dataStorage.incomingRequests {
-            result += item + "\n"
-        }
-
         return result
+    }
+
+    private func obtainRequestLog() -> String {
+        var log = ""
+        for item in dataStorage.incomingRequests {
+            log += item + "\n"
+        }
+        return log
     }
 
     private func options(url: String) -> String {
@@ -56,6 +59,13 @@ public class ResponseGenerator {
         return allMethods
     }
 
+    public func generateLogContent() -> HttpResponse {
+        return HttpResponse(version: "HTTP/1.1",
+                statusCode: 200,
+                statusPhrase: "OK",
+                headers: ["Content-Length":String(obtainRequestLog().count), "Content-Type":"text/html"],
+                body: obtainRequestLog())
+    }
 
     public func generate400Response() -> HttpResponse {
         return HttpResponse(version: "HTTP/1.1",

@@ -10,6 +10,7 @@ let nullAction = NullAction(responseGenerator: responseGenerator)
 let putAction = PutAction(responseGenerator: responseGenerator, dataStorage: dataStorage)
 let postAction = PostAction(responseGenerator: responseGenerator, dataStorage: dataStorage)
 let deleteAction = DeleteAction(responseGenerator: responseGenerator, dataStorage: dataStorage)
+let logRequestAction = LogRequestsAction(responseGenerator: responseGenerator)
 
 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: nullAction))
 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.head, action: nullAction))
@@ -34,6 +35,6 @@ routesTable.addRoute(route: Route(url: "/method_options", method: HttpMethod.pos
 routesTable.addRoute(route: Route(url: "/method_options2", method: HttpMethod.get, action: nullAction))
 routesTable.addRoute(route: Route(url: "/method_options2", method: HttpMethod.options,  action: nullAction))
 
-routesTable.addRoute(route: Route(url:"/logs", method: HttpMethod.get, action: nullAction, realm: "basic-auth", credentials: "YWRtaW46aHVudGVyMg=="))
+routesTable.addRoute(route: Route(url:"/logs", method: HttpMethod.get, action: logRequestAction, realm: "basic-auth", credentials: "YWRtaW46aHVudGVyMg=="))
 
 server.run()
