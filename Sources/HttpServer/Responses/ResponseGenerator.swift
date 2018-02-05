@@ -1,3 +1,5 @@
+import Foundation
+
 public class ResponseGenerator {
     private var errorMessage: String = "<p> URL does not exist </p>"
     private var getRequestMessage: String = "<p> Get Request has a body! </p>"
@@ -104,4 +106,13 @@ public class ResponseGenerator {
                 headers: ["Content-Length":String(body.count), "Content-Type":"text/html"],
                 body: body)
     }
+
+    public func generateFile(body: Data?) -> HttpResponse {
+        return HttpResponse(version: "HTTP/1.1",
+                statusCode: 200,
+                statusPhrase: "OK",
+                headers: ["Content-Length":String(body!.count), "Content-Type":"text/html"],
+                body: String(data: body!, encoding: .utf8)!)
+    }
+
 }

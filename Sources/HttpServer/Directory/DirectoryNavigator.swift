@@ -23,4 +23,21 @@ public class DirectoryNavigator {
         }
         return content
     }
+
+    public func readFileContents(filePath: String) throws -> Data? {
+        let path = "\(currentPath())/cob_spec/public/\(filePath)"
+
+        guard fileExists(atPath: path) else {
+            throw DirectoryNavigatorError.PathDoesNotExist(atPath: path)
+        }
+
+        let file : FileHandle? = FileHandle(forReadingAtPath: path)
+        let data = file?.readDataToEndOfFile()
+        file?.closeFile()
+        return data
+    }
+
+    private func fileExists(atPath: String) -> Bool {
+        return self.fileManager.fileExists(atPath: atPath)
+    }
 }
