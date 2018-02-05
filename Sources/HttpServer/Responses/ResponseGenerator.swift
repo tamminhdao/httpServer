@@ -120,7 +120,7 @@ public class ResponseGenerator {
         return HttpResponse(version: "HTTP/1.1",
                 statusCode: 200,
                 statusPhrase: "OK",
-                headers: ["Content-Length":String(body!.count)],
+                headers: ["Content-Length":String(body!.count), "Content-Type":"text/html"],
                 body: String(data: body!, encoding: .utf8)!)
     }
 }
