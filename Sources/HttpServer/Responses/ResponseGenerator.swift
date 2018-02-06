@@ -1,7 +1,6 @@
 import Foundation
 
 public class ResponseGenerator {
-    private var errorMessage: String = "<p> URL does not exist </p>"
     private var routesTable: RoutesTable
     private var dataStorage: DataStorage
 
