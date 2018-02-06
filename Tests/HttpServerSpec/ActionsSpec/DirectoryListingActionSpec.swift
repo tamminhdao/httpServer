@@ -40,28 +40,28 @@ class DirectoryListingActionSpec : QuickSpec {
                                  <body>
                                      <ul>
                                          <li>
-                                             <a href=file1> file1 </a>
+                                             <a href=/file1> file1 </a>
                                          </li>
                                          <li>
-                                             <a href=file2> file2 </a>
+                                             <a href=/file2> file2 </a>
                                          </li>
                                          <li>
-                                             <a href=image.gif> image.gif </a>
+                                             <a href=/image.gif> image.gif </a>
                                          </li>
                                          <li>
-                                             <a href=image.jpeg> image.jpeg </a>
+                                             <a href=/image.jpeg> image.jpeg </a>
                                          </li>
                                          <li>
-                                             <a href=image.png> image.png </a>
+                                             <a href=/image.png> image.png </a>
                                          </li>
                                          <li>
-                                             <a href=partial_content.txt> partial_content.txt </a>
+                                             <a href=/partial_content.txt> partial_content.txt </a>
                                          </li>
                                          <li>
-                                             <a href=patch-content.txt> patch-content.txt </a>
+                                             <a href=/patch-content.txt> patch-content.txt </a>
                                          </li>
                                          <li>
-                                             <a href=text-file.txt> text-file.txt </a>
+                                             <a href=/text-file.txt> text-file.txt </a>
                                          </li>
                                      </ul>
                                  </body>
@@ -72,7 +72,7 @@ class DirectoryListingActionSpec : QuickSpec {
                         version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length":"461",
+                        headers: ["Content-Length":"469",
                                   "Content-Type":"text/html"],
                         body: bodyContent
                 )

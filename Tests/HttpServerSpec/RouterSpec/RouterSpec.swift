@@ -65,9 +65,9 @@ class RouterSpec: QuickSpec {
                         version: "HTTP/1.1",
                         statusCode: 404,
                         statusPhrase: "Not Found",
-                        headers: ["Content-Length": String(("<p> URL does not exist </p>").count),
+                        headers: ["Content-Length": "0",
                                   "Content-Type": "text/html"],
-                        body: "<p> URL does not exist </p>"
+                        body: ""
                 )
 
                 let response = router.route(request: validRequest)
@@ -186,22 +186,22 @@ class RouterSpec: QuickSpec {
                                              <a href=file2> file2 </a>
                                          </li>
                                          <li>
-                                             <a href=image.gif> image.gif </a>
+                                             <a href=/image.gif> image.gif </a>
                                          </li>
                                          <li>
-                                             <a href=image.jpeg> image.jpeg </a>
+                                             <a href=/image.jpeg> image.jpeg </a>
                                          </li>
                                          <li>
-                                             <a href=image.png> image.png </a>
+                                             <a href=/image.png> image.png </a>
                                          </li>
                                          <li>
-                                             <a href=partial_content.txt> partial_content.txt </a>
+                                             <a href=/partial_content.txt> partial_content.txt </a>
                                          </li>
                                          <li>
-                                             <a href=patch-content.txt> patch-content.txt </a>
+                                             <a href=/patch-content.txt> patch-content.txt </a>
                                          </li>
                                          <li>
-                                             <a href=text-file.txt> text-file.txt </a>
+                                             <a href=/text-file.txt> text-file.txt </a>
                                          </li>
                                      </ul>
                                  </body>
@@ -212,7 +212,7 @@ class RouterSpec: QuickSpec {
                         version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length":"461",
+                        headers: ["Content-Length":"469",
                                   "Content-Type":"text/html"],
                         body: folderContent
                 )
