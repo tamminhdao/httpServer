@@ -61,7 +61,6 @@ public class Server {
             let incomingText = String(data: readData, encoding: .utf8)
             let parsedRequest = try self.parser.parse(request: incomingText!)
             readData.count = 0
-
             serialQueue.async {
                 self.logRequest(parsedRequest: parsedRequest)
             }
