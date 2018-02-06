@@ -2,7 +2,7 @@ import Quick
 import Nimble
 import HttpServer
 
-class responseGeneratorSpec: QuickSpec {
+class ResponseGeneratorSpec: QuickSpec {
     override func spec() {
         describe("#ResponseGenerator") {
             var responseGenerator: ResponseGenerator!
@@ -20,13 +20,12 @@ class responseGeneratorSpec: QuickSpec {
                         version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length":String(("data=fatcat").count),
+                        headers: ["Content-Length":String(("data=fatcat"  + "\n").count),
                                   "Content-Type":"text/html"],
-                        body: "data=fatcat"
+                        body: "data=fatcat" + "\n"
                 )
 
                 let response = responseGenerator.generate200Response(method: HttpMethod.get, url: "/")
-
                 expect(response).to(equal(expectedResponse))
             }
         }

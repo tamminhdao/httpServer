@@ -37,9 +37,17 @@ public class ResponseGenerator {
     private func obtainDataFromStorage() -> String {
         var result = ""
         for item in dataStorage.myVals {
-            result = result + "\(item.key)=\(item.value)"
+            result = result + "\(item.key)=\(item.value)" + "\n"
         }
         return result
+    }
+
+    private func obtainRequestLog() -> String {
+        var log = ""
+        for item in dataStorage.incomingRequests {
+            log += item + "\n"
+        }
+        return log
     }
 
     private func options(url: String) -> String {
@@ -49,6 +57,30 @@ public class ResponseGenerator {
             allMethods = allMethods + "\(method),"
         }
         return allMethods
+    }
+
+    public func generateLogContent() -> HttpResponse {
+        return HttpResponse(version: "HTTP/1.1",
+                statusCode: 200,
+                statusPhrase: "OK",
+                headers: ["Content-Length":String(obtainRequestLog().count), "Content-Type":"text/html"],
+                body: obtainRequestLog())
+    }
+
+    public func generate400Response() -> HttpResponse {
+        return HttpResponse(version: "HTTP/1.1",
+                statusCode: 400,
+                statusPhrase: "Bad Request",
+                headers: ["Content-Length": "0", "Content-Type":"text/html"],
+                body: "")
+    }
+
+    public func generate401Response(realm: String) -> HttpResponse {
+        return HttpResponse(version: "HTTP/1.1",
+                statusCode: 401,
+                statusPhrase: "Unauthorized",
+                headers: ["WWW-Authenticate": "Basic realm=\(realm)", "Content-Type":"text/html"],
+                body: "")
     }
 
     public func generate404Response() -> HttpResponse {
@@ -71,7 +103,7 @@ public class ResponseGenerator {
         return HttpResponse(version: "HTTP/1.1",
                 statusCode: 302,
                 statusPhrase: "Found",
-                headers: ["Location": dataStorage.myVals["location"]!],
+                headers: ["Content-Length":"0", "Location": dataStorage.getLocation()],
                 body: "")
     }
 }

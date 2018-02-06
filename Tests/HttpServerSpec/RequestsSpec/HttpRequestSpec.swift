@@ -27,13 +27,28 @@ class HttpRequestSpec: QuickSpec {
             }
 
             it ("can return the url of a request") {
-                let method = request.returnUrl()
-                expect(method).to(equal("/form"))
+                let url = request.returnUrl()
+                expect(url).to(equal("/form"))
             }
 
             it ("can return the body of a request") {
-                let method = request.returnBody()
-                expect(method).to(equal(["Content":"Text", "My":"Value"]))
+                let body = request.returnBody()
+                expect(body).to(equal(["Content":"Text", "My":"Value"]))
+            }
+
+            it ("can return the correct http version of a request") {
+                let version = request.returnVersion()
+                expect(version).to(equal("HTTP/1.1"))
+            }
+
+            it ("can return the headers of a request") {
+                let headers = request.returnHeaders()
+                let expected = [
+                    "Host": "localhost:5000",
+                    "User-Agent": "curl/7.54.0",
+                    "Accept": "*/*"
+                ]
+                expect(headers).to(equal(expected))
             }
         }
     }

@@ -3,9 +3,14 @@ import Foundation
 public class DataStorage {
 
     public var myVals: [String: String]
+    public var incomingRequests: [String]
+    private var location: String
+
 
     public init() {
         self.myVals = [:]
+        self.incomingRequests = []
+        self.location = ""
     }
 
     public func addValues(key: String, value: String) {
@@ -13,10 +18,22 @@ public class DataStorage {
     }
 
     public func logValues() -> [String:String] {
-        print("List all data persisted in the server:")
-        for item in self.myVals {
-            print("\(item.key)=\(item.value)")
-        }
         return myVals
+    }
+
+    public func addToRequestList(request: String) {
+        self.incomingRequests.append(request)
+    }
+
+    public func logRequests() -> [String] {
+        return self.incomingRequests
+    }
+
+    public func setLocation(location: String) {
+        self.location = location
+    }
+
+    public func getLocation() -> String {
+        return self.location
     }
 }

@@ -1,11 +1,11 @@
+import HttpServer
 import Quick
 import Nimble
-import HttpServer
 
-class PostActionSpec: QuickSpec {
+class LogRequestsActionSpec: QuickSpec {
     override func spec() {
-        describe("#PostAction") {
-            var action: PostAction!
+        describe("#LogRequestsAction") {
+            var action: LogRequestsAction!
             var dataStorage: DataStorage!
             var request: HttpRequest!
             var routesTable: RoutesTable!
@@ -13,36 +13,32 @@ class PostActionSpec: QuickSpec {
 
             beforeEach {
                 dataStorage = DataStorage()
+                dataStorage.addToRequestList(request: "GET /foobar HTTP/1.1")
                 routesTable = RoutesTable()
                 responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
-                action = PostAction(responseGenerator: responseGenerator, dataStorage: dataStorage)
+                action = LogRequestsAction(responseGenerator: responseGenerator)
                 request = HttpRequest(
-                        method: HttpMethod.post,
-                        url: "/form",
+                        method: HttpMethod.get,
+                        url: "/logs",
                         version: "HTTP/1.1",
                         headers: [:],
-                        body: ["Content": "Text", "My": "Value"]
+                        body: [:]
                 )
             }
 
-            it("generates a 200 response to an appropriate post request") {
+            it ("generates a 200 response with a log of all the requests in dataStorage") {
                 let response = action.execute(request: request)
+                let body = "GET /foobar HTTP/1.1" + "\n"
+
                 let expected = HttpResponse(
                         version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length": "0",
+                        headers: ["Content-Length": String(body.count),
                                   "Content-Type": "text/html"],
-                        body: ""
+                        body: body
                 )
                 expect(response).to(equal(expected))
-            }
-
-            it("adds the content in the post request to dataStorage") {
-                let _ = action.execute(request: request)
-                let allValues = dataStorage.logValues()
-                let expectedValues = ["Content": "Text", "My": "Value"]
-                expect(allValues).to(equal(expectedValues))
             }
         }
     }

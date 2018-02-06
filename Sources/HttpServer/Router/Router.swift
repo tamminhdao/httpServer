@@ -8,6 +8,7 @@ public class Router {
     }
 
     public func route(request: HttpRequest) -> HttpResponse {
+
         if let validMethod = request.returnMethod() {
             let requestUrl = request.returnUrl()
             return checkRoutes(request: request, requestMethod: validMethod, requestUrl: requestUrl)
@@ -20,27 +21,21 @@ public class Router {
         let route = routeExists(requestUrl: requestUrl, requestMethod: requestMethod)
 
         if let validRoute = route {
-            perform_action(request: request, route: validRoute)
-            if redirect(route: validRoute) {
-                return responseGenerator.generate302Response()
+            if validRoute.authorizeSucceeded(requestHeaders: request.returnHeaders()) {
+                return validRoute.action.execute(request: request)
             } else {
-                return responseGenerator.generate200Response(method: requestMethod, url: requestUrl)
+                return responseGenerator.generate401Response(realm: validRoute.getRealm())
             }
         }
 
-        if methodDoesNotExists(requestUrl: requestUrl, requestMethod: requestMethod) {
+        if methodNotAllowed(requestUrl: requestUrl, requestMethod:requestMethod) {
             return responseGenerator.generate405Response()
         }
 
         return responseGenerator.generate404Response()
-
     }
 
-    private func redirect(route: Route) -> Bool {
-        return type(of: route.action) == RedirectAction.self
-    }
-
-    private func methodDoesNotExists(requestUrl: String, requestMethod: HttpMethod) -> Bool {
+    private func methodNotAllowed(requestUrl: String, requestMethod: HttpMethod) -> Bool {
         for route in self.routesTable.showAllRoutes() {
             if route.url == requestUrl && route.method != requestMethod {
                 return true
@@ -56,9 +51,5 @@ public class Router {
             }
         }
         return nil
-    }
-
-    private func perform_action(request: HttpRequest, route: Route) {
-        route.action.execute(request: request)
     }
 }

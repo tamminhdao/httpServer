@@ -1,4 +1,4 @@
-public class NullAction: HttpAction {
+public class LogRequestsAction: HttpAction {
 
     private var responseGenerator: ResponseGenerator
 
@@ -7,6 +7,6 @@ public class NullAction: HttpAction {
     }
 
     public func execute(request: HttpRequest) -> HttpResponse {
-        return responseGenerator.generate200Response(method: request.returnMethod()!, url: request.returnUrl())
+        return responseGenerator.generateLogContent()
     }
 }
