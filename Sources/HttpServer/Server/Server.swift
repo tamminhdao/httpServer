@@ -4,14 +4,18 @@ import Socket
 
 public class Server {
 
+    var port: Int
+    var directory: String
     var listeningSocket: Socket!
     var parser: RequestParser
     var router: Router
     var dataStorage: DataStorage
-    let serialQueue = DispatchQueue(label: "logging incoming requests", qos: .background)
+    let serialQueue = DispatchQueue(label: "log incoming requests", qos: .background)
 
-    public init(parser: RequestParser, router: Router, dataStorage: DataStorage) {
-        self.parser = parser
+    public init(port: Int, directory: String, router: Router, dataStorage: DataStorage) {
+        self.parser = RequestParser()
+        self.port = port
+        self.directory = directory
         self.router = router
         self.dataStorage = dataStorage
     }
