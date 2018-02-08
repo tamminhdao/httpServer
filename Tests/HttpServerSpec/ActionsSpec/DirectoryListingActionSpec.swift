@@ -15,7 +15,7 @@ class DirectoryListingActionSpec : QuickSpec {
             beforeEach {
                 dataStorage = DataStorage()
                 routesTable = RoutesTable()
-                directoryNavigator = DirectoryNavigator()
+                directoryNavigator = DirectoryNavigator(directoryPath: "./cob_spec/public")
                 responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
                 action = DirectoryListingAction(directoryNavigator: directoryNavigator, responseGenerator: responseGenerator)
                 request = HttpRequest(

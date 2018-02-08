@@ -5,27 +5,25 @@ public enum DirectoryNavigatorError: Error {
 }
 public class DirectoryNavigator {
     let fileManager: FileManager
+    let directoryPath: String
 
-    public init() {
+    public init(directoryPath: String) {
         self.fileManager = FileManager.default
+        self.directoryPath = directoryPath
     }
 
-    public func currentPath() -> String {
-        return fileManager.currentDirectoryPath
-    }
-
-    public func contentsOfDirectory(atPath: String) throws -> [String] {
+    public func contentsOfDirectory() throws -> [String] {
         var content : [String] = []
         do {
-            try content = fileManager.contentsOfDirectory(atPath: atPath)
+            try content = fileManager.contentsOfDirectory(atPath: directoryPath)
         } catch {
-            throw DirectoryNavigatorError.PathDoesNotExist(atPath: atPath)
+            throw DirectoryNavigatorError.PathDoesNotExist(atPath: directoryPath)
         }
         return content
     }
 
     public func readFileContents(filePath: String) throws -> Data? {
-        let path = "\(currentPath())/cob_spec/public/\(filePath)"
+        let path = "\(directoryPath)/\(filePath)"
 
         guard fileExists(atPath: path) else {
             throw DirectoryNavigatorError.PathDoesNotExist(atPath: path)

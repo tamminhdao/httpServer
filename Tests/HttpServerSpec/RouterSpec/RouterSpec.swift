@@ -16,7 +16,7 @@ class RouterSpec: QuickSpec {
             beforeEach {
                 routesTable = RoutesTable()
                 dataStorage = DataStorage()
-                directoryNavigator = DirectoryNavigator()
+                directoryNavigator = DirectoryNavigator(directoryPath: "./cob_spec/public")
                 dataStorage.addValues(key: "data", value: "fatcat")
                 responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
                 router = Router(routesTable: routesTable, responseGenerator: responseGenerator)
@@ -160,7 +160,7 @@ class RouterSpec: QuickSpec {
                 expect(response).to(equal(unauthorizedResponse))
             }
 
-            it ("lists a directory with links to each file") {
+            it ("lists the Cobspec public directory with links to each file") {
 
                 let validRequest = HttpRequest(
                         method: HttpMethod.get,

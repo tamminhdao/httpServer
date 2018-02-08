@@ -25,7 +25,7 @@ public class Server {
 
         do {
             try self.listeningSocket = Socket.create()
-            try self.listeningSocket.listen(on: 5000)
+            try self.listeningSocket.listen(on: port)
 
             repeat {
                 let clientSocket = try self.listeningSocket.acceptClientConnection()

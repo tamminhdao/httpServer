@@ -12,10 +12,9 @@ public class DirectoryListingAction: HttpAction {
 
     public func execute(request: HttpRequest) -> HttpResponse {
         do {
-            let content = try directoryNavigator.contentsOfDirectory(atPath:directoryNavigator.currentPath() + "/cob_spec/public")
+            let content = try directoryNavigator.contentsOfDirectory()
             let htmlContent = convertToHTML(content: content)
             return responseGenerator.generateDirectory(body: htmlContent)
-
         } catch let error {
             print(error.localizedDescription)
             return responseGenerator.generate404Response()

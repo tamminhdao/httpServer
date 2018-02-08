@@ -15,7 +15,7 @@ class FetchFileActionSpec : QuickSpec {
             beforeEach {
                 dataStorage = DataStorage()
                 routesTable = RoutesTable()
-                directoryNavigator = DirectoryNavigator()
+                directoryNavigator = DirectoryNavigator(directoryPath: "./cob_spec/public")
                 responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
                 action = FetchFileAction(directoryNavigator: directoryNavigator, responseGenerator: responseGenerator)
                 request = HttpRequest(
@@ -28,7 +28,7 @@ class FetchFileActionSpec : QuickSpec {
             }
 
             it ("returns the requested file in the body of the response") {
-                let response = action.execute(request: request)
+
             }
         }
     }

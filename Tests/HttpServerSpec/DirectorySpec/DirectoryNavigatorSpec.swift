@@ -7,15 +7,15 @@ class DirectoryNavigatorSpec : QuickSpec {
         var directoryNavigator: DirectoryNavigator!
 
         beforeEach {
-            directoryNavigator = DirectoryNavigator()
+            directoryNavigator = DirectoryNavigator(directoryPath: "/invalid/path/")
         }
 
         describe("#DirectoryNavigator") {
             it ("throws PathDoesNotExistError for the path is invalid") {
                 let emptyPath = "invalidPath"
                 expect {
-                    try directoryNavigator.contentsOfDirectory(atPath: emptyPath)
-                }.to(throwError(DirectoryNavigatorError.PathDoesNotExist(atPath: emptyPath)))
+                    try directoryNavigator.contentsOfDirectory()
+                }.to(throwError(DirectoryNavigatorError.PathDoesNotExist(atPath: "/invalid/path/")))
             }
         }
     }
