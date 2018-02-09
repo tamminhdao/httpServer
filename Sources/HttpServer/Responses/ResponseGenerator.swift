@@ -1,6 +1,6 @@
+import Foundation
+
 public class ResponseGenerator {
-    private var errorMessage: String = "<p> URL does not exist </p>"
-    private var getRequestMessage: String = "<p> Get Request has a body! </p>"
     private var routesTable: RoutesTable
     private var dataStorage: DataStorage
 
@@ -87,8 +87,8 @@ public class ResponseGenerator {
         return HttpResponse(version: "HTTP/1.1",
                             statusCode: 404,
                             statusPhrase: "Not Found",
-                            headers: ["Content-Length":String(errorMessage.count), "Content-Type":"text/html"],
-                            body: errorMessage)
+                            headers: ["Content-Length":"0", "Content-Type":"text/html"],
+                            body: "")
     }
 
     public func generate405Response() -> HttpResponse {
@@ -105,5 +105,21 @@ public class ResponseGenerator {
                 statusPhrase: "Found",
                 headers: ["Content-Length":"0", "Location": dataStorage.getLocation()],
                 body: "")
+    }
+
+    public func generateDirectory(body: String) -> HttpResponse {
+        return HttpResponse(version: "HTTP/1.1",
+                statusCode: 200,
+                statusPhrase: "OK",
+                headers: ["Content-Length":String(body.count), "Content-Type":"text/html"],
+                body: body)
+    }
+
+    public func generateFile(body: Data?) -> HttpResponse {
+        return HttpResponse(version: "HTTP/1.1",
+                statusCode: 200,
+                statusPhrase: "OK",
+                headers: ["Content-Length":String(body!.count), "Content-Type":"text/html"],
+                body: String(data: body!, encoding: .utf8)!)
     }
 }
