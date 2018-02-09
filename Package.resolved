@@ -27,6 +27,15 @@
           "revision": "fbd08641c8689626a65d7eb0e826085cf4c54788",
           "version": "0.12.90"
         }
+      },
+      {
+        "package": "SwiftyBeaver",
+        "repositoryURL": "https://github.com/SwiftyBeaver/SwiftyBeaver.git",
+        "state": {
+          "branch": null,
+          "revision": "f24921e83cc356fce6ee12cb6120ab57896de3d6",
+          "version": "1.5.1"
+        }
       }
     ]
   },
