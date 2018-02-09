@@ -1,7 +1,7 @@
 import Foundation
 
 public class HttpResponse {
-    var version: String
+    let VERSION: String = "HTTP/1.1"
     var statusCode: Int
     var statusPhrase: String
     var headers: [String: String]
@@ -9,8 +9,7 @@ public class HttpResponse {
     var crlf: String
     var space: String
 
-    public init(version: String, statusCode: Int, statusPhrase: String, headers: [String:String], body: String) {
-        self.version = version
+    public init(statusCode: Int, statusPhrase: String, headers: [String:String], body: String) {
         self.statusCode = statusCode
         self.statusPhrase = statusPhrase
         self.headers = headers
@@ -20,7 +19,7 @@ public class HttpResponse {
     }
 
     public func constructResponse() -> Data {
-        let responseText = self.version + self.space + String(self.statusCode) + self.space + self.statusPhrase
+        let responseText = self.VERSION + self.space + String(self.statusCode) + self.space + self.statusPhrase
                 + self.crlf + self.convertHeaders(headers: self.headers) + self.crlf + self.body
         return Data(responseText.utf8)
     }
@@ -38,7 +37,7 @@ public class HttpResponse {
 extension HttpResponse: Equatable {
     public static func ==(lhs: HttpResponse, rhs: HttpResponse) -> Bool {
         return
-            lhs.version == rhs.version &&
+            lhs.VERSION == rhs.VERSION &&
             lhs.statusCode == rhs.statusCode &&
             lhs.statusPhrase == rhs.statusPhrase &&
             lhs.headers == rhs.headers

@@ -9,15 +9,15 @@ class DirectoryListingActionSpec : QuickSpec {
             var dataStorage: DataStorage!
             var request: HttpRequest!
             var routesTable: RoutesTable!
-            var responseGenerator: ResponseGenerator!
+            var responseBuilder: ResponseBuilder!
             var directoryNavigator: DirectoryNavigator!
 
             beforeEach {
                 dataStorage = DataStorage()
                 routesTable = RoutesTable()
                 directoryNavigator = DirectoryNavigator(directoryPath: "./cob_spec/public")
-                responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
-                action = DirectoryListingAction(directoryNavigator: directoryNavigator, responseGenerator: responseGenerator)
+                responseBuilder = ResponseBuilder(routesTable: routesTable, dataStorage: dataStorage)
+                action = DirectoryListingAction(directoryNavigator: directoryNavigator, responseBuilder: responseBuilder)
                 request = HttpRequest(
                         method: HttpMethod.get,
                         url: "/",
@@ -69,7 +69,6 @@ class DirectoryListingActionSpec : QuickSpec {
                          """
 
                 let expected = HttpResponse(
-                        version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length":"469",

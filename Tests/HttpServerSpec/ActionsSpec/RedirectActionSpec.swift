@@ -9,13 +9,13 @@ class RedirectActionSpec : QuickSpec {
             var dataStorage: DataStorage!
             var request: HttpRequest!
             var routesTable: RoutesTable!
-            var responseGenerator: ResponseGenerator!
+            var responseBuilder: ResponseBuilder!
 
             beforeEach {
                 dataStorage = DataStorage()
                 routesTable = RoutesTable()
-                responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
-                action = RedirectAction(redirectPath: "/", responseGenerator: responseGenerator, dataStorage: dataStorage)
+                responseBuilder = ResponseBuilder(routesTable: routesTable, dataStorage: dataStorage)
+                action = RedirectAction(redirectPath: "/", responseBuilder: responseBuilder, dataStorage: dataStorage)
                 request = HttpRequest(
                         method: HttpMethod.get,
                         url: "/redirect",
@@ -33,7 +33,6 @@ class RedirectActionSpec : QuickSpec {
             it ("returns a 302 Found response") {
                 let response = action.execute(request: request)
                 let expected = HttpResponse(
-                        version: "HTTP/1.1",
                         statusCode: 302,
                         statusPhrase: "Found",
                         headers: ["Content-Length": "0",

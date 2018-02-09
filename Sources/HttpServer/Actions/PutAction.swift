@@ -1,11 +1,11 @@
 public class PutAction: HttpAction {
 
-    private var responseGenerator: ResponseGenerator
+    private var responseBuilder: ResponseBuilder
     public var dataStorage: DataStorage
 
-    public init(responseGenerator: ResponseGenerator, dataStorage: DataStorage) {
+    public init(responseBuilder: ResponseBuilder, dataStorage: DataStorage) {
         self.dataStorage = dataStorage
-        self.responseGenerator = responseGenerator
+        self.responseBuilder = responseBuilder
     }
 
     public func execute(request: HttpRequest) -> HttpResponse {
@@ -13,6 +13,6 @@ public class PutAction: HttpAction {
         for item in requestBody {
             dataStorage.addValues(key: item.key, value: item.value)
         }
-        return responseGenerator.generate200Response(method: HttpMethod.put, url: request.returnUrl())
+        return responseBuilder.generate200Response(method: HttpMethod.put, url: request.returnUrl())
     }
 }

@@ -8,7 +8,6 @@ class HttpResponseSpec: QuickSpec {
         describe ("#HttpResponse") {
             it ("can equate two response objects") {
                 let response1 = HttpResponse(
-                        version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: [:],
@@ -16,7 +15,6 @@ class HttpResponseSpec: QuickSpec {
                 )
 
                 let response2 = HttpResponse(
-                        version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: [:],
@@ -28,7 +26,6 @@ class HttpResponseSpec: QuickSpec {
 
             it ("can convert a response object to type Data") {
                 let response = HttpResponse(
-                        version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length":"5"],

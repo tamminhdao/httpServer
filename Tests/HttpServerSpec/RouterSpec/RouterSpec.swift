@@ -7,7 +7,7 @@ class RouterSpec: QuickSpec {
         describe("#Router") {
             var router: Router!
             var routesTable: RoutesTable!
-            var responseGenerator: ResponseGenerator!
+            var responseBuilder: ResponseBuilder!
             var dataStorage: DataStorage!
             var nullAction: NullAction!
             var directoryNavigator: DirectoryNavigator!
@@ -18,14 +18,14 @@ class RouterSpec: QuickSpec {
                 dataStorage = DataStorage()
                 directoryNavigator = DirectoryNavigator(directoryPath: "./cob_spec/public")
                 dataStorage.addValues(key: "data", value: "fatcat")
-                responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
-                router = Router(routesTable: routesTable, responseGenerator: responseGenerator)
-                nullAction = NullAction(responseGenerator: responseGenerator)
-                directoryListingAction = DirectoryListingAction(directoryNavigator: directoryNavigator, responseGenerator: responseGenerator)
+                responseBuilder = ResponseBuilder(routesTable: routesTable, dataStorage: dataStorage)
+                router = Router(routesTable: routesTable, responseBuilder: responseBuilder)
+                nullAction = NullAction(responseBuilder: responseBuilder)
+                directoryListingAction = DirectoryListingAction(directoryNavigator: directoryNavigator, responseBuilder: responseBuilder)
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: nullAction))
                 routesTable.addRoute(route: Route(url: "/directory", method: HttpMethod.get, action: directoryListingAction))
                 routesTable.addRoute(route: Route(url: "/method_options2", method: HttpMethod.get, action: nullAction))
-                routesTable.addRoute(route: Route(url: "/redirect", method: HttpMethod.get, action: RedirectAction(redirectPath: "/", responseGenerator: responseGenerator, dataStorage: dataStorage)))
+                routesTable.addRoute(route: Route(url: "/redirect", method: HttpMethod.get, action: RedirectAction(redirectPath: "/", responseBuilder: responseBuilder, dataStorage: dataStorage)))
                 routesTable.addRoute(route: Route(url: "/logs", method: HttpMethod.get, action: nullAction, realm: "basic-auth", credentials: "YWRtaW46aHVudGVyMg=="))
             }
 
@@ -40,7 +40,6 @@ class RouterSpec: QuickSpec {
                 )
 
                 let responseOK = HttpResponse(
-                        version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length": String(("data=fatcat" + "\n").count),
@@ -62,7 +61,6 @@ class RouterSpec: QuickSpec {
                 )
 
                 let notFoundResponse = HttpResponse(
-                        version: "HTTP/1.1",
                         statusCode: 404,
                         statusPhrase: "Not Found",
                         headers: ["Content-Length": "0",
@@ -84,7 +82,6 @@ class RouterSpec: QuickSpec {
                 )
 
                 let notAllowedResponse = HttpResponse(
-                        version: "HTTP/1.1",
                         statusCode: 405,
                         statusPhrase: "Method Not Allowed",
                         headers: ["Content-Length": "0",
@@ -106,7 +103,6 @@ class RouterSpec: QuickSpec {
                 )
 
                 let redirectResponse = HttpResponse(
-                        version: "HTTP/1.1",
                         statusCode: 302,
                         statusPhrase: "Found",
                         headers: ["Content-Length": "0", "Location": "/"],
@@ -127,7 +123,6 @@ class RouterSpec: QuickSpec {
                 )
 
                 let authorizedResponse = HttpResponse(
-                        version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length": String(("data=fatcat" + "\n").count),
@@ -149,7 +144,6 @@ class RouterSpec: QuickSpec {
                 )
 
                 let unauthorizedResponse = HttpResponse(
-                        version: "HTTP/1.1",
                         statusCode: 401,
                         statusPhrase: "Unauthorized",
                         headers: ["WWW-Authenticate": "Basic realm=basic-auth", "Content-Type": "text/html"],
@@ -209,7 +203,6 @@ class RouterSpec: QuickSpec {
                          """
 
                 let responseOK = HttpResponse(
-                        version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length":"469",

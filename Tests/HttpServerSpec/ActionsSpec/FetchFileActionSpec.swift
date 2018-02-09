@@ -7,7 +7,7 @@ class FetchFileActionSpec : QuickSpec {
         describe("#FetchFileAction") {
             var action: FetchFileAction!
             var request: HttpRequest!
-            var responseGenerator: ResponseGenerator!
+            var responseBuilder: ResponseBuilder!
             var dataStorage: DataStorage!
             var routesTable: RoutesTable!
             var directoryNavigator: DirectoryNavigator!
@@ -16,8 +16,8 @@ class FetchFileActionSpec : QuickSpec {
                 dataStorage = DataStorage()
                 routesTable = RoutesTable()
                 directoryNavigator = DirectoryNavigator(directoryPath: "./cob_spec/public")
-                responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
-                action = FetchFileAction(directoryNavigator: directoryNavigator, responseGenerator: responseGenerator)
+                responseBuilder = ResponseBuilder(routesTable: routesTable, dataStorage: dataStorage)
+                action = FetchFileAction(directoryNavigator: directoryNavigator, responseBuilder: responseBuilder)
                 request = HttpRequest(
                         method: HttpMethod.get,
                         url: "/image",

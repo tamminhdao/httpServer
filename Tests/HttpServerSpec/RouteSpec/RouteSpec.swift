@@ -8,15 +8,15 @@ class RouteSpec : QuickSpec {
             var route: Route!
             var routesTable: RoutesTable!
             var dataStorage: DataStorage!
-            var responseGenerator: ResponseGenerator!
+            var responseBuilder: ResponseBuilder!
             var authorizedRoute: Route!
             var action: HttpAction!
 
             beforeEach {
                 routesTable = RoutesTable()
                 dataStorage = DataStorage()
-                responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
-                action = NullAction(responseGenerator: responseGenerator)
+                responseBuilder = ResponseBuilder(routesTable: routesTable, dataStorage: dataStorage)
+                action = NullAction(responseBuilder: responseBuilder)
                 route = Route(url: "/", method: HttpMethod.get, action: action)
                 authorizedRoute = Route(url: "/", method: HttpMethod.get, action: action, realm: "authorized", credentials: "YWRtaW46aHVudGVyMg==")
             }

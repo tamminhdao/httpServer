@@ -9,13 +9,13 @@ class PutActionSpec: QuickSpec {
             var dataStorage: DataStorage!
             var request: HttpRequest!
             var routesTable: RoutesTable!
-            var responseGenerator: ResponseGenerator!
+            var responseBuilder: ResponseBuilder!
 
             beforeEach {
                 dataStorage = DataStorage()
                 routesTable = RoutesTable()
-                responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
-                action = PutAction(responseGenerator: responseGenerator, dataStorage: dataStorage)
+                responseBuilder = ResponseBuilder(routesTable: routesTable, dataStorage: dataStorage)
+                action = PutAction(responseBuilder: responseBuilder, dataStorage: dataStorage)
                 request = HttpRequest(
                         method: HttpMethod.put,
                         url: "/form",
@@ -28,7 +28,6 @@ class PutActionSpec: QuickSpec {
             it("generates a 200 response to an appropriate put request") {
                 let response = action.execute(request: request)
                 let expected = HttpResponse(
-                        version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length": "0",

@@ -3,20 +3,20 @@ import Foundation
 public class FetchFileAction : HttpAction {
 
     private var directoryNavigator: DirectoryNavigator
-    private var responseGenerator: ResponseGenerator
+    private var responseBuilder: ResponseBuilder
 
-    public init(directoryNavigator: DirectoryNavigator, responseGenerator: ResponseGenerator) {
+    public init(directoryNavigator: DirectoryNavigator, responseBuilder: ResponseBuilder) {
         self.directoryNavigator = directoryNavigator
-        self.responseGenerator = responseGenerator
+        self.responseBuilder = responseBuilder
     }
 
     public func execute(request: HttpRequest) -> HttpResponse {
         do {
             let data = try directoryNavigator.readFileContents(filePath: request.returnUrl())
-            return responseGenerator.generateFile(body: data)
+            return responseBuilder.generateFile(body: data)
         } catch let error {
             print(error.localizedDescription)
-            return responseGenerator.generate404Response()
+            return responseBuilder.generate404Response()
         }
     }
 }

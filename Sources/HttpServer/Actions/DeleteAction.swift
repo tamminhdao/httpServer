@@ -1,10 +1,10 @@
 public class DeleteAction: HttpAction {
 
-    private var responseGenerator: ResponseGenerator
+    private var responseBuilder: ResponseBuilder
     public var dataStorage: DataStorage
 
-    public init(responseGenerator: ResponseGenerator, dataStorage: DataStorage) {
-        self.responseGenerator = responseGenerator
+    public init(responseBuilder: ResponseBuilder, dataStorage: DataStorage) {
+        self.responseBuilder = responseBuilder
         self.dataStorage = dataStorage
     }
 
@@ -12,7 +12,7 @@ public class DeleteAction: HttpAction {
         for item in dataStorage.myVals {
             dataStorage.myVals.removeValue(forKey: item.key)
         }
-         return responseGenerator.generate200Response(
+         return responseBuilder.generate200Response(
                  method: HttpMethod.delete, url: request.returnUrl())
     }
 }

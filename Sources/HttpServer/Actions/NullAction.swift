@@ -1,12 +1,12 @@
 public class NullAction: HttpAction {
 
-    private var responseGenerator: ResponseGenerator
+    private var responseBuilder: ResponseBuilder
 
-    public init(responseGenerator: ResponseGenerator) {
-        self.responseGenerator = responseGenerator
+    public init(responseBuilder: ResponseBuilder) {
+        self.responseBuilder = responseBuilder
     }
 
     public func execute(request: HttpRequest) -> HttpResponse {
-        return responseGenerator.generate200Response(method: request.returnMethod()!, url: request.returnUrl())
+        return responseBuilder.generate200Response(method: request.returnMethod()!, url: request.returnUrl())
     }
 }

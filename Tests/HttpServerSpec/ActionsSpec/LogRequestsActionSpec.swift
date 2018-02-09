@@ -9,14 +9,14 @@ class LogRequestsActionSpec: QuickSpec {
             var dataStorage: DataStorage!
             var request: HttpRequest!
             var routesTable: RoutesTable!
-            var responseGenerator: ResponseGenerator!
+            var responseBuilder: ResponseBuilder!
 
             beforeEach {
                 dataStorage = DataStorage()
                 dataStorage.addToRequestList(request: "GET /foobar HTTP/1.1")
                 routesTable = RoutesTable()
-                responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
-                action = LogRequestsAction(responseGenerator: responseGenerator)
+                responseBuilder = ResponseBuilder(routesTable: routesTable, dataStorage: dataStorage)
+                action = LogRequestsAction(responseBuilder: responseBuilder)
                 request = HttpRequest(
                         method: HttpMethod.get,
                         url: "/logs",
@@ -31,7 +31,6 @@ class LogRequestsActionSpec: QuickSpec {
                 let body = "GET /foobar HTTP/1.1" + "\n"
 
                 let expected = HttpResponse(
-                        version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length": String(body.count),
