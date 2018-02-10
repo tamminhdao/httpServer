@@ -7,6 +7,7 @@ public class ResponseBuilder {
     private var statusPhrase: String?
     private var contentType: String?
     private var body: String?
+    private var allow: String?
 
     public init(routesTable: RoutesTable, dataStorage: DataStorage) {
         self.routesTable = routesTable
@@ -33,6 +34,11 @@ public class ResponseBuilder {
         return self
     }
 
+    public func setAllow(url: String) -> ResponseBuilder {
+        self.allow = url
+        return self
+    }
+
     private func checkField<T>(value: T?, defaultValue: T) -> T {
         if let value = value {
             return value
@@ -48,7 +54,8 @@ public class ResponseBuilder {
                 statusPhrase: checkField(value: self.statusPhrase, defaultValue: "Not Found"),
                 headers: [
                     "Content-Length": String(bodyValue.count),
-                    "Content-Type": checkField(value: self.contentType, defaultValue: "text/html")
+                    "Content-Type": checkField(value: self.contentType, defaultValue: "text/html"),
+                    "Allow": checkField(value: self.allow, defaultValue: "")
                 ],
                 body: bodyValue)
     }
