@@ -14,7 +14,7 @@ class DeleteActionSpec: QuickSpec {
 
             beforeEach {
                 dataStorage = DataStorage()
-                dataStorage.addValues(key: "data", value: "fatcat")
+                dataStorage.addData(key: "data", value: "fatcat")
                 routesTable = RoutesTable()
                 responseBuilder = ResponseBuilder(routesTable: routesTable, dataStorage: dataStorage)
                 action = DeleteAction(responseBuilder: responseBuilder, dataStorage: dataStorage)
@@ -29,7 +29,7 @@ class DeleteActionSpec: QuickSpec {
 
             it ("deletes all data in the data storage") {
                 let _ = action.execute(request: request)
-                let allValues = dataStorage.logValues()
+                let allValues = dataStorage.logData()
                 let expectedValues : [String: String] = [:]
                 expect(allValues).to(equal(expectedValues))
             }

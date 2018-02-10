@@ -9,8 +9,8 @@ public class DeleteAction: HttpAction {
     }
 
     public func execute(request: HttpRequest) -> HttpResponse {
-        for item in dataStorage.myVals {
-            dataStorage.myVals.removeValue(forKey: item.key)
+        for item in dataStorage.logData() {
+            dataStorage.removeData(value: item.key)
         }
          return responseBuilder.generate200Response(
                  method: HttpMethod.delete, url: request.returnUrl())

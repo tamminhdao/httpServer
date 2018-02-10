@@ -39,7 +39,7 @@ class PostActionSpec: QuickSpec {
 
             it("adds the content in the post request to dataStorage") {
                 let _ = action.execute(request: request)
-                let allValues = dataStorage.logValues()
+                let allValues = dataStorage.logData()
                 let expectedValues = ["Content": "Text", "My": "Value"]
                 expect(allValues).to(equal(expectedValues))
             }

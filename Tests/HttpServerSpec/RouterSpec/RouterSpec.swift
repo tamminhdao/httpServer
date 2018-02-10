@@ -17,7 +17,7 @@ class RouterSpec: QuickSpec {
                 routesTable = RoutesTable()
                 dataStorage = DataStorage()
                 directoryNavigator = DirectoryNavigator(directoryPath: "./cob_spec/public")
-                dataStorage.addValues(key: "data", value: "fatcat")
+                dataStorage.addData(key: "data", value: "fatcat")
                 responseBuilder = ResponseBuilder(routesTable: routesTable, dataStorage: dataStorage)
                 router = Router(routesTable: routesTable, responseBuilder: responseBuilder)
                 nullAction = NullAction(responseBuilder: responseBuilder)
@@ -42,9 +42,9 @@ class RouterSpec: QuickSpec {
                 let responseOK = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length": String(("data=fatcat" + "\n").count),
+                        headers: ["Content-Length": String(("data=fatcat \n").count),
                                   "Content-Type": "text/html"],
-                        body: "data=fatcat" + "\n"
+                        body: "data=fatcat \n"
                 )
 
                 let response = router.route(request: validRequest)
@@ -125,9 +125,9 @@ class RouterSpec: QuickSpec {
                 let authorizedResponse = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length": String(("data=fatcat" + "\n").count),
+                        headers: ["Content-Length": String(("data=fatcat \n").count),
                                   "Content-Type": "text/html"],
-                        body: "data=fatcat" + "\n"
+                        body: "data=fatcat \n"
                 )
 
                 let response = router.route(request: validRequest)

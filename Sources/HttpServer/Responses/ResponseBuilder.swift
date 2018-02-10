@@ -42,7 +42,6 @@ public class ResponseBuilder {
     }
 
     public func build() -> HttpResponse {
-
         let bodyValue = checkField(value: self.body, defaultValue: "")
         return HttpResponse(
                 statusCode: checkField(value: self.statusCode, defaultValue: 404),
@@ -76,23 +75,23 @@ public class ResponseBuilder {
             }
     }
 
-    private func obtainDataFromStorage() -> String {
+    public func obtainDataFromStorage() -> String {
         var result = ""
-        for item in dataStorage.myVals {
-            result = result + "\(item.key)=\(item.value)" + "\n"
+        for item in dataStorage.logData() {
+            result = result + "\(item.key)=\(item.value) \n"
         }
         return result
     }
 
-    private func obtainRequestLog() -> String {
+    public func obtainRequestLog() -> String {
         var log = ""
-        for item in dataStorage.incomingRequests {
+        for item in dataStorage.logRequests() {
             log += item + "\n"
         }
         return log
     }
 
-    private func options(url: String) -> String {
+    public func options(url: String) -> String {
         var allMethods = ""
         let listOfMethods = routesTable.options(url: url)
         for method in listOfMethods {

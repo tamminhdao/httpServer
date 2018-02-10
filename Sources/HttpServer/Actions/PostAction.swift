@@ -11,7 +11,7 @@ public class PostAction: HttpAction {
     public func execute(request: HttpRequest) -> HttpResponse {
         let requestBody : [String: String] = request.returnBody()
         for item in requestBody {
-            dataStorage.addValues(key: item.key, value: item.value)
+            dataStorage.addData(key: item.key, value: item.value)
         }
         return responseBuilder.generate200Response(method: HttpMethod.post, url: request.returnUrl())
     }
