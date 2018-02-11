@@ -8,34 +8,57 @@ public class ResponseBuilder {
     private var contentType: String?
     private var body: String?
     private var allow: String?
+    private var location: String?
+    private var authenticate: String?
 
     public init(routesTable: RoutesTable, dataStorage: DataStorage) {
         self.routesTable = routesTable
         self.dataStorage = dataStorage
     }
 
-    public func setStatusCode(statusCode: Int) -> ResponseBuilder {
+    private func setStatusCode(statusCode: Int) -> ResponseBuilder {
         self.statusCode = statusCode
         return self
     }
 
-    public func setStatusPhrase(statusPhrase: String) -> ResponseBuilder {
+    private func setStatusPhrase(statusPhrase: String) -> ResponseBuilder {
         self.statusPhrase = statusPhrase
         return self
     }
     
-    public func setContentType(contentType: String) -> ResponseBuilder {
+    private func setContentType(contentType: String) -> ResponseBuilder {
         self.contentType = contentType
         return self
     }
 
-    public func setBody(body: String) -> ResponseBuilder {
+    private func setBody(body: String) -> ResponseBuilder {
         self.body = body
         return self
     }
 
-    public func setAllow(url: String) -> ResponseBuilder {
+    private func setAllow(url: String) -> ResponseBuilder {
         self.allow = url
+        return self
+    }
+
+    private func setLocation(location: String) -> ResponseBuilder {
+        self.location = location
+        return self
+    }
+
+    private func setWWWAuthenticate(authenticate: String) -> ResponseBuilder {
+        self.authenticate = authenticate
+        return self
+    }
+
+    private func resetBuilder() -> ResponseBuilder {
+        self.statusCode = nil
+        self.statusPhrase = nil
+        self.contentType = nil
+        self.body = nil
+        self.location = nil
+        self.authenticate = nil
+        self.allow = nil
         return self
     }
 
@@ -47,7 +70,7 @@ public class ResponseBuilder {
         }
     }
 
-    public func build() -> HttpResponse {
+    private func build() -> HttpResponse {
         let bodyValue = checkField(value: self.body, defaultValue: "")
         return HttpResponse(
                 statusCode: checkField(value: self.statusCode, defaultValue: 404),
@@ -55,27 +78,31 @@ public class ResponseBuilder {
                 headers: [
                     "Content-Length": String(bodyValue.count),
                     "Content-Type": checkField(value: self.contentType, defaultValue: "text/html"),
-                    "Allow": checkField(value: self.allow, defaultValue: "")
+                    "Allow": checkField(value: self.allow, defaultValue: ""),
+                    "Location": checkField(value: self.location, defaultValue: ""),
+                    "WWW-Authenticate": checkField(value: self.authenticate, defaultValue: "")
                 ],
                 body: bodyValue)
     }
 
     public func generate200Response(method: HttpMethod, url: String) -> HttpResponse {
-        self.setStatusCode(statusCode: 200)
+        self.resetBuilder()
+            .setStatusCode(statusCode: 200)
             .setStatusPhrase(statusPhrase: "OK")
-            .setContentType(contentType: "text/html")
             .setAllow(url: options(url: url))
-            .setBody(body: obtainDataByUrlKey(url: url))
+        if (method != HttpMethod.head) {
+            self.setBody(body: obtainDataByUrlKey(url: url))
+        }
         return self.build()
     }
 
-    public func obtainDataByUrlKey(url: String) -> String {
+    private func obtainDataByUrlKey(url: String) -> String {
         var result = ""
         result += dataStorage.logDataByUrl(url: url)
         return result
     }
 
-    public func obtainRequestLog() -> String {
+    private func obtainRequestLog() -> String {
         var log = ""
         for item in dataStorage.logRequests() {
             log += item + "\n"
@@ -83,7 +110,7 @@ public class ResponseBuilder {
         return log
     }
 
-    public func options(url: String) -> String {
+    private func options(url: String) -> String {
         var allMethods = ""
         let listOfMethods = routesTable.options(url: url)
         for method in listOfMethods {
@@ -99,39 +126,34 @@ public class ResponseBuilder {
                 body: obtainRequestLog())
     }
 
-    public func generate400Response() -> HttpResponse {
-        return HttpResponse(statusCode: 400,
-                statusPhrase: "Bad Request",
-                headers: ["Content-Length": "0", "Content-Type":"text/html"],
-                body: "")
-    }
-
     public func generate401Response(realm: String) -> HttpResponse {
-        return HttpResponse(statusCode: 401,
-                statusPhrase: "Unauthorized",
-                headers: ["WWW-Authenticate": "Basic realm=\(realm)", "Content-Type":"text/html"],
-                body: "")
+        self.resetBuilder()
+            .setStatusCode(statusCode: 401)
+            .setStatusPhrase(statusPhrase: "Unauthorized")
+            .setWWWAuthenticate(authenticate: "Basic realm=\(realm)")
+        return self.build()
     }
 
     public func generate404Response() -> HttpResponse {
-        self.setStatusCode(statusCode: 404)
+        self.resetBuilder()
+            .setStatusCode(statusCode: 404)
             .setStatusPhrase(statusPhrase: "Not Found")
-            .setContentType(contentType: "text/html")
-            .setBody(body: "Url does not exist")
         return self.build()
     }
 
     public func generate405Response() -> HttpResponse {
-        self.setStatusCode(statusCode: 405)
+        self.resetBuilder()
+            .setStatusCode(statusCode: 405)
             .setStatusPhrase(statusPhrase: "Method Not Allowed")
         return self.build()
     }
 
     public func generate302Response() -> HttpResponse {
-        return HttpResponse(statusCode: 302,
-                statusPhrase: "Found",
-                headers: ["Content-Length":"0", "Location": dataStorage.getLocation()],
-                body: "")
+        self.resetBuilder()
+            .setStatusCode(statusCode: 302)
+            .setStatusPhrase(statusPhrase: "Found")
+            .setLocation(location: dataStorage.getLocation())
+        return self.build()
     }
 
     public func generateDirectory(body: String) -> HttpResponse {
