@@ -114,7 +114,7 @@ public class ResponseBuilder {
         var allMethods = ""
         let listOfMethods = routesTable.options(url: url)
         for method in listOfMethods {
-            allMethods = allMethods + "\(method),"
+            allMethods = allMethods + " \(method),"
         }
         return allMethods
     }

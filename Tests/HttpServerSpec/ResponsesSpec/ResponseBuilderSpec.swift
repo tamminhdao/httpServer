@@ -10,6 +10,8 @@ class ResponseBuilderSpec: QuickSpec {
             var dataStorage: DataStorage!
             var nullAction: NullAction!
 
+            let logger = Logger()
+
             beforeEach {
                 routesTable = RoutesTable()
                 dataStorage = DataStorage()
@@ -54,6 +56,7 @@ class ResponseBuilderSpec: QuickSpec {
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.head, action: nullAction))
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.put, action: nullAction))
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.post, action: nullAction))
+                routesTable.addRoute(route: Route(url: "/", method: HttpMethod.options, action: nullAction))
 
                 let responseOptions = responseBuilder.generate200Response(method: HttpMethod.options, url: "/")
                 let expectedResponseOptions = HttpResponse(
@@ -61,10 +64,34 @@ class ResponseBuilderSpec: QuickSpec {
                         statusPhrase: "OK",
                         headers: ["Content-Length": "0",
                                   "Content-Type":"text/html",
-                                  "Allow": "GET, HEAD, PUT, POST",
+                                  "Allow": " GET, HEAD, PUT, POST, OPTIONS,",
                                   "Location": "",
                                   "WWW-Authenticate": ""],
                         body: "")
+
+                expect(responseOptions).to(equal(expectedResponseOptions))
+            }
+
+            it ("can generate a 302 response") {
+                let redirectAction = RedirectAction(redirectPath: "/", responseBuilder:responseBuilder, dataStorage: dataStorage)
+                routesTable.addRoute(route: Route(url: "/redirect", method: HttpMethod.get, action: redirectAction))
+                let response302 = responseBuilder.generate302Response()
+                let expectedResponse302 = HttpResponse(
+                        statusCode: 302,
+                        statusPhrase: "Found",
+                        headers: ["Content-Length": "0",
+                                  "Content-Type":"text/html",
+                                  "Allow": "",
+                                  "Location": "/",
+                                  "WWW-Authenticate": ""],
+                        body: ""
+                )
+
+
+                let realData = response302.constructResponse()
+                logger.logToConsole_debug(message: String(data: realData, encoding: .utf8)!)
+
+                expect(response302).to(equal(expectedResponse302))
             }
 
             it ("can generate a 404 response") {

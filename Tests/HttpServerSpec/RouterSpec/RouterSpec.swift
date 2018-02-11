@@ -29,7 +29,7 @@ class RouterSpec: QuickSpec {
                 routesTable.addRoute(route: Route(url: "/logs", method: HttpMethod.get, action: nullAction, realm: "basic-auth", credentials: "YWRtaW46aHVudGVyMg=="))
             }
 
-            it("returns a 200 OK response if the method/url combo is correct") {
+            it("returns a 200 OK response with data in the body") {
 
                 let validRequest = HttpRequest(
                         method: HttpMethod.get,
@@ -44,7 +44,9 @@ class RouterSpec: QuickSpec {
                         statusPhrase: "OK",
                         headers: ["Content-Length": String(("data=fatcat ").count),
                                   "Content-Type": "text/html",
-                                  "Allow": "GET,"],
+                                  "Allow": "GET,",
+                                  "Location": "",
+                                  "WWW-Authenticate": ""],
                         body: "data=fatcat "
                 )
 
@@ -66,7 +68,9 @@ class RouterSpec: QuickSpec {
                         statusPhrase: "Not Found",
                         headers: ["Content-Length": "0",
                                   "Content-Type": "text/html",
-                                  "Allow": ""],
+                                  "Allow": "",
+                                  "Location": "",
+                                  "WWW-Authenticate": ""],
                         body: ""
                 )
 
@@ -88,7 +92,9 @@ class RouterSpec: QuickSpec {
                         statusPhrase: "Method Not Allowed",
                         headers: ["Content-Length": "0",
                                   "Content-Type": "text/html",
-                                  "Allow": ""],
+                                  "Allow": "",
+                                  "Location": "",
+                                  "WWW-Authenticate": ""],
                         body: ""
                 )
 

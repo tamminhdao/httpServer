@@ -53,7 +53,7 @@ public class Server {
         do {
             let data = response.constructResponse()
 
-            logger.logToFile(message: String(data:data, encoding: .utf8)!)
+//            logger.logToFile(message: String(data:data, encoding: .utf8)!)
 
             try socket.write(from: data)
         }
@@ -68,8 +68,8 @@ public class Server {
             _ = try socket.read(into: &readData)
             let incomingText = String(data: readData, encoding: .utf8)
 
-            logger.logToConsole_info(message: incomingText!)
-            logger.logToFile(message: incomingText!)
+//            logger.logToConsole_info(message: incomingText!)
+//            logger.logToFile(message: incomingText!)
 
             let parsedRequest = try self.parser.parse(request: incomingText!)
             readData.count = 0

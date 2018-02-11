@@ -36,7 +36,10 @@ class RedirectActionSpec : QuickSpec {
                         statusCode: 302,
                         statusPhrase: "Found",
                         headers: ["Content-Length": "0",
-                                  "Location": "/"],
+                                  "Content-Type":"text/html",
+                                  "Allow": "",
+                                  "Location": "/",
+                                  "WWW-Authenticate": ""],
                         body: ""
                 )
                 expect(response).to(equal(expected))

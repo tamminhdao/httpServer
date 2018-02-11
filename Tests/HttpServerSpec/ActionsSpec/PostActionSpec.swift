@@ -32,7 +32,9 @@ class PostActionSpec: QuickSpec {
                         statusPhrase: "OK",
                         headers: ["Content-Length": String(("Content=Text My=Value ").count),
                                   "Content-Type": "text/html",
-                                  "Allow": ""],
+                                  "Allow": "",
+                                  "Location": "",
+                                  "WWW-Authenticate": ""],
                         body: "Content=Text My=Value "
                 )
                 expect(response).to(equal(expected))
