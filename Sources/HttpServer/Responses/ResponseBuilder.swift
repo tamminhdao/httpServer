@@ -59,45 +59,19 @@ public class ResponseBuilder {
                 ],
                 body: bodyValue)
     }
-//
-//    public func generate200Response(method: HttpMethod, url: String) -> HttpResponse {
-//        switch method {
-//            case HttpMethod.get:
-//                return HttpResponse(statusCode: 200,
-//                                    statusPhrase: "OK",
-//                                    headers: ["Content-Length":String(obtainDataFromStorage().count), "Content-Type":"text/html"],
-//                                    body: obtainDataFromStorage())
-//
-//            case HttpMethod.post, HttpMethod.put, HttpMethod.head, HttpMethod.delete, HttpMethod.connect, HttpMethod.patch:
-//                return HttpResponse(statusCode: 200,
-//                                    statusPhrase: "OK",
-//                                    headers: ["Content-Length":"0", "Content-Type":"text/html"],
-//                                    body: "")
-//
-//            case HttpMethod.options:
-//                return HttpResponse(statusCode: 200,
-//                                    statusPhrase: "OK",
-//                                    headers: ["Content-Length":"0", "Content-Type":"text/html", "Allow": (options(url: url))],
-//                                    body: "")
-//            }
-//    }
 
     public func generate200Response(method: HttpMethod, url: String) -> HttpResponse {
         self.setStatusCode(statusCode: 200)
-                .setStatusPhrase(statusPhrase: "OK")
-                .setContentType(contentType: "text/html")
-                .setAllow(url: options(url: url))
-                .setBody(body: obtainDataByUrlKey(url: url))
+            .setStatusPhrase(statusPhrase: "OK")
+            .setContentType(contentType: "text/html")
+            .setAllow(url: options(url: url))
+            .setBody(body: obtainDataByUrlKey(url: url))
         return self.build()
     }
 
     public func obtainDataByUrlKey(url: String) -> String {
         var result = ""
-        for item in dataStorage.logData() {
-            if item.key == url {
-                result = result + "\(item.value)"
-            }
-        }
+        result += dataStorage.logDataByUrl(url: url)
         return result
     }
 
