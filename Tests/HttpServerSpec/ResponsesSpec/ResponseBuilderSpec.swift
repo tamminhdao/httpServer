@@ -2,9 +2,9 @@ import Quick
 import Nimble
 import HttpServer
 
-class ResponseGeneratorSpec: QuickSpec {
+class ResponseBuilderSpec: QuickSpec {
     override func spec() {
-        describe("#ResponseGenerator") {
+        describe("#ResponseBuilder") {
             var responseBuilder: ResponseBuilder!
             var routesTable: RoutesTable!
             var dataStorage: DataStorage!
@@ -18,21 +18,21 @@ class ResponseGeneratorSpec: QuickSpec {
             }
 
             it ("can generate a 200 response putting server data in the body") {
-                dataStorage.addData(key: "data", value: "fatcat")
+                dataStorage.addData(url: "/", value: "data=fatcat ")
                 let response200: HttpResponse = responseBuilder
                         .setStatusCode(statusCode: 200)
                         .setStatusPhrase(statusPhrase: "OK")
                         .setContentType(contentType: "text/html")
-                        .setBody(body: responseBuilder.obtainDataFromStorage())
+                        .setBody(body: responseBuilder.obtainDataByUrlKey(url: "/"))
                         .build()
 
                 let expectedResponse200 = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length":String(("data=fatcat \n").count),
+                        headers: ["Content-Length":String(("data=fatcat ").count),
                                   "Content-Type":"text/html",
                                   "Allow": ""],
-                        body: "data=fatcat \n"
+                        body: "data=fatcat "
                 )
 
                 expect(response200).to(equal(expectedResponse200))
@@ -49,7 +49,7 @@ class ResponseGeneratorSpec: QuickSpec {
                         .setStatusPhrase(statusPhrase: "OK")
                         .setContentType(contentType: "text/html")
                         .setAllow(url: responseBuilder.options(url: "/"))
-                        .setBody(body: responseBuilder.obtainDataFromStorage())
+                        .setBody(body: responseBuilder.obtainDataByUrlKey(url: "/"))
                         .build()
 
                 let expectedResponseOptions = HttpResponse(

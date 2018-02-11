@@ -31,7 +31,8 @@ class NullActionSpec: QuickSpec {
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length": "0",
-                                  "Content-Type": "text/html"],
+                                  "Content-Type": "text/html",
+                                  "Allow": ""],
                         body: ""
                 )
                 expect(response).to(equal(expected))

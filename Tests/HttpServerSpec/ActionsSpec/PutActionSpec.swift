@@ -25,23 +25,24 @@ class PutActionSpec: QuickSpec {
                 )
             }
 
+            it ("logs the content from the request into dataStorage") {
+                action.execute(request: request)
+                let value = dataStorage.logDataByUrl(url: "/form")
+                let expected = "Content=Text My=Value "
+                expect(value).to(equal(expected))
+            }
+
             it("generates a 200 response to an appropriate put request") {
                 let response = action.execute(request: request)
                 let expected = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length": "0",
-                                  "Content-Type": "text/html"],
-                        body: ""
+                        headers: ["Content-Length": String(("Content=Text My=Value ").count),
+                                  "Content-Type": "text/html",
+                                  "Allow": ""],
+                        body: "Content=Text My=Value "
                 )
                 expect(response).to(equal(expected))
-            }
-
-            it("adds the content in the put request to dataStorage") {
-                let _ = action.execute(request: request)
-                let allValues = dataStorage.logData()
-                let expectedValues = ["Content": "Text", "My": "Value"]
-                expect(allValues).to(equal(expectedValues))
             }
         }
     }

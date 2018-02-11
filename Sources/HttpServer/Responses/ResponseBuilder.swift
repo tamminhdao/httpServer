@@ -59,33 +59,44 @@ public class ResponseBuilder {
                 ],
                 body: bodyValue)
     }
+//
+//    public func generate200Response(method: HttpMethod, url: String) -> HttpResponse {
+//        switch method {
+//            case HttpMethod.get:
+//                return HttpResponse(statusCode: 200,
+//                                    statusPhrase: "OK",
+//                                    headers: ["Content-Length":String(obtainDataFromStorage().count), "Content-Type":"text/html"],
+//                                    body: obtainDataFromStorage())
+//
+//            case HttpMethod.post, HttpMethod.put, HttpMethod.head, HttpMethod.delete, HttpMethod.connect, HttpMethod.patch:
+//                return HttpResponse(statusCode: 200,
+//                                    statusPhrase: "OK",
+//                                    headers: ["Content-Length":"0", "Content-Type":"text/html"],
+//                                    body: "")
+//
+//            case HttpMethod.options:
+//                return HttpResponse(statusCode: 200,
+//                                    statusPhrase: "OK",
+//                                    headers: ["Content-Length":"0", "Content-Type":"text/html", "Allow": (options(url: url))],
+//                                    body: "")
+//            }
+//    }
 
     public func generate200Response(method: HttpMethod, url: String) -> HttpResponse {
-        switch method {
-            case HttpMethod.get:
-                return HttpResponse(statusCode: 200,
-                                    statusPhrase: "OK",
-                                    headers: ["Content-Length":String(obtainDataFromStorage().count), "Content-Type":"text/html"],
-                                    body: obtainDataFromStorage())
-
-            case HttpMethod.post, HttpMethod.put, HttpMethod.head, HttpMethod.delete, HttpMethod.connect, HttpMethod.patch:
-                return HttpResponse(statusCode: 200,
-                                    statusPhrase: "OK",
-                                    headers: ["Content-Length":"0", "Content-Type":"text/html"],
-                                    body: "")
-
-            case HttpMethod.options:
-                return HttpResponse(statusCode: 200,
-                                    statusPhrase: "OK",
-                                    headers: ["Content-Length":"0", "Content-Type":"text/html", "Allow": (options(url: url))],
-                                    body: "")
-            }
+        self.setStatusCode(statusCode: 200)
+                .setStatusPhrase(statusPhrase: "OK")
+                .setContentType(contentType: "text/html")
+                .setAllow(url: options(url: url))
+                .setBody(body: obtainDataByUrlKey(url: url))
+        return self.build()
     }
 
-    public func obtainDataFromStorage() -> String {
+    public func obtainDataByUrlKey(url: String) -> String {
         var result = ""
         for item in dataStorage.logData() {
-            result = result + "\(item.key)=\(item.value) \n"
+            if item.key == url {
+                result = result + "\(item.value)"
+            }
         }
         return result
     }
@@ -129,17 +140,13 @@ public class ResponseBuilder {
     }
 
     public func generate404Response() -> HttpResponse {
-        return HttpResponse(statusCode: 404,
-                            statusPhrase: "Not Found",
-                            headers: ["Content-Length":"0", "Content-Type":"text/html"],
-                            body: "")
+        return self.build()
     }
 
     public func generate405Response() -> HttpResponse {
-        return HttpResponse(statusCode: 405,
-                statusPhrase: "Method Not Allowed",
-                headers: ["Content-Length":"0", "Content-Type":"text/html"],
-                body: "")
+        self.setStatusCode(statusCode: 405)
+            .setStatusPhrase(statusPhrase: "Method Not Allowed")
+        return self.build()
     }
 
     public func generate302Response() -> HttpResponse {

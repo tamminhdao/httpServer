@@ -10,9 +10,11 @@ public class PutAction: HttpAction {
 
     public func execute(request: HttpRequest) -> HttpResponse {
         let requestBody : [String: String] = request.returnBody()
+        var UrlData = ""
         for item in requestBody {
-            dataStorage.addData(key: item.key, value: item.value)
+            UrlData += "\(item.key)=\(item.value) "
         }
+        dataStorage.addData(url: request.returnUrl(), value: UrlData)
         return responseBuilder.generate200Response(method: HttpMethod.put, url: request.returnUrl())
     }
 }

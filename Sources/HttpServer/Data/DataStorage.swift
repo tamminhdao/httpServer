@@ -12,12 +12,20 @@ public class DataStorage {
         self.location = ""
     }
 
-    public func addData(key: String, value: String) {
-        self.data[key] = value
+    public func addData(url: String, value: String) {
+        self.data[url] = value
     }
 
-    public func removeData(value: String) {
-        self.data.removeValue(forKey: value)
+    public func removeData(url: String) {
+        self.data.removeValue(forKey: url)
+    }
+
+    public func logDataByUrl(url: String) -> String {
+        if let info = data[url] {
+            return info
+        } else {
+            return ""
+        }
     }
 
     public func logData() -> [String:String] {

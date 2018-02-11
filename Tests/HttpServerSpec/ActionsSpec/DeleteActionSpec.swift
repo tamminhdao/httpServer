@@ -14,7 +14,7 @@ class DeleteActionSpec: QuickSpec {
 
             beforeEach {
                 dataStorage = DataStorage()
-                dataStorage.addData(key: "data", value: "fatcat")
+                dataStorage.addData(url: "data", value: "fatcat")
                 routesTable = RoutesTable()
                 responseBuilder = ResponseBuilder(routesTable: routesTable, dataStorage: dataStorage)
                 action = DeleteAction(responseBuilder: responseBuilder, dataStorage: dataStorage)
