@@ -1,4 +1,5 @@
 .DS_Store
+./server.log
 /.idea
 /.build
 /Packages

@@ -114,6 +114,10 @@ public class ResponseBuilder {
     }
 
     public func generate404Response() -> HttpResponse {
+        self.setStatusCode(statusCode: 404)
+            .setStatusPhrase(statusPhrase: "Not Found")
+            .setContentType(contentType: "text/html")
+            .setBody(body: "Url does not exist")
         return self.build()
     }
 

@@ -64,10 +64,10 @@ class RouterSpec: QuickSpec {
                 let notFoundResponse = HttpResponse(
                         statusCode: 404,
                         statusPhrase: "Not Found",
-                        headers: ["Content-Length": "0",
+                        headers: ["Content-Length": String(("Url does not exist").count),
                                   "Content-Type": "text/html",
                                   "Allow": ""],
-                        body: ""
+                        body: "Url does not exist"
                 )
 
                 let response = router.route(request: validRequest)

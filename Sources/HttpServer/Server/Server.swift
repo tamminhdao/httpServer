@@ -11,6 +11,7 @@ public class Server {
     var router: Router
     var dataStorage: DataStorage
     let serialQueue = DispatchQueue(label: "log incoming requests", qos: .background)
+    let logger = Logger()
 
     public init(port: Int, directory: String, router: Router, dataStorage: DataStorage) {
         self.parser = RequestParser()
@@ -51,6 +52,9 @@ public class Server {
     private func sendBackResponse (socket: Socket, response: HttpResponse) {
         do {
             let data = response.constructResponse()
+
+            logger.logToFile(message: String(data:data, encoding: .utf8)!)
+
             try socket.write(from: data)
         }
         catch let error {
@@ -63,6 +67,10 @@ public class Server {
             var readData = Data()
             _ = try socket.read(into: &readData)
             let incomingText = String(data: readData, encoding: .utf8)
+
+            logger.logToConsole_info(message: incomingText!)
+            logger.logToFile(message: incomingText!)
+
             let parsedRequest = try self.parser.parse(request: incomingText!)
             readData.count = 0
             serialQueue.async {
