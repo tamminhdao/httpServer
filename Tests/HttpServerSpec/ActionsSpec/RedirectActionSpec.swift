@@ -26,7 +26,7 @@ class RedirectActionSpec : QuickSpec {
             }
 
             it ("saves the location into dataStorage") {
-                let _ = action.execute(request: request)
+                action.execute(request: request)
                 expect(dataStorage.getLocation()).to(equal("/"))
             }
 

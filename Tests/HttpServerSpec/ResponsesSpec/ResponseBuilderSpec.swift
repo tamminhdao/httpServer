@@ -73,8 +73,6 @@ class ResponseBuilderSpec: QuickSpec {
             }
 
             it ("can generate a 302 response") {
-                let redirectAction = RedirectAction(redirectPath: "/", responseBuilder:responseBuilder, dataStorage: dataStorage)
-                routesTable.addRoute(route: Route(url: "/redirect", method: HttpMethod.get, action: redirectAction))
                 let response302 = responseBuilder.generate302Response()
                 let expectedResponse302 = HttpResponse(
                         statusCode: 302,
@@ -82,16 +80,31 @@ class ResponseBuilderSpec: QuickSpec {
                         headers: ["Content-Length": "0",
                                   "Content-Type":"text/html",
                                   "Allow": "",
-                                  "Location": "/",
+                                  "Location": "",
                                   "WWW-Authenticate": ""],
                         body: ""
                 )
 
-
-                let realData = response302.constructResponse()
-                logger.logToConsole_debug(message: String(data: realData, encoding: .utf8)!)
+//
+//                let realData = response302.constructResponse()
+//                logger.logToConsole_debug(message: String(data: realData, encoding: .utf8)!)
 
                 expect(response302).to(equal(expectedResponse302))
+            }
+
+            it ("can generate a 401 response") {
+                let response401 = responseBuilder.generate401Response(realm: "basic-auth")
+                let expectedResponse401 = HttpResponse(
+                        statusCode: 401,
+                        statusPhrase: "Unauthorized",
+                        headers: ["Content-Length": "0",
+                                  "Content-Type":"text/html",
+                                  "Allow": "",
+                                  "Location": "",
+                                  "WWW-Authenticate": "Basic realm=basic-auth"],
+                        body: ""
+                )
+                expect(response401).to(equal(expectedResponse401))
             }
 
             it ("can generate a 404 response") {

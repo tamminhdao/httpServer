@@ -16,6 +16,69 @@ public class ResponseBuilder {
         self.dataStorage = dataStorage
     }
 
+    public func generate200Response(method: HttpMethod, url: String) -> HttpResponse {
+        self.resetBuilder()
+                .setStatusCode(statusCode: 200)
+                .setStatusPhrase(statusPhrase: "OK")
+                .setAllow(url: options(url: url))
+        if (method != HttpMethod.head) {
+            self.setBody(body: obtainDataByUrlKey(url: url))
+        }
+        return self.build()
+    }
+
+    public func generateLogContent() -> HttpResponse {
+        return HttpResponse(statusCode: 200,
+                statusPhrase: "OK",
+                headers: ["Content-Length":String(obtainRequestLog().count), "Content-Type":"text/html"],
+        body: obtainRequestLog())
+    }
+
+    public func generateDirectory(body: String) -> HttpResponse {
+        return HttpResponse(statusCode: 200,
+                statusPhrase: "OK",
+                headers: ["Content-Length":String(body.count), "Content-Type":"text/html"],
+                body: body)
+    }
+
+    public func generateFile(body: Data?) -> HttpResponse {
+        return HttpResponse(statusCode: 200,
+                statusPhrase: "OK",
+                headers: ["Content-Length":String(body!.count), "Content-Type":"text/html"],
+                body: String(data: body!, encoding: .utf8)!)
+    }
+
+    public func generate302Response() -> HttpResponse {
+        self.resetBuilder()
+        .setStatusCode(statusCode: 302)
+        .setStatusPhrase(statusPhrase: "Found")
+        .setLocation(location: dataStorage.getLocation())
+        return self.build()
+    }
+
+    public func generate401Response(realm: String) -> HttpResponse {
+        self.resetBuilder()
+        .setStatusCode(statusCode: 401)
+        .setStatusPhrase(statusPhrase: "Unauthorized")
+        .setWWWAuthenticate(authenticate: "Basic realm=\(realm)")
+        return self.build()
+    }
+
+    public func generate404Response() -> HttpResponse {
+        self.resetBuilder()
+        .setStatusCode(statusCode: 404)
+        .setStatusPhrase(statusPhrase: "Not Found")
+        return self.build()
+    }
+
+    public func generate405Response() -> HttpResponse {
+        self.resetBuilder()
+        .setStatusCode(statusCode: 405)
+        .setStatusPhrase(statusPhrase: "Method Not Allowed")
+        return self.build()
+    }
+
+
     private func setStatusCode(statusCode: Int) -> ResponseBuilder {
         self.statusCode = statusCode
         return self
@@ -25,7 +88,7 @@ public class ResponseBuilder {
         self.statusPhrase = statusPhrase
         return self
     }
-    
+
     private func setContentType(contentType: String) -> ResponseBuilder {
         self.contentType = contentType
         return self
@@ -73,27 +136,16 @@ public class ResponseBuilder {
     private func build() -> HttpResponse {
         let bodyValue = checkField(value: self.body, defaultValue: "")
         return HttpResponse(
-                statusCode: checkField(value: self.statusCode, defaultValue: 404),
-                statusPhrase: checkField(value: self.statusPhrase, defaultValue: "Not Found"),
-                headers: [
-                    "Content-Length": String(bodyValue.count),
-                    "Content-Type": checkField(value: self.contentType, defaultValue: "text/html"),
-                    "Allow": checkField(value: self.allow, defaultValue: ""),
-                    "Location": checkField(value: self.location, defaultValue: ""),
-                    "WWW-Authenticate": checkField(value: self.authenticate, defaultValue: "")
-                ],
-                body: bodyValue)
-    }
-
-    public func generate200Response(method: HttpMethod, url: String) -> HttpResponse {
-        self.resetBuilder()
-            .setStatusCode(statusCode: 200)
-            .setStatusPhrase(statusPhrase: "OK")
-            .setAllow(url: options(url: url))
-        if (method != HttpMethod.head) {
-            self.setBody(body: obtainDataByUrlKey(url: url))
-        }
-        return self.build()
+        statusCode: checkField(value: self.statusCode, defaultValue: 404),
+        statusPhrase: checkField(value: self.statusPhrase, defaultValue: "Not Found"),
+        headers: [
+        "Content-Length": String(bodyValue.count),
+        "Content-Type": checkField(value: self.contentType, defaultValue: "text/html"),
+        "Allow": checkField(value: self.allow, defaultValue: ""),
+        "Location": checkField(value: self.location, defaultValue: ""),
+        "WWW-Authenticate": checkField(value: self.authenticate, defaultValue: "")
+        ],
+        body: bodyValue)
     }
 
     private func obtainDataByUrlKey(url: String) -> String {
@@ -119,54 +171,4 @@ public class ResponseBuilder {
         return allMethods
     }
 
-    public func generateLogContent() -> HttpResponse {
-        return HttpResponse(statusCode: 200,
-                statusPhrase: "OK",
-                headers: ["Content-Length":String(obtainRequestLog().count), "Content-Type":"text/html"],
-                body: obtainRequestLog())
-    }
-
-    public func generate401Response(realm: String) -> HttpResponse {
-        self.resetBuilder()
-            .setStatusCode(statusCode: 401)
-            .setStatusPhrase(statusPhrase: "Unauthorized")
-            .setWWWAuthenticate(authenticate: "Basic realm=\(realm)")
-        return self.build()
-    }
-
-    public func generate404Response() -> HttpResponse {
-        self.resetBuilder()
-            .setStatusCode(statusCode: 404)
-            .setStatusPhrase(statusPhrase: "Not Found")
-        return self.build()
-    }
-
-    public func generate405Response() -> HttpResponse {
-        self.resetBuilder()
-            .setStatusCode(statusCode: 405)
-            .setStatusPhrase(statusPhrase: "Method Not Allowed")
-        return self.build()
-    }
-
-    public func generate302Response() -> HttpResponse {
-        self.resetBuilder()
-            .setStatusCode(statusCode: 302)
-            .setStatusPhrase(statusPhrase: "Found")
-            .setLocation(location: dataStorage.getLocation())
-        return self.build()
-    }
-
-    public func generateDirectory(body: String) -> HttpResponse {
-        return HttpResponse(statusCode: 200,
-                statusPhrase: "OK",
-                headers: ["Content-Length":String(body.count), "Content-Type":"text/html"],
-                body: body)
-    }
-
-    public func generateFile(body: Data?) -> HttpResponse {
-        return HttpResponse(statusCode: 200,
-                statusPhrase: "OK",
-                headers: ["Content-Length":String(body!.count), "Content-Type":"text/html"],
-                body: String(data: body!, encoding: .utf8)!)
-    }
 }
