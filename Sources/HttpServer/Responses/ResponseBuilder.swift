@@ -30,13 +30,6 @@ public class ResponseBuilder {
         return self.build()
     }
 
-//    public func generate200ResponseWithRequestsLog() -> HttpResponse {
-//        return HttpResponse(statusCode: 200,
-//                statusPhrase: "OK",
-//                headers: ["Content-Length":String(obtainRequestLog().count), "Content-Type":"text/html"],
-//        body: obtainRequestLog())
-//    }
-
     public func generateDirectory(body: String) -> HttpResponse {
         return HttpResponse(statusCode: 200,
                 statusPhrase: "OK",
