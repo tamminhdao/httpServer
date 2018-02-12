@@ -1,6 +1,7 @@
 import Quick
 import Nimble
 import HttpServer
+import Foundation
 
 class ResponseBuilderSpec: QuickSpec {
     override func spec() {
@@ -23,12 +24,12 @@ class ResponseBuilderSpec: QuickSpec {
                 let expectedResponse200 = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length":String(("data=fatcat ").count),
+                        headers: ["Content-Length":String(Data("data=fatcat ".utf8).count),
                                   "Content-Type":"text/html",
                                   "Allow": "",
                                   "Location": "",
                                   "WWW-Authenticate": ""],
-                        body: "data=fatcat "
+                        body: Data("data=fatcat ".utf8)
                 )
                 expect(response200).to(equal(expectedResponse200))
             }
@@ -44,7 +45,7 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Allow": "",
                                   "Location": "",
                                   "WWW-Authenticate": ""],
-                        body: ""
+                        body: Data()
                 )
                 expect(response200Head).to(equal(expectedResponse200Head))
             }
@@ -58,12 +59,12 @@ class ResponseBuilderSpec: QuickSpec {
                 let expectedResponse200Logs = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length": String(bodyContent.count),
+                        headers: ["Content-Length": String(Data(bodyContent.utf8).count),
                                   "Content-Type":"text/html",
                                   "Allow": "",
                                   "Location": "",
                                   "WWW-Authenticate": ""],
-                        body: bodyContent
+                        body: Data(bodyContent.utf8)
                 )
 
                 expect(response200Logs).to(equal(expectedResponse200Logs))
@@ -85,7 +86,7 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Allow": "GET,HEAD,PUT,POST,OPTIONS,",
                                   "Location": "",
                                   "WWW-Authenticate": ""],
-                        body: "")
+                        body: Data())
 
                 expect(responseOptions).to(equal(expectedResponseOptions))
             }
@@ -100,7 +101,7 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Allow": "",
                                   "Location": "",
                                   "WWW-Authenticate": ""],
-                        body: ""
+                        body: Data()
                 )
 
                 expect(response302).to(equal(expectedResponse302))
@@ -116,7 +117,7 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Allow": "",
                                   "Location": "",
                                   "WWW-Authenticate": "Basic realm=basic-auth"],
-                        body: ""
+                        body: Data()
                 )
                 expect(response401).to(equal(expectedResponse401))
             }
@@ -131,7 +132,7 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Allow": "",
                                   "Location": "",
                                   "WWW-Authenticate": ""],
-                        body: ""
+                        body: Data()
                 )
                 expect(response404).to(equal(expectedResponse404))
             }
@@ -146,7 +147,7 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Allow": "",
                                   "Location": "",
                                   "WWW-Authenticate": ""],
-                        body: ""
+                        body: Data()
                 )
                 expect(response405).to(equal(expectedResponse405))
             }

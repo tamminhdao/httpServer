@@ -1,6 +1,7 @@
 import HttpServer
 import Quick
 import Nimble
+import Foundation
 
 class RedirectActionSpec : QuickSpec {
     override func spec() {
@@ -40,7 +41,7 @@ class RedirectActionSpec : QuickSpec {
                                   "Allow": "",
                                   "Location": "/",
                                   "WWW-Authenticate": ""],
-                        body: ""
+                        body: Data()
                 )
                 expect(response).to(equal(expected))
             }

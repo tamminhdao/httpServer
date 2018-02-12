@@ -1,6 +1,7 @@
 import Quick
 import Nimble
 import HttpServer
+import Foundation
 
 class RouterSpec: QuickSpec {
     override func spec() {
@@ -46,7 +47,7 @@ class RouterSpec: QuickSpec {
                                   "Allow": "GET,",
                                   "Location": "",
                                   "WWW-Authenticate": ""],
-                        body: "data=fatcat "
+                        body: Data("data=fatcat ".utf8)
                 )
 
                 let response = router.route(request: validRequest)
@@ -70,7 +71,7 @@ class RouterSpec: QuickSpec {
                                   "Allow": "GET,",
                                   "Location": "",
                                   "WWW-Authenticate": ""],
-                        body: ""
+                        body: Data()
                 )
                 let response = router.route(request: validRequest)
                 expect(response).to(equal(authorizedResponse))
@@ -93,7 +94,7 @@ class RouterSpec: QuickSpec {
                                     "Allow": "",
                                     "Location": "",
                                     "WWW-Authenticate": ""],
-                        body: ""
+                        body: Data()
                 )
 
                 let response = router.route(request: validRequest)
@@ -117,7 +118,7 @@ class RouterSpec: QuickSpec {
                                     "Allow": "",
                                     "Location": "",
                                     "WWW-Authenticate": ""],
-                        body: ""
+                        body: Data()
                 )
 
                 let response = router.route(request: validRequest)
@@ -141,7 +142,7 @@ class RouterSpec: QuickSpec {
                                     "Allow": "",
                                     "Location": "/",
                                     "WWW-Authenticate": ""],
-                        body: ""
+                        body: Data()
                 )
 
                 let response = router.route(request: validRequest)
@@ -166,7 +167,7 @@ class RouterSpec: QuickSpec {
                                   "Allow": "",
                                   "Location": "",
                                   "WWW-Authenticate": "Basic realm=basic-auth"],
-                        body: ""
+                        body: Data()
                 )
 
                 let response = router.route(request: validRequest)
@@ -226,7 +227,7 @@ class RouterSpec: QuickSpec {
                         statusPhrase: "OK",
                         headers: ["Content-Length":"469",
                                   "Content-Type":"text/html"],
-                        body: folderContent
+                        body: Data(folderContent.utf8)
                 )
 
                 let response = router.route(request: validRequest)

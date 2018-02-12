@@ -2,6 +2,7 @@ import Foundation
 import Quick
 import Nimble
 import HttpServer
+import Foundation
 
 class HttpResponseSpec: QuickSpec {
     override func spec() {
@@ -11,14 +12,14 @@ class HttpResponseSpec: QuickSpec {
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: [:],
-                        body: ""
+                        body: Data()
                 )
 
                 let response2 = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: [:],
-                        body: ""
+                        body: Data()
                 )
 
                 expect(response1).to(equal(response2))
@@ -29,7 +30,7 @@ class HttpResponseSpec: QuickSpec {
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length":"5"],
-                        body : "Hello"
+                        body : Data("Hello".utf8)
                 )
 
                 let data = response.constructResponse()

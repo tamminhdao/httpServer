@@ -1,6 +1,7 @@
 import Quick
 import Nimble
 import HttpServer
+import Foundation
 
 class PutActionSpec: QuickSpec {
     override func spec() {
@@ -37,12 +38,12 @@ class PutActionSpec: QuickSpec {
                 let expected = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length": String(("Content=Text My=Value ").count),
+                        headers: ["Content-Length": String(Data("Content=Text My=Value ".utf8).count),
                                   "Content-Type": "text/html",
                                   "Allow": "",
                                   "Location": "",
                                   "WWW-Authenticate": ""],
-                        body: "Content=Text My=Value "
+                        body: Data("Content=Text My=Value ".utf8)
                 )
                 expect(response).to(equal(expected))
             }

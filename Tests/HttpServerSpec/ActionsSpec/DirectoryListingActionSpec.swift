@@ -1,6 +1,7 @@
 import HttpServer
 import Quick
 import Nimble
+import Foundation
 
 class DirectoryListingActionSpec : QuickSpec {
     override func spec() {
@@ -73,7 +74,7 @@ class DirectoryListingActionSpec : QuickSpec {
                         statusPhrase: "OK",
                         headers: ["Content-Length":"469",
                                   "Content-Type":"text/html"],
-                        body: bodyContent
+                        body: Data(bodyContent.utf8)
                 )
 
                 expect(response).to(equal(expected))
