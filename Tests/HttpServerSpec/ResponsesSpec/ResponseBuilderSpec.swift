@@ -51,6 +51,32 @@ class ResponseBuilderSpec: QuickSpec {
                 expect(response200Head).to(equal(expectedResponse200Head))
             }
 
+            it ("can generate a 200 response logging all incoming requests for /logs route") {
+                dataStorage.addToRequestList(request: "PUT /form HTTP/1.1")
+                dataStorage.addToRequestList(request: "HEAD /requests HTTP/1.1")
+                let response200Logs = responseBuilder.generate200Response(method: HttpMethod.get, url: "/logs")
+                let bodyContent = "PUT /form HTTP/1.1\nHEAD /requests HTTP/1.1\n"
+
+                let expectedResponse200Logs = HttpResponse(
+                        statusCode: 200,
+                        statusPhrase: "OK",
+                        headers: ["Content-Length": String(bodyContent.count),
+                                  "Content-Type":"text/html",
+                                  "Allow": "",
+                                  "Location": "",
+                                  "WWW-Authenticate": ""],
+                        body: bodyContent
+                )
+//
+//                let realData = response200Logs.constructResponse()
+//                logger.logToConsole_debug(message: String(data: realData, encoding: .utf8)!)
+//
+//                let expectedData = expectedResponse200Logs.constructResponse()
+//                logger.logToConsole_debug(message: String(data: expectedData, encoding: .utf8)!)
+
+                expect(response200Logs).to(equal(expectedResponse200Logs))
+            }
+
             it ("can generate a 200 response to an OPTIONS request") {
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: nullAction))
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.head, action: nullAction))
@@ -64,7 +90,7 @@ class ResponseBuilderSpec: QuickSpec {
                         statusPhrase: "OK",
                         headers: ["Content-Length": "0",
                                   "Content-Type":"text/html",
-                                  "Allow": " GET, HEAD, PUT, POST, OPTIONS,",
+                                  "Allow": " GET,HEAD,PUT,POST,OPTIONS,",
                                   "Location": "",
                                   "WWW-Authenticate": ""],
                         body: "")
@@ -84,10 +110,6 @@ class ResponseBuilderSpec: QuickSpec {
                                   "WWW-Authenticate": ""],
                         body: ""
                 )
-
-//
-//                let realData = response302.constructResponse()
-//                logger.logToConsole_debug(message: String(data: realData, encoding: .utf8)!)
 
                 expect(response302).to(equal(expectedResponse302))
             }

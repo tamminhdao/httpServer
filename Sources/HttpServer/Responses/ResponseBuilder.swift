@@ -24,15 +24,18 @@ public class ResponseBuilder {
         if (method != HttpMethod.head) {
             self.setBody(body: obtainDataByUrlKey(url: url))
         }
+        if (url == "/logs") {
+            self.setBody(body: obtainRequestLog())
+        }
         return self.build()
     }
 
-    public func generateLogContent() -> HttpResponse {
-        return HttpResponse(statusCode: 200,
-                statusPhrase: "OK",
-                headers: ["Content-Length":String(obtainRequestLog().count), "Content-Type":"text/html"],
-        body: obtainRequestLog())
-    }
+//    public func generate200ResponseWithRequestsLog() -> HttpResponse {
+//        return HttpResponse(statusCode: 200,
+//                statusPhrase: "OK",
+//                headers: ["Content-Length":String(obtainRequestLog().count), "Content-Type":"text/html"],
+//        body: obtainRequestLog())
+//    }
 
     public func generateDirectory(body: String) -> HttpResponse {
         return HttpResponse(statusCode: 200,
@@ -166,7 +169,7 @@ public class ResponseBuilder {
         var allMethods = ""
         let listOfMethods = routesTable.options(url: url)
         for method in listOfMethods {
-            allMethods = allMethods + " \(method),"
+            allMethods = allMethods + "\(method),"
         }
         return allMethods
     }
