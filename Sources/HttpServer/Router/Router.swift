@@ -1,7 +1,6 @@
 public class Router {
     private var routesTable: RoutesTable
     private var responseBuilder: ResponseBuilder
-    let logger = Logger()
 
     public init(routesTable: RoutesTable, responseBuilder: ResponseBuilder) {
         self.routesTable = routesTable
@@ -23,7 +22,6 @@ public class Router {
 
         if let validRoute = route {
             if validRoute.authorizeSucceeded(requestHeaders: request.returnHeaders()) {
-                logger.logToFile(message: "Only valid route should show up here")
                 return validRoute.action.execute(request: request)
             } else {
                 return responseBuilder.generate401Response(realm: validRoute.getRealm())
@@ -33,8 +31,6 @@ public class Router {
         if methodNotAllowed(requestUrl: requestUrl, requestMethod:requestMethod) {
             return responseBuilder.generate405Response()
         }
-
-        logger.logToFile(message: "Invalid route [\(requestMethod) + \(requestUrl)] will end up here")
         return responseBuilder.generate404Response()
     }
 
@@ -50,12 +46,9 @@ public class Router {
     private func routeExists(requestUrl: String, requestMethod: HttpMethod) -> Route? {
         for route in self.routesTable.showAllRoutes() {
             if route.url == requestUrl && route.method == requestMethod {
-                logger.logToFile(message: "\(requestMethod) + \(requestUrl) is a valid route")
                 return route
             }
         }
-
-        logger.logToFile(message: "\(requestMethod) + \(requestUrl) is NOT a valid route")
         return nil
     }
 }
