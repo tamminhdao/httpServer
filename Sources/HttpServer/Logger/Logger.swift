@@ -6,7 +6,6 @@ public class Logger {
     let log = SwiftyBeaver.self
     let console = ConsoleDestination()
     let file = FileDestination()
-    let fileURL = URL(string: "/Users/tamdao/Swift/httpServer/server.log")
 
     public init() {}
 
@@ -31,13 +30,8 @@ public class Logger {
     }
 
     public func logToFile(message: String) {
-//        try createLogFile()
-        file.logFileURL = fileURL
+        file.logFileURL = URL(string: "/Users/tamdao/Swift/httpServer/server.log")
         log.addDestination(file)
         log.debug(message)
     }
-
-//    private func createLogFile() throws {
-//        try "".write(to: fileURL, atomically: true, encoding: String.Encoding.utf8)
-//    }
 }

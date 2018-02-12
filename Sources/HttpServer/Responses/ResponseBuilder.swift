@@ -166,5 +166,4 @@ public class ResponseBuilder {
         }
         return allMethods
     }
-
 }

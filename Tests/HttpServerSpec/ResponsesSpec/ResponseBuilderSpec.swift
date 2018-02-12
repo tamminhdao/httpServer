@@ -10,8 +10,6 @@ class ResponseBuilderSpec: QuickSpec {
             var dataStorage: DataStorage!
             var nullAction: NullAction!
 
-            let logger = Logger()
-
             beforeEach {
                 routesTable = RoutesTable()
                 dataStorage = DataStorage()
@@ -67,12 +65,6 @@ class ResponseBuilderSpec: QuickSpec {
                                   "WWW-Authenticate": ""],
                         body: bodyContent
                 )
-//
-//                let realData = response200Logs.constructResponse()
-//                logger.logToConsole_debug(message: String(data: realData, encoding: .utf8)!)
-//
-//                let expectedData = expectedResponse200Logs.constructResponse()
-//                logger.logToConsole_debug(message: String(data: expectedData, encoding: .utf8)!)
 
                 expect(response200Logs).to(equal(expectedResponse200Logs))
             }
