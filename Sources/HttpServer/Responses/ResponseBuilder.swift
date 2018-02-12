@@ -38,11 +38,13 @@ public class ResponseBuilder {
                 body: Data(body.utf8))
     }
 
-    public func generateFile(body: Data?) -> HttpResponse {
-        return HttpResponse(statusCode: 200,
-                statusPhrase: "OK",
-                headers: ["Content-Length":String(body!.count), "Content-Type":"text/html"],
-                body: body!)
+    public func generate200ResponseWithFileContent(content: Data?, contentType: (fileType: String, fileExt: String)) -> HttpResponse {
+        self.resetBuilder()
+            .setStatusCode(statusCode: 200)
+            .setStatusPhrase(statusPhrase: "OK")
+            .setContentType(contentType: "\(contentType.fileType)/\(contentType.fileExt)")
+            .setBody(body: content!)
+        return self.build()
     }
 
     public func generate302Response() -> HttpResponse {

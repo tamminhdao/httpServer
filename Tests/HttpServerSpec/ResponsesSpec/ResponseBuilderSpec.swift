@@ -90,7 +90,22 @@ class ResponseBuilderSpec: QuickSpec {
 
                 expect(responseOptions).to(equal(expectedResponseOptions))
             }
+            
+            it ("can generate a 200 response with the correct content type for a given file type and extension") {
+                let response200FileContent = responseBuilder.generate200ResponseWithFileContent(content: Data(), contentType: (fileType: "image", fileExt: "jpg"))
+                let expectedResponse200FileContent = HttpResponse(
+                        statusCode: 200,
+                        statusPhrase: "OK",
+                        headers: ["Content-Length": "0",
+                                  "Content-Type":"image/jpg",
+                                  "Allow": "",
+                                  "Location": "",
+                                  "WWW-Authenticate": ""],
+                        body: Data())
 
+                expect(response200FileContent).to(equal(expectedResponse200FileContent))
+            }
+            
             it ("can generate a 302 response") {
                 let response302 = responseBuilder.generate302Response()
                 let expectedResponse302 = HttpResponse(
