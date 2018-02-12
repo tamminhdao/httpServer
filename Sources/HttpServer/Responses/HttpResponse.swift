@@ -5,11 +5,11 @@ public class HttpResponse {
     var statusCode: Int
     var statusPhrase: String
     var headers: [String: String]
-    var body: String
+    var body: Data
     var crlf: String
     var space: String
 
-    public init(statusCode: Int, statusPhrase: String, headers: [String:String], body: String) {
+    public init(statusCode: Int, statusPhrase: String, headers: [String:String], body: Data) {
         self.statusCode = statusCode
         self.statusPhrase = statusPhrase
         self.headers = headers
@@ -20,8 +20,10 @@ public class HttpResponse {
 
     public func constructResponse() -> Data {
         let responseText = self.VERSION + self.space + String(self.statusCode) + self.space + self.statusPhrase
-                + self.crlf + self.convertHeaders(headers: self.headers) + self.crlf + self.body
-        return Data(responseText.utf8)
+                + self.crlf + self.convertHeaders(headers: self.headers) + self.crlf
+        var responseData = Data(responseText.utf8)
+        responseData.append(self.body)
+        return responseData
     }
 
     private func convertHeaders(headers: [String: String]) -> String {
