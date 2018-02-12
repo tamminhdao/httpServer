@@ -30,7 +30,6 @@ class RouterSpec: QuickSpec {
             }
 
             it("returns a 200 OK response with data in the body") {
-
                 let validRequest = HttpRequest(
                         method: HttpMethod.get,
                         url: "/",
@@ -54,75 +53,7 @@ class RouterSpec: QuickSpec {
                 expect(response).to(equal(responseOK))
             }
 
-            it("returns a 404 Not Found if the url does not exist") {
-                let validRequest = HttpRequest(
-                        method: HttpMethod.head,
-                        url: "/foobar",
-                        version: "HTTP/1.1",
-                        headers: [:],
-                        body: [:]
-                )
-
-                let notFoundResponse = HttpResponse(
-                        statusCode: 404,
-                        statusPhrase: "Not Found",
-                        headers: ["Content-Length": "0",
-                                  "Content-Type": "text/html",
-                                  "Allow": "",
-                                  "Location": "",
-                                  "WWW-Authenticate": ""],
-                        body: ""
-                )
-
-                let response = router.route(request: validRequest)
-                expect(response).to(equal(notFoundResponse))
-            }
-
-            it("returns a 405 Method Not Allowed if the url exists but it doesn't accept the verb") {
-                let validRequest = HttpRequest(
-                        method: HttpMethod.post,
-                        url: "/",
-                        version: "HTTP/1.1",
-                        headers: [:],
-                        body: [:]
-                )
-
-                let notAllowedResponse = HttpResponse(
-                        statusCode: 405,
-                        statusPhrase: "Method Not Allowed",
-                        headers: ["Content-Length": "0",
-                                  "Content-Type": "text/html",
-                                  "Allow": "",
-                                  "Location": "",
-                                  "WWW-Authenticate": ""],
-                        body: ""
-                )
-
-                let response = router.route(request: validRequest)
-                expect(response).to(equal(notAllowedResponse))
-            }
-
-            it("returns a 302 Found in case of a redirect") {
-                let validRequest = HttpRequest(
-                        method: HttpMethod.get,
-                        url: "/redirect",
-                        version: "HTTP/1.1",
-                        headers: [:],
-                        body: [:]
-                )
-
-                let redirectResponse = HttpResponse(
-                        statusCode: 302,
-                        statusPhrase: "Found",
-                        headers: ["Content-Length": "0", "Location": "/"],
-                        body: ""
-                )
-
-                let response = router.route(request: validRequest)
-                expect(response).to(equal(redirectResponse))
-            }
-
-            it("returns a 200 OK if the credential for an authorized route is correct") {
+            it ("returns a 200 OK if the credential for an authorized route is correct") {
                 let validRequest = HttpRequest(
                         method: HttpMethod.get,
                         url: "/logs",
@@ -135,14 +66,88 @@ class RouterSpec: QuickSpec {
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length": "0",
-                                  "Content-Type": "text/html",
-                                  "Allow": "GET,"],
+                                  "Content-Type":"text/html",
+                                  "Allow": "GET,",
+                                  "Location": "",
+                                  "WWW-Authenticate": ""],
+                        body: ""
+                )
+                let response = router.route(request: validRequest)
+                expect(response).to(equal(authorizedResponse))
+            }
+
+            it ("returns a 404 Not Found if the url does not exist") {
+                let validRequest = HttpRequest(
+                        method: HttpMethod.head,
+                        url: "/foobar",
+                        version: "HTTP/1.1",
+                        headers: [:],
+                        body: [:]
+                )
+
+                let notFoundResponse = HttpResponse(
+                        statusCode: 404,
+                        statusPhrase: "Not Found",
+                        headers: ["Content-Length": "0",
+                                    "Content-Type": "text/html",
+                                    "Allow": "",
+                                    "Location": "",
+                                    "WWW-Authenticate": ""],
                         body: ""
                 )
 
                 let response = router.route(request: validRequest)
-                expect(response).to(equal(authorizedResponse))
+                expect(response).to(equal(notFoundResponse))
             }
+
+            it ("returns a 405 Method Not Allowed if the url exists but it doesn't accept the verb") {
+                let validRequest = HttpRequest(
+                        method: HttpMethod.post,
+                        url: "/",
+                        version: "HTTP/1.1",
+                        headers: [:],
+                        body: [:]
+                )
+
+                let notAllowedResponse = HttpResponse(
+                        statusCode: 405,
+                        statusPhrase: "Method Not Allowed",
+                        headers: ["Content-Length": "0",
+                                    "Content-Type": "text/html",
+                                    "Allow": "",
+                                    "Location": "",
+                                    "WWW-Authenticate": ""],
+                        body: ""
+                )
+
+                let response = router.route(request: validRequest)
+                expect(response).to(equal(notAllowedResponse))
+            }
+
+            it ("returns a 302 Found in case of a redirect") {
+                        let validRequest = HttpRequest(
+                        method: HttpMethod.get,
+                        url: "/redirect",
+                        version: "HTTP/1.1",
+                        headers: [:],
+                        body: [:]
+                )
+
+                let redirectResponse = HttpResponse(
+                        statusCode: 302,
+                        statusPhrase: "Found",
+                        headers: ["Content-Length": "0",
+                                    "Content-Type":"text/html",
+                                    "Allow": "",
+                                    "Location": "/",
+                                    "WWW-Authenticate": ""],
+                        body: ""
+                )
+
+                let response = router.route(request: validRequest)
+                expect(response).to(equal(redirectResponse))
+            }
+
 
             it("returns a 401 Unauthorized if the credential is incorrect") {
                 let validRequest = HttpRequest(
@@ -156,7 +161,11 @@ class RouterSpec: QuickSpec {
                 let unauthorizedResponse = HttpResponse(
                         statusCode: 401,
                         statusPhrase: "Unauthorized",
-                        headers: ["WWW-Authenticate": "Basic realm=basic-auth", "Content-Type": "text/html"],
+                        headers: ["Content-Length": "0",
+                                  "Content-Type":"text/html",
+                                  "Allow": "",
+                                  "Location": "",
+                                  "WWW-Authenticate": "Basic realm=basic-auth"],
                         body: ""
                 )
 

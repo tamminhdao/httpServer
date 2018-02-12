@@ -90,7 +90,7 @@ class ResponseBuilderSpec: QuickSpec {
                         statusPhrase: "OK",
                         headers: ["Content-Length": "0",
                                   "Content-Type":"text/html",
-                                  "Allow": " GET,HEAD,PUT,POST,OPTIONS,",
+                                  "Allow": "GET,HEAD,PUT,POST,OPTIONS,",
                                   "Location": "",
                                   "WWW-Authenticate": ""],
                         body: "")
