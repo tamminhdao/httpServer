@@ -1,6 +1,7 @@
 import HttpServer
 import Quick
 import Nimble
+import Foundation
 
 class NullActionSpec: QuickSpec {
     override func spec() {
@@ -35,7 +36,7 @@ class NullActionSpec: QuickSpec {
                                   "Allow": "",
                                   "Location": "",
                                   "WWW-Authenticate": ""],
-                        body: ""
+                        body: Data()
                 )
                 expect(response).to(equal(expected))
             }

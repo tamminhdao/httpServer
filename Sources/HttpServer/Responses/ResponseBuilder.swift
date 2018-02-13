@@ -6,7 +6,7 @@ public class ResponseBuilder {
     private var statusCode: Int?
     private var statusPhrase: String?
     private var contentType: String?
-    private var body: String?
+    private var body: Data?
     private var allow: String?
     private var location: String?
     private var authenticate: String?
@@ -22,26 +22,30 @@ public class ResponseBuilder {
                 .setStatusPhrase(statusPhrase: "OK")
                 .setAllow(url: options(url: url))
         if (method != HttpMethod.head) {
-            self.setBody(body: obtainDataByUrlKey(url: url))
+            let bodyString = obtainDataByUrlKey(url: url)
+            self.setBody(body: Data(bodyString.utf8))
         }
         if (url == "/logs") {
-            self.setBody(body: obtainRequestLog())
+            self.setBody(body: Data(obtainRequestLog().utf8))
         }
         return self.build()
     }
 
-    public func generateDirectory(body: String) -> HttpResponse {
-        return HttpResponse(statusCode: 200,
-                statusPhrase: "OK",
-                headers: ["Content-Length":String(body.count), "Content-Type":"text/html"],
-                body: body)
+    public func generate200ResponseWithDirectoryListing(directory: String) -> HttpResponse {
+        self.resetBuilder()
+            .setStatusCode(statusCode: 200)
+            .setStatusPhrase(statusPhrase: "OK")
+            .setBody(body: Data(directory.utf8))
+        return self.build()
     }
 
-    public func generateFile(body: Data?) -> HttpResponse {
-        return HttpResponse(statusCode: 200,
-                statusPhrase: "OK",
-                headers: ["Content-Length":String(body!.count), "Content-Type":"text/html"],
-                body: String(data: body!, encoding: .utf8)!)
+    public func generate200ResponseWithFileContent(content: Data?, contentType: (fileType: String, fileExt: String)) -> HttpResponse {
+        self.resetBuilder()
+            .setStatusCode(statusCode: 200)
+            .setStatusPhrase(statusPhrase: "OK")
+            .setContentType(contentType: "\(contentType.fileType)/\(contentType.fileExt)")
+            .setBody(body: content!)
+        return self.build()
     }
 
     public func generate302Response() -> HttpResponse {
@@ -90,7 +94,7 @@ public class ResponseBuilder {
         return self
     }
 
-    private func setBody(body: String) -> ResponseBuilder {
+    private func setBody(body: Data) -> ResponseBuilder {
         self.body = body
         return self
     }
@@ -130,7 +134,7 @@ public class ResponseBuilder {
     }
 
     private func build() -> HttpResponse {
-        let bodyValue = checkField(value: self.body, defaultValue: "")
+        let bodyValue = checkField(value: self.body, defaultValue: Data())
         return HttpResponse(
         statusCode: checkField(value: self.statusCode, defaultValue: 404),
         statusPhrase: checkField(value: self.statusPhrase, defaultValue: "Not Found"),

@@ -14,7 +14,7 @@ public class DirectoryListingAction: HttpAction {
         do {
             let content = try directoryNavigator.contentsOfDirectory()
             let htmlContent = convertToHTML(content: content)
-            return responseBuilder.generateDirectory(body: htmlContent)
+            return responseBuilder.generate200ResponseWithDirectoryListing(directory: htmlContent)
         } catch let error {
             print(error.localizedDescription)
             return responseBuilder.generate404Response()

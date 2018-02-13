@@ -1,12 +1,12 @@
 import HttpServer
 import Quick
 import Nimble
+import Foundation
 
 class FetchFileActionSpec : QuickSpec {
     override func spec() {
         describe("#FetchFileAction") {
             var action: FetchFileAction!
-            var request: HttpRequest!
             var responseBuilder: ResponseBuilder!
             var dataStorage: DataStorage!
             var routesTable: RoutesTable!
@@ -18,17 +18,52 @@ class FetchFileActionSpec : QuickSpec {
                 directoryNavigator = DirectoryNavigator(directoryPath: "./cob_spec/public")
                 responseBuilder = ResponseBuilder(routesTable: routesTable, dataStorage: dataStorage)
                 action = FetchFileAction(directoryNavigator: directoryNavigator, responseBuilder: responseBuilder)
-                request = HttpRequest(
+            }
+
+            it ("returns the correct file content in the body of the response") {
+                let requestTextFile = HttpRequest(
                         method: HttpMethod.get,
-                        url: "/image",
+                        url: "/text-file.txt",
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]
                 )
+                let response = action.execute(request: requestTextFile)
+
+                let expectedResponse = HttpResponse(
+                        statusCode: 200,
+                        statusPhrase: "OK",
+                        headers: ["Content-Length": String(Data("file1 contents".utf8).count),
+                                  "Content-Type": "text/plain",
+                                  "Allow": "",
+                                  "Location": "",
+                                  "WWW-Authenticate": ""],
+                        body: Data("file1 contents".utf8))
+
+                expect(response).to(equal(expectedResponse))
             }
 
-            it ("returns the requested file in the body of the response") {
+            it ("sets content type as text/html if the file does not have an extension") {
+                let requestFile = HttpRequest(
+                        method: HttpMethod.get,
+                        url: "/file2",
+                        version: "HTTP/1.1",
+                        headers: [:],
+                        body: [:]
+                )
+                let response = action.execute(request: requestFile)
 
+                let expectedResponse = HttpResponse(
+                        statusCode: 200,
+                        statusPhrase: "OK",
+                        headers: ["Content-Length": String(Data("file2 contents\n".utf8).count),
+                                  "Content-Type": "text/html",
+                                  "Allow": "",
+                                  "Location": "",
+                                  "WWW-Authenticate": ""],
+                        body: Data("file2 contents\n".utf8))
+
+                expect(response).to(equal(expectedResponse))
             }
         }
     }

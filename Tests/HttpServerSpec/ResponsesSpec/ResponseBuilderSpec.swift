@@ -1,6 +1,7 @@
 import Quick
 import Nimble
 import HttpServer
+import Foundation
 
 class ResponseBuilderSpec: QuickSpec {
     override func spec() {
@@ -23,12 +24,12 @@ class ResponseBuilderSpec: QuickSpec {
                 let expectedResponse200 = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length":String(("data=fatcat ").count),
+                        headers: ["Content-Length":String(Data("data=fatcat ".utf8).count),
                                   "Content-Type":"text/html",
                                   "Allow": "",
                                   "Location": "",
                                   "WWW-Authenticate": ""],
-                        body: "data=fatcat "
+                        body: Data("data=fatcat ".utf8)
                 )
                 expect(response200).to(equal(expectedResponse200))
             }
@@ -44,7 +45,7 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Allow": "",
                                   "Location": "",
                                   "WWW-Authenticate": ""],
-                        body: ""
+                        body: Data()
                 )
                 expect(response200Head).to(equal(expectedResponse200Head))
             }
@@ -58,12 +59,12 @@ class ResponseBuilderSpec: QuickSpec {
                 let expectedResponse200Logs = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length": String(bodyContent.count),
+                        headers: ["Content-Length": String(Data(bodyContent.utf8).count),
                                   "Content-Type":"text/html",
                                   "Allow": "",
                                   "Location": "",
                                   "WWW-Authenticate": ""],
-                        body: bodyContent
+                        body: Data(bodyContent.utf8)
                 )
 
                 expect(response200Logs).to(equal(expectedResponse200Logs))
@@ -85,11 +86,59 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Allow": "GET,HEAD,PUT,POST,OPTIONS,",
                                   "Location": "",
                                   "WWW-Authenticate": ""],
-                        body: "")
+                        body: Data())
 
                 expect(responseOptions).to(equal(expectedResponseOptions))
             }
 
+            it ("can generate a 200 response with directory listing") {
+                let directory =  """
+                         <!DOCTYPE html>
+                             <html>
+                                 <head>
+                                     <title>Directory Listing</title>
+                                 </head>
+                                 <body>
+                                     <ul>
+                                         <li>
+                                             <a href=file1> file1 </a>
+                                         </li>
+                                         <li>
+                                             <a href=file2> file2 </a>
+                                         </li>
+                                     </ul>
+                                 </body>
+                             </html>
+                         """
+                let response200Directory = responseBuilder.generate200ResponseWithDirectoryListing(directory: directory)
+                let expectedResponse200Directory = HttpResponse(
+                        statusCode: 200,
+                        statusPhrase: "OK",
+                        headers: ["Content-Length": String(directory.count),
+                                  "Content-Type":"text/html",
+                                  "Allow": "",
+                                  "Location": "",
+                                  "WWW-Authenticate": ""],
+                        body: Data(directory.utf8))
+
+                expect(response200Directory).to(equal(expectedResponse200Directory))
+            }
+            
+            it ("can generate a 200 response with the correct content type for a given file type and extension") {
+                let response200FileContent = responseBuilder.generate200ResponseWithFileContent(content: Data(), contentType: (fileType: "image", fileExt: "jpg"))
+                let expectedResponse200FileContent = HttpResponse(
+                        statusCode: 200,
+                        statusPhrase: "OK",
+                        headers: ["Content-Length": "0",
+                                  "Content-Type":"image/jpg",
+                                  "Allow": "",
+                                  "Location": "",
+                                  "WWW-Authenticate": ""],
+                        body: Data())
+
+                expect(response200FileContent).to(equal(expectedResponse200FileContent))
+            }
+            
             it ("can generate a 302 response") {
                 let response302 = responseBuilder.generate302Response()
                 let expectedResponse302 = HttpResponse(
@@ -100,7 +149,7 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Allow": "",
                                   "Location": "",
                                   "WWW-Authenticate": ""],
-                        body: ""
+                        body: Data()
                 )
 
                 expect(response302).to(equal(expectedResponse302))
@@ -116,7 +165,7 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Allow": "",
                                   "Location": "",
                                   "WWW-Authenticate": "Basic realm=basic-auth"],
-                        body: ""
+                        body: Data()
                 )
                 expect(response401).to(equal(expectedResponse401))
             }
@@ -131,7 +180,7 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Allow": "",
                                   "Location": "",
                                   "WWW-Authenticate": ""],
-                        body: ""
+                        body: Data()
                 )
                 expect(response404).to(equal(expectedResponse404))
             }
@@ -146,7 +195,7 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Allow": "",
                                   "Location": "",
                                   "WWW-Authenticate": ""],
-                        body: ""
+                        body: Data()
                 )
                 expect(response405).to(equal(expectedResponse405))
             }
