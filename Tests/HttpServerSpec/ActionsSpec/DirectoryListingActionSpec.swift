@@ -31,49 +31,20 @@ class DirectoryListingActionSpec : QuickSpec {
             it ("return a response with a directory in html format in the body") {
                 let response = action.execute(request: request)
 
-                let bodyContent =
-                        """
-                         <!DOCTYPE html>
-                             <html>
-                                 <head>
-                                     <title>Directory Listing</title>
-                                 </head>
-                                 <body>
-                                     <ul>
-                                         <li>
-                                             <a href=/file1> file1 </a>
-                                         </li>
-                                         <li>
-                                             <a href=/file2> file2 </a>
-                                         </li>
-                                         <li>
-                                             <a href=/image.gif> image.gif </a>
-                                         </li>
-                                         <li>
-                                             <a href=/image.jpeg> image.jpeg </a>
-                                         </li>
-                                         <li>
-                                             <a href=/image.png> image.png </a>
-                                         </li>
-                                         <li>
-                                             <a href=/partial_content.txt> partial_content.txt </a>
-                                         </li>
-                                         <li>
-                                             <a href=/patch-content.txt> patch-content.txt </a>
-                                         </li>
-                                         <li>
-                                             <a href=/text-file.txt> text-file.txt </a>
-                                         </li>
-                                     </ul>
-                                 </body>
-                             </html>
-                         """
+                let bodyContent = "<!DOCTYPE html><html><head><title>Directory Listing</title></head>" +
+                        "<body><ul><li><a href=/file1> file1 </a></li><li><a href=/file2> file2 </a></li>" +
+                        "<li><a href=/image.gif> image.gif </a></li><li><a href=/image.jpeg> image.jpeg </a></li>" +
+                        "<li><a href=/image.png> image.png </a></li><li><a href=/partial_content.txt> partial_content.txt </a></li>" +
+                        "<li><a href=/patch-content.txt> patch-content.txt </a></li><li><a href=/text-file.txt> text-file.txt </a></li></ul></body></html>"
 
                 let expected = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length":"469",
-                                  "Content-Type":"text/html"],
+                        headers: ["Content-Length": String(bodyContent.count),
+                                  "Content-Type":"text/html",
+                                  "Allow": "",
+                                  "Location": "",
+                                  "WWW-Authenticate": ""],
                         body: Data(bodyContent.utf8)
                 )
 

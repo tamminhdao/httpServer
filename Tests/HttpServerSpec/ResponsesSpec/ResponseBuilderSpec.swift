@@ -90,6 +90,39 @@ class ResponseBuilderSpec: QuickSpec {
 
                 expect(responseOptions).to(equal(expectedResponseOptions))
             }
+
+            it ("can generate a 200 response with directory listing") {
+                let directory =  """
+                         <!DOCTYPE html>
+                             <html>
+                                 <head>
+                                     <title>Directory Listing</title>
+                                 </head>
+                                 <body>
+                                     <ul>
+                                         <li>
+                                             <a href=file1> file1 </a>
+                                         </li>
+                                         <li>
+                                             <a href=file2> file2 </a>
+                                         </li>
+                                     </ul>
+                                 </body>
+                             </html>
+                         """
+                let response200Directory = responseBuilder.generate200ResponseWithDirectoryListing(directory: directory)
+                let expectedResponse200Directory = HttpResponse(
+                        statusCode: 200,
+                        statusPhrase: "OK",
+                        headers: ["Content-Length": String(directory.count),
+                                  "Content-Type":"text/html",
+                                  "Allow": "",
+                                  "Location": "",
+                                  "WWW-Authenticate": ""],
+                        body: Data(directory.utf8))
+
+                expect(response200Directory).to(equal(expectedResponse200Directory))
+            }
             
             it ("can generate a 200 response with the correct content type for a given file type and extension") {
                 let response200FileContent = responseBuilder.generate200ResponseWithFileContent(content: Data(), contentType: (fileType: "image", fileExt: "jpg"))

@@ -31,11 +31,12 @@ public class ResponseBuilder {
         return self.build()
     }
 
-    public func generateDirectory(body: String) -> HttpResponse {
-        return HttpResponse(statusCode: 200,
-                statusPhrase: "OK",
-                headers: ["Content-Length":String(body.count), "Content-Type":"text/html"],
-                body: Data(body.utf8))
+    public func generate200ResponseWithDirectoryListing(directory: String) -> HttpResponse {
+        self.resetBuilder()
+            .setStatusCode(statusCode: 200)
+            .setStatusPhrase(statusPhrase: "OK")
+            .setBody(body: Data(directory.utf8))
+        return self.build()
     }
 
     public func generate200ResponseWithFileContent(content: Data?, contentType: (fileType: String, fileExt: String)) -> HttpResponse {
