@@ -10,14 +10,12 @@ class DeleteActionSpec: QuickSpec {
             var dataStorage: DataStorage!
             var request: HttpRequest!
             var routesTable: RoutesTable!
-            var responseBuilder: ResponseBuilder!
 
             beforeEach {
                 dataStorage = DataStorage()
                 dataStorage.addData(url: "/form", value: "data=fatcat")
                 routesTable = RoutesTable()
-                responseBuilder = ResponseBuilder(routesTable: routesTable, dataStorage: dataStorage)
-                action = DeleteAction(responseBuilder: responseBuilder, dataStorage: dataStorage)
+                action = DeleteAction(routesTable: routesTable, dataStorage: dataStorage)
                 request = HttpRequest(
                         method: HttpMethod.delete,
                         url: "/form",

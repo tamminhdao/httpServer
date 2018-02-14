@@ -10,13 +10,11 @@ class RedirectActionSpec : QuickSpec {
             var dataStorage: DataStorage!
             var request: HttpRequest!
             var routesTable: RoutesTable!
-            var responseBuilder: ResponseBuilder!
 
             beforeEach {
                 dataStorage = DataStorage()
                 routesTable = RoutesTable()
-                responseBuilder = ResponseBuilder(routesTable: routesTable, dataStorage: dataStorage)
-                action = RedirectAction(redirectPath: "/", responseBuilder: responseBuilder, dataStorage: dataStorage)
+                action = RedirectAction(redirectPath: "/", routesTable: routesTable, dataStorage: dataStorage)
                 request = HttpRequest(
                         method: HttpMethod.get,
                         url: "/redirect",

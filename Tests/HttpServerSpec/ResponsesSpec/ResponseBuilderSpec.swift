@@ -15,7 +15,7 @@ class ResponseBuilderSpec: QuickSpec {
                 routesTable = RoutesTable()
                 dataStorage = DataStorage()
                 responseBuilder = ResponseBuilder(routesTable: routesTable, dataStorage: dataStorage)
-                nullAction = NullAction(responseBuilder: responseBuilder)
+                nullAction = NullAction(routesTable: routesTable, dataStorage: dataStorage)
             }
 
             it ("can generate a 200 response putting url data in the body") {
