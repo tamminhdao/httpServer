@@ -7,7 +7,6 @@ class FetchFileActionSpec : QuickSpec {
     override func spec() {
         describe("#FetchFileAction") {
             var action: FetchFileAction!
-            var responseBuilder: ResponseBuilder!
             var dataStorage: DataStorage!
             var routesTable: RoutesTable!
             var directoryNavigator: DirectoryNavigator!
@@ -16,8 +15,7 @@ class FetchFileActionSpec : QuickSpec {
                 dataStorage = DataStorage()
                 routesTable = RoutesTable()
                 directoryNavigator = DirectoryNavigator(directoryPath: "./cob_spec/public")
-                responseBuilder = ResponseBuilder(routesTable: routesTable, dataStorage: dataStorage)
-                action = FetchFileAction(directoryNavigator: directoryNavigator, responseBuilder: responseBuilder)
+                action = FetchFileAction(directoryNavigator: directoryNavigator, routesTable: routesTable, dataStorage: dataStorage)
             }
 
             it ("returns the correct file content in the body of the response") {

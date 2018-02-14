@@ -10,15 +10,13 @@ class DirectoryListingActionSpec : QuickSpec {
             var dataStorage: DataStorage!
             var request: HttpRequest!
             var routesTable: RoutesTable!
-            var responseBuilder: ResponseBuilder!
             var directoryNavigator: DirectoryNavigator!
 
             beforeEach {
                 dataStorage = DataStorage()
                 routesTable = RoutesTable()
                 directoryNavigator = DirectoryNavigator(directoryPath: "./cob_spec/public")
-                responseBuilder = ResponseBuilder(routesTable: routesTable, dataStorage: dataStorage)
-                action = DirectoryListingAction(directoryNavigator: directoryNavigator, responseBuilder: responseBuilder)
+                action = DirectoryListingAction(directoryNavigator: directoryNavigator, routesTable: routesTable, dataStorage: dataStorage)
                 request = HttpRequest(
                         method: HttpMethod.get,
                         url: "/",

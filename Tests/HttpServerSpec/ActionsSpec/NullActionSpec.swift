@@ -10,13 +10,11 @@ class NullActionSpec: QuickSpec {
             var dataStorage: DataStorage!
             var request: HttpRequest!
             var routesTable: RoutesTable!
-            var responseBuilder: ResponseBuilder!
 
             beforeEach {
                 dataStorage = DataStorage()
                 routesTable = RoutesTable()
-                responseBuilder = ResponseBuilder(routesTable: routesTable, dataStorage: dataStorage)
-                action = NullAction(responseBuilder: responseBuilder)
+                action = NullAction(routesTable: routesTable, dataStorage: dataStorage)
                 request = HttpRequest(
                         method: HttpMethod.get,
                         url: "/",

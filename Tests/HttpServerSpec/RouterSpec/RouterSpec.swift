@@ -13,6 +13,7 @@ class RouterSpec: QuickSpec {
             var nullAction: NullAction!
             var directoryNavigator: DirectoryNavigator!
             var directoryListingAction: DirectoryListingAction!
+            var redirectAction: RedirectAction!
 
             beforeEach {
                 routesTable = RoutesTable()
@@ -21,12 +22,13 @@ class RouterSpec: QuickSpec {
                 dataStorage.addData(url: "/", value: "data=fatcat ")
                 responseBuilder = ResponseBuilder(routesTable: routesTable, dataStorage: dataStorage)
                 router = Router(routesTable: routesTable, responseBuilder: responseBuilder)
-                nullAction = NullAction(responseBuilder: responseBuilder)
-                directoryListingAction = DirectoryListingAction(directoryNavigator: directoryNavigator, responseBuilder: responseBuilder)
+                nullAction = NullAction(routesTable: routesTable, dataStorage: dataStorage)
+                redirectAction =  RedirectAction(redirectPath: "/", routesTable: routesTable, dataStorage: dataStorage)
+                directoryListingAction = DirectoryListingAction(directoryNavigator: directoryNavigator, routesTable: routesTable, dataStorage: dataStorage)
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: nullAction))
                 routesTable.addRoute(route: Route(url: "/directory", method: HttpMethod.get, action: directoryListingAction))
                 routesTable.addRoute(route: Route(url: "/method_options2", method: HttpMethod.get, action: nullAction))
-                routesTable.addRoute(route: Route(url: "/redirect", method: HttpMethod.get, action: RedirectAction(redirectPath: "/", responseBuilder: responseBuilder, dataStorage: dataStorage)))
+                routesTable.addRoute(route: Route(url: "/redirect", method: HttpMethod.get, action: redirectAction))
                 routesTable.addRoute(route: Route(url: "/logs", method: HttpMethod.get, action: nullAction, realm: "basic-auth", credentials: "YWRtaW46aHVudGVyMg=="))
             }
 
