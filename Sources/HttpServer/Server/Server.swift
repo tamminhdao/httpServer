@@ -10,7 +10,7 @@ public class Server {
     var parser: RequestParser
     var router: Router
     var dataStorage: DataStorage
-    let serialQueue = DispatchQueue(label: "log incoming requests", qos: .background)
+    let serialQueue = DispatchQueue(label: "queue incoming requests", qos: .default)
 
     public init(port: Int, directory: String, router: Router, dataStorage: DataStorage) {
         self.parser = RequestParser()
@@ -40,11 +40,8 @@ public class Server {
 
     private func handleRequest(socket: Socket) {
         let parsedIncomingRequest = parseRequest(socket: socket)
-
         let categorizedResponse = router.route(request: parsedIncomingRequest)
-
         sendBackResponse(socket: socket, response: categorizedResponse)
-
         socket.close()
     }
 

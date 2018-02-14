@@ -8,13 +8,11 @@ class RoutesTableSpec: QuickSpec {
             var routesTable: RoutesTable!
             var nullAction: NullAction!
             var dataStorage: DataStorage!
-            var responseGenerator: ResponseGenerator!
 
             beforeEach {
                 routesTable = RoutesTable()
                 dataStorage = DataStorage()
-                responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
-                nullAction = NullAction(responseGenerator: responseGenerator)
+                nullAction = NullAction(routesTable: routesTable, dataStorage: dataStorage)
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: nullAction))
                 routesTable.addRoute(route: Route(url: "/table", method: HttpMethod.get, action: nullAction))
             }

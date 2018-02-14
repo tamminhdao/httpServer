@@ -10,14 +10,12 @@ class DeleteActionSpec: QuickSpec {
             var dataStorage: DataStorage!
             var request: HttpRequest!
             var routesTable: RoutesTable!
-            var responseGenerator: ResponseGenerator!
 
             beforeEach {
                 dataStorage = DataStorage()
-                dataStorage.addValues(key: "data", value: "fatcat")
+                dataStorage.addData(url: "/form", value: "data=fatcat")
                 routesTable = RoutesTable()
-                responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
-                action = DeleteAction(responseGenerator: responseGenerator, dataStorage: dataStorage)
+                action = DeleteAction(routesTable: routesTable, dataStorage: dataStorage)
                 request = HttpRequest(
                         method: HttpMethod.delete,
                         url: "/form",
@@ -28,8 +26,8 @@ class DeleteActionSpec: QuickSpec {
             }
 
             it ("deletes all data in the data storage") {
-                let _ = action.execute(request: request)
-                let allValues = dataStorage.logValues()
+                action.execute(request: request)
+                let allValues = dataStorage.logData()
                 let expectedValues : [String: String] = [:]
                 expect(allValues).to(equal(expectedValues))
             }

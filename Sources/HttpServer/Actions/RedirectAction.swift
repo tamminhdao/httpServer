@@ -1,18 +1,21 @@
 public class RedirectAction: HttpAction {
 
     private var redirectPath: String
-    private var responseGenerator: ResponseGenerator
+    private var routesTable: RoutesTable
     public var dataStorage: DataStorage
 
-    public init(redirectPath: String, responseGenerator: ResponseGenerator, dataStorage: DataStorage) {
+    public init(redirectPath: String, routesTable: RoutesTable, dataStorage: DataStorage) {
         self.redirectPath = redirectPath
         self.dataStorage = dataStorage
-        self.responseGenerator = responseGenerator
+        self.routesTable = routesTable
     }
 
     public func execute(request: HttpRequest) -> HttpResponse {
         dataStorage.setLocation(location: redirectPath)
 
-        return responseGenerator.generate302Response()
+        return ResponseBuilder(
+                routesTable: self.routesTable,
+                dataStorage: self.dataStorage)
+                .generate302Response()
     }
 }

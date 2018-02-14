@@ -1,6 +1,7 @@
 import Quick
 import Nimble
 import HttpServer
+import Foundation
 
 class PostActionSpec: QuickSpec {
     override func spec() {
@@ -9,13 +10,11 @@ class PostActionSpec: QuickSpec {
             var dataStorage: DataStorage!
             var request: HttpRequest!
             var routesTable: RoutesTable!
-            var responseGenerator: ResponseGenerator!
 
             beforeEach {
                 dataStorage = DataStorage()
                 routesTable = RoutesTable()
-                responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
-                action = PostAction(responseGenerator: responseGenerator, dataStorage: dataStorage)
+                action = PostAction(routesTable: routesTable, dataStorage: dataStorage)
                 request = HttpRequest(
                         method: HttpMethod.post,
                         url: "/form",
@@ -28,20 +27,22 @@ class PostActionSpec: QuickSpec {
             it("generates a 200 response to an appropriate post request") {
                 let response = action.execute(request: request)
                 let expected = HttpResponse(
-                        version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length": "0",
-                                  "Content-Type": "text/html"],
-                        body: ""
+                        headers: ["Content-Length": String(Data("Content=Text My=Value ".utf8).count),
+                                  "Content-Type": "text/html",
+                                  "Allow": "",
+                                  "Location": "",
+                                  "WWW-Authenticate": ""],
+                        body: Data("Content=Text My=Value ".utf8)
                 )
                 expect(response).to(equal(expected))
             }
 
             it("adds the content in the post request to dataStorage") {
-                let _ = action.execute(request: request)
-                let allValues = dataStorage.logValues()
-                let expectedValues = ["Content": "Text", "My": "Value"]
+                action.execute(request: request)
+                let allValues = dataStorage.logDataByUrl(url: "/form")
+                let expectedValues = "Content=Text My=Value "
                 expect(allValues).to(equal(expectedValues))
             }
         }

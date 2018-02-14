@@ -1,12 +1,19 @@
 public class NullAction: HttpAction {
 
-    private var responseGenerator: ResponseGenerator
+    private var dataStorage: DataStorage
+    private var routesTable: RoutesTable
 
-    public init(responseGenerator: ResponseGenerator) {
-        self.responseGenerator = responseGenerator
+    public init(routesTable: RoutesTable, dataStorage: DataStorage) {
+        self.dataStorage = dataStorage
+        self.routesTable = routesTable
     }
 
     public func execute(request: HttpRequest) -> HttpResponse {
-        return responseGenerator.generate200Response(method: request.returnMethod()!, url: request.returnUrl())
+        return ResponseBuilder(
+                routesTable: self.routesTable,
+                dataStorage: self.dataStorage)
+                .generate200Response(
+                        method: request.returnMethod()!,
+                        url: request.returnUrl())
     }
 }

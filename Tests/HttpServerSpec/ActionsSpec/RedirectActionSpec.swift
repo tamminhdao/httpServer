@@ -1,6 +1,7 @@
 import HttpServer
 import Quick
 import Nimble
+import Foundation
 
 class RedirectActionSpec : QuickSpec {
     override func spec() {
@@ -9,13 +10,11 @@ class RedirectActionSpec : QuickSpec {
             var dataStorage: DataStorage!
             var request: HttpRequest!
             var routesTable: RoutesTable!
-            var responseGenerator: ResponseGenerator!
 
             beforeEach {
                 dataStorage = DataStorage()
                 routesTable = RoutesTable()
-                responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
-                action = RedirectAction(redirectPath: "/", responseGenerator: responseGenerator, dataStorage: dataStorage)
+                action = RedirectAction(redirectPath: "/", routesTable: routesTable, dataStorage: dataStorage)
                 request = HttpRequest(
                         method: HttpMethod.get,
                         url: "/redirect",
@@ -26,19 +25,21 @@ class RedirectActionSpec : QuickSpec {
             }
 
             it ("saves the location into dataStorage") {
-                let _ = action.execute(request: request)
+                action.execute(request: request)
                 expect(dataStorage.getLocation()).to(equal("/"))
             }
 
             it ("returns a 302 Found response") {
                 let response = action.execute(request: request)
                 let expected = HttpResponse(
-                        version: "HTTP/1.1",
                         statusCode: 302,
                         statusPhrase: "Found",
                         headers: ["Content-Length": "0",
-                                  "Location": "/"],
-                        body: ""
+                                  "Content-Type":"text/html",
+                                  "Allow": "",
+                                  "Location": "/",
+                                  "WWW-Authenticate": ""],
+                        body: Data()
                 )
                 expect(response).to(equal(expected))
             }

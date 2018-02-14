@@ -2,23 +2,34 @@ import Foundation
 
 public class DataStorage {
 
-    public var myVals: [String: String]
-    public var incomingRequests: [String]
+    private var data: [String: String]
+    private var incomingRequests: [String]
     private var location: String
 
-
     public init() {
-        self.myVals = [:]
+        self.data = [:]
         self.incomingRequests = []
         self.location = ""
     }
 
-    public func addValues(key: String, value: String) {
-        self.myVals[key] = value
+    public func addData(url: String, value: String) {
+        self.data[url] = value
     }
 
-    public func logValues() -> [String:String] {
-        return myVals
+    public func removeData(url: String) {
+        self.data.removeValue(forKey: url)
+    }
+
+    public func logDataByUrl(url: String) -> String {
+        if let info = data[url] {
+            return info
+        } else {
+            return ""
+        }
+    }
+
+    public func logData() -> [String:String] {
+        return data
     }
 
     public func addToRequestList(request: String) {

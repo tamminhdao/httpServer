@@ -1,18 +1,22 @@
 public class DeleteAction: HttpAction {
 
-    private var responseGenerator: ResponseGenerator
-    public var dataStorage: DataStorage
+    private var dataStorage: DataStorage
+    private var routesTable: RoutesTable
 
-    public init(responseGenerator: ResponseGenerator, dataStorage: DataStorage) {
-        self.responseGenerator = responseGenerator
+    public init(routesTable: RoutesTable, dataStorage: DataStorage) {
         self.dataStorage = dataStorage
+        self.routesTable = routesTable
     }
 
     public func execute(request: HttpRequest) -> HttpResponse {
-        for item in dataStorage.myVals {
-            dataStorage.myVals.removeValue(forKey: item.key)
+        for item in dataStorage.logData() {
+            dataStorage.removeData(url: item.key)
         }
-         return responseGenerator.generate200Response(
-                 method: HttpMethod.delete, url: request.returnUrl())
+         return ResponseBuilder(
+                 routesTable: self.routesTable,
+                 dataStorage: self.dataStorage)
+                 .generate200Response(
+                     method: HttpMethod.delete,
+                     url: request.returnUrl())
     }
 }

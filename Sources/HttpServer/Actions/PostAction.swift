@@ -1,18 +1,25 @@
 public class PostAction: HttpAction {
 
-    private var responseGenerator: ResponseGenerator
-    public var dataStorage: DataStorage
+    private var dataStorage: DataStorage
+    private var routesTable: RoutesTable
 
-    public init(responseGenerator: ResponseGenerator, dataStorage: DataStorage) {
+    public init(routesTable: RoutesTable, dataStorage: DataStorage) {
         self.dataStorage = dataStorage
-        self.responseGenerator = responseGenerator
+        self.routesTable = routesTable
     }
 
     public func execute(request: HttpRequest) -> HttpResponse {
         let requestBody : [String: String] = request.returnBody()
+        var UrlData = ""
         for item in requestBody {
-            dataStorage.addValues(key: item.key, value: item.value)
+            UrlData += "\(item.key)=\(item.value) "
         }
-        return responseGenerator.generate200Response(method: HttpMethod.post, url: request.returnUrl())
+        dataStorage.addData(url: request.returnUrl(), value: UrlData)
+        return ResponseBuilder(
+                routesTable: self.routesTable,
+                dataStorage: self.dataStorage)
+                .generate200Response(
+                        method: request.returnMethod()!,
+                        url: request.returnUrl())
     }
 }

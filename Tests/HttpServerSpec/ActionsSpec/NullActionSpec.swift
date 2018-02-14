@@ -1,6 +1,7 @@
 import HttpServer
 import Quick
 import Nimble
+import Foundation
 
 class NullActionSpec: QuickSpec {
     override func spec() {
@@ -9,13 +10,11 @@ class NullActionSpec: QuickSpec {
             var dataStorage: DataStorage!
             var request: HttpRequest!
             var routesTable: RoutesTable!
-            var responseGenerator: ResponseGenerator!
 
             beforeEach {
                 dataStorage = DataStorage()
                 routesTable = RoutesTable()
-                responseGenerator = ResponseGenerator(routesTable: routesTable, dataStorage: dataStorage)
-                action = NullAction(responseGenerator: responseGenerator)
+                action = NullAction(routesTable: routesTable, dataStorage: dataStorage)
                 request = HttpRequest(
                         method: HttpMethod.get,
                         url: "/",
@@ -28,12 +27,14 @@ class NullActionSpec: QuickSpec {
             it ("generates a 200 response to an appropriate request") {
                 let response = action.execute(request: request)
                 let expected = HttpResponse(
-                        version: "HTTP/1.1",
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length": "0",
-                                  "Content-Type": "text/html"],
-                        body: ""
+                                  "Content-Type": "text/html",
+                                  "Allow": "",
+                                  "Location": "",
+                                  "WWW-Authenticate": ""],
+                        body: Data()
                 )
                 expect(response).to(equal(expected))
             }

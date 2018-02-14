@@ -3,21 +3,29 @@ import Foundation
 public class DirectoryListingAction: HttpAction {
 
     private var directoryNavigator: DirectoryNavigator
-    private var responseGenerator: ResponseGenerator
+    private var routesTable: RoutesTable
+    public var dataStorage: DataStorage
 
-    public init(directoryNavigator: DirectoryNavigator, responseGenerator: ResponseGenerator) {
+    public init(directoryNavigator: DirectoryNavigator, routesTable: RoutesTable, dataStorage: DataStorage) {
         self.directoryNavigator = directoryNavigator
-        self.responseGenerator = responseGenerator
+        self.dataStorage = dataStorage
+        self.routesTable = routesTable
     }
 
     public func execute(request: HttpRequest) -> HttpResponse {
         do {
             let content = try directoryNavigator.contentsOfDirectory()
             let htmlContent = convertToHTML(content: content)
-            return responseGenerator.generateDirectory(body: htmlContent)
+            return ResponseBuilder(
+                    routesTable: self.routesTable,
+                    dataStorage: self.dataStorage)
+                    .generate200ResponseWithDirectoryListing(directory: htmlContent)
         } catch let error {
             print(error.localizedDescription)
-            return responseGenerator.generate404Response()
+            return ResponseBuilder(
+                    routesTable: self.routesTable,
+                    dataStorage: self.dataStorage)
+                    .generate404Response()
         }
     }
 
