@@ -30,6 +30,7 @@ public class RequestParser {
             let parsedRequest = HttpRequest(
                 method: HttpMethod(rawValue: statusLine.method),
                 url: statusLine.url,
+                params: statusLine.params,
                 version: statusLine.version,
                 headers: headers,
                 body : body
@@ -42,7 +43,7 @@ public class RequestParser {
         return request.components(separatedBy: CharacterSet(charactersIn: "\r\n"))
     }
 
-    private func parseStatusLine(statusLine: String) throws -> (method: String, url: String, version: String) {
+    private func parseStatusLine(statusLine: String) throws -> (method: String, url: String, params: [String], version: String) {
         let trimmedStatus = statusLine.trimmingCharacters(in: .whitespacesAndNewlines)
         let statusLineTokens = trimmedStatus.components(separatedBy: " ")
 
@@ -51,10 +52,21 @@ public class RequestParser {
         }
 
         let method = statusLineTokens[0]
-        let url = statusLineTokens[1]
+        let urlAndParams = statusLineTokens[1]
         let version = statusLineTokens[2]
+        let urlPlusParams = separateUrlFromParams(path: urlAndParams)
+        return (method: method, url: urlPlusParams.url, params: urlPlusParams.params, version: version)
+    }
 
-        return (method: method, url: url, version: version)
+    private func separateUrlFromParams(path: String) -> (url: String, params: [String]) {
+        guard path.contains("?") else {
+            return (url: path, params: [String]())
+        }
+        let urlAndParams = path.components(separatedBy: "?")
+        let url = urlAndParams[0]
+        let paramString = urlAndParams[1]
+        let params = paramString.components(separatedBy: "&")
+        return (url: url, params: params)
     }
 
     private func parseHeaders(headerLines: [String]) -> [String: String] {
@@ -85,7 +97,6 @@ public class RequestParser {
                     bodyValues.append(Substring(bodyText))
                 }
 
-
                 for item in bodyValues {
                     let keyValue = item.split(separator: "=", maxSplits: 1)
                     if (keyValue.count > 1) {
@@ -97,7 +108,6 @@ public class RequestParser {
 
             }
         }
-
         return body
     }
 }

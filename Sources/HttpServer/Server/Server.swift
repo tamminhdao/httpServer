@@ -60,6 +60,7 @@ public class Server {
             var readData = Data()
             _ = try socket.read(into: &readData)
             let incomingText = String(data: readData, encoding: .utf8)
+
             let parsedRequest = try self.parser.parse(request: incomingText!)
             readData.count = 0
             serialQueue.async {
@@ -69,7 +70,7 @@ public class Server {
             return parsedRequest
         } catch let error {
             print (error.localizedDescription)
-            return HttpRequest(method: nil, url: "", version: "", headers: ["" : ""], body: ["": ""])
+            return HttpRequest(method: nil, url: "", params: [], version: "", headers: ["" : ""], body: ["": ""])
         }
     }
 
