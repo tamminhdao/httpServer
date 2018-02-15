@@ -18,6 +18,7 @@ class PutActionSpec: QuickSpec {
                 request = HttpRequest(
                         method: HttpMethod.put,
                         url: "/form",
+                        params: [],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: ["Content": "Text", "My": "Value"]

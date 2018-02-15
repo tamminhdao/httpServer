@@ -39,6 +39,7 @@ class RequestParserSpec: QuickSpec {
                 let expected = HttpRequest(
                         method: HttpMethod.get,
                         url: "/logs",
+                        params: [],
                         version: "HTTP/1.1",
                         headers: [
                             "Host": "localhost:5000",

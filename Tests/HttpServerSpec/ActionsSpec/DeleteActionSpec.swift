@@ -19,6 +19,7 @@ class DeleteActionSpec: QuickSpec {
                 request = HttpRequest(
                         method: HttpMethod.delete,
                         url: "/form",
+                        params: [],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]

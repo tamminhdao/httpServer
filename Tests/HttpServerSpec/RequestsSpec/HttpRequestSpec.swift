@@ -11,6 +11,7 @@ class HttpRequestSpec: QuickSpec {
                 request = HttpRequest(
                         method: HttpMethod.get,
                         url: "/form",
+                        params: [],
                         version: "HTTP/1.1",
                         headers: [
                             "Host": "localhost:5000",
