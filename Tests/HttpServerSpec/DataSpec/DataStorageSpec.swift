@@ -37,6 +37,13 @@ class DataStorageSpec : QuickSpec {
                 expect(allValues).to(equal(expected))
             }
 
+            it ("can save cookie data") {
+                dataStorage.saveCookie(url: "/cookie", value: ["type": "vegan", "flavor": "chocolate"])
+                let cookieData = dataStorage.retrieveCookieByUrl(url: "/cookie")
+                let expected = ["type": "vegan", "flavor": "chocolate"]
+                expect(cookieData).to(equal(expected))
+            }
+
             it ("can add requests to the list of incoming requests") {
                 dataStorage.addToRequestList(request: "HEAD /form HTTP/1.1")
                 dataStorage.addToRequestList(request: "GET /requests HTTP/1.1")

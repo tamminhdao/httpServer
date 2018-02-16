@@ -154,12 +154,6 @@ public class ResponseBuilder {
         return result
     }
 
-//    private func obtainCookieDataByUrlKey(url: String) -> String {
-//        var result = ""
-//        result += dataStorage.retrieveCookieByUrl(url: url)
-//        return result
-//    }
-
     private func obtainRequestLog() -> String {
         var log = ""
         for item in dataStorage.logRequests() {

@@ -169,22 +169,47 @@ class ResponseBuilderSpec: QuickSpec {
 
                 expect(response200FileContent).to(equal(expectedResponse200FileContent))
             }
-            
-            it ("can generate a 302 response") {
-                let response302 = responseBuilder.generate302Response()
-                let expectedResponse302 = HttpResponse(
-                        statusCode: 302,
-                        statusPhrase: "Found",
+
+            it ("can set cookie with parameters from the url") {
+                let request = HttpRequest(
+                        method: HttpMethod.get,
+                        url: "/cookie?type=chocolate",
+                        params: ["type": "chocolate"],
+                        version: "Http/1.1",
+                        headers: [:],
+                        body: [:]
+                )
+                dataStorage.saveCookie(url: "/cookie", value: ["type": "chocolate"])
+                let response200Cookie = responseBuilder.generate200Response(request: request)
+
+                let expectedResponse200Cookie = HttpResponse(
+                        statusCode: 200,
+                        statusPhrase: "OK",
                         headers: ["Content-Length": "0",
                                   "Content-Type":"text/html",
                                   "Allow": "",
                                   "Location": "",
                                   "WWW-Authenticate": ""],
-                        body: Data()
+                        body: Data())
+                expect(response200Cookie).to(equal(expectedResponse200Cookie))
+            }
+
+            it ("can generate a 302 response") {
+                let response302 = responseBuilder.generate302Response()
+                let expectedResponse302 = HttpResponse(
+                statusCode: 302,
+                statusPhrase: "Found",
+                headers: ["Content-Length": "0",
+                "Content-Type":"text/html",
+                "Allow": "",
+                "Location": "",
+                "WWW-Authenticate": ""],
+                body: Data()
                 )
 
                 expect(response302).to(equal(expectedResponse302))
             }
+
 
             it ("can generate a 401 response") {
                 let response401 = responseBuilder.generate401Response(realm: "basic-auth")
