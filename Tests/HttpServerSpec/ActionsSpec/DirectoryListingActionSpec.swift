@@ -20,7 +20,7 @@ class DirectoryListingActionSpec : QuickSpec {
                 request = HttpRequest(
                         method: HttpMethod.get,
                         url: "/",
-                        params: [],
+                        params: [:],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]

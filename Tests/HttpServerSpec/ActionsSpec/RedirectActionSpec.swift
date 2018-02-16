@@ -18,7 +18,7 @@ class RedirectActionSpec : QuickSpec {
                 request = HttpRequest(
                         method: HttpMethod.get,
                         url: "/redirect",
-                        params: [],
+                        params: [:],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]

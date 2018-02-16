@@ -33,7 +33,7 @@ class DataStorageSpec : QuickSpec {
                 dataStorage.addData(url: "/", value: "Info")
                 dataStorage.addData(url: "/form", value: "My_Form")
                 let allValues = dataStorage.logData()
-                let expected = ["/": "Info", "/form": "My_Form"]
+                let expected = ["/cookie": "Eat", "/": "Info", "/form": "My_Form"]
                 expect(allValues).to(equal(expected))
             }
 

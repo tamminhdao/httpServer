@@ -19,7 +19,6 @@ public class PostAction: HttpAction {
                 routesTable: self.routesTable,
                 dataStorage: self.dataStorage)
                 .generate200Response(
-                        method: request.returnMethod()!,
-                        url: request.returnUrl())
+                        request: request)
     }
 }

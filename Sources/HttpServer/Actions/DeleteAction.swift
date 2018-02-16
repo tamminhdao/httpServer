@@ -16,7 +16,6 @@ public class DeleteAction: HttpAction {
                  routesTable: self.routesTable,
                  dataStorage: self.dataStorage)
                  .generate200Response(
-                     method: HttpMethod.delete,
-                     url: request.returnUrl())
+                     request: request)
     }
 }

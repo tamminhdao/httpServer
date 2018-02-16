@@ -9,11 +9,10 @@ public class NullAction: HttpAction {
     }
 
     public func execute(request: HttpRequest) -> HttpResponse {
+        storeCookieData(request: request, dataStorage: self.dataStorage)
         return ResponseBuilder(
                 routesTable: self.routesTable,
                 dataStorage: self.dataStorage)
-                .generate200Response(
-                        method: request.returnMethod()!,
-                        url: request.returnUrl())
+                .generate200Response(request: request)
     }
 }

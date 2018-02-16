@@ -16,16 +16,16 @@ public class ResponseBuilder {
         self.dataStorage = dataStorage
     }
 
-    public func generate200Response(method: HttpMethod, url: String) -> HttpResponse {
+    public func generate200Response(request: HttpRequest) -> HttpResponse {
         self.resetBuilder()
                 .setStatusCode(statusCode: 200)
                 .setStatusPhrase(statusPhrase: "OK")
-                .setAllow(url: options(url: url))
-        if (method != HttpMethod.head) {
-            let bodyString = obtainDataByUrlKey(url: url)
+                .setAllow(url: options(url: request.returnUrl()))
+        if (request.returnMethod() != HttpMethod.head) {
+            let bodyString = obtainDataByUrlKey(url: request.returnUrl())
             self.setBody(body: Data(bodyString.utf8))
         }
-        if (url == "/logs") {
+        if (request.returnUrl() == "/logs") {
             self.setBody(body: Data(obtainRequestLog().utf8))
         }
         return self.build()
@@ -153,6 +153,12 @@ public class ResponseBuilder {
         result += dataStorage.logDataByUrl(url: url)
         return result
     }
+
+//    private func obtainCookieDataByUrlKey(url: String) -> String {
+//        var result = ""
+//        result += dataStorage.retrieveCookieByUrl(url: url)
+//        return result
+//    }
 
     private func obtainRequestLog() -> String {
         var log = ""

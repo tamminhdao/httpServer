@@ -22,7 +22,7 @@ class FetchFileActionSpec : QuickSpec {
                 let requestTextFile = HttpRequest(
                         method: HttpMethod.get,
                         url: "/text-file.txt",
-                        params: [],
+                        params: [:],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]
@@ -46,7 +46,7 @@ class FetchFileActionSpec : QuickSpec {
                 let requestFile = HttpRequest(
                         method: HttpMethod.get,
                         url: "/file2",
-                        params: [],
+                        params: [:],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]

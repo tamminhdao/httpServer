@@ -20,7 +20,15 @@ class ResponseBuilderSpec: QuickSpec {
 
             it ("can generate a 200 response putting url data in the body") {
                 dataStorage.addData(url: "/", value: "data=fatcat ")
-                let response200 = responseBuilder.generate200Response(method: HttpMethod.get, url: "/")
+                let request = HttpRequest(
+                        method: HttpMethod.get,
+                        url: "/",
+                        params: [:],
+                        version: "HTTP/1.1",
+                        headers: [:],
+                        body: [:]
+                )
+                let response200 = responseBuilder.generate200Response(request: request)
                 let expectedResponse200 = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
@@ -36,7 +44,15 @@ class ResponseBuilderSpec: QuickSpec {
 
             it ("can generate a 200 response with an empty body to a HEAD request") {
                 dataStorage.addData(url: "/pets", value: "my=spoiled_cat ")
-                let response200Head = responseBuilder.generate200Response(method: HttpMethod.head, url: "/pets")
+                let request = HttpRequest(
+                        method: HttpMethod.head,
+                        url: "/pets",
+                        params: [:],
+                        version: "HTTP/1.1",
+                        headers: [:],
+                        body: [:]
+                )
+                let response200Head = responseBuilder.generate200Response(request: request)
                 let expectedResponse200Head = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
@@ -51,9 +67,17 @@ class ResponseBuilderSpec: QuickSpec {
             }
 
             it ("can generate a 200 response logging all incoming requests for /logs route") {
+                let request = HttpRequest(
+                        method: HttpMethod.get,
+                        url: "/logs",
+                        params: [:],
+                        version: "HTTP/1.1",
+                        headers: [:],
+                        body: [:]
+                )
                 dataStorage.addToRequestList(request: "PUT /form HTTP/1.1")
                 dataStorage.addToRequestList(request: "HEAD /requests HTTP/1.1")
-                let response200Logs = responseBuilder.generate200Response(method: HttpMethod.get, url: "/logs")
+                let response200Logs = responseBuilder.generate200Response(request: request)
                 let bodyContent = "PUT /form HTTP/1.1\nHEAD /requests HTTP/1.1\n"
 
                 let expectedResponse200Logs = HttpResponse(
@@ -76,8 +100,15 @@ class ResponseBuilderSpec: QuickSpec {
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.put, action: nullAction))
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.post, action: nullAction))
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.options, action: nullAction))
-
-                let responseOptions = responseBuilder.generate200Response(method: HttpMethod.options, url: "/")
+                let request = HttpRequest(
+                        method: HttpMethod.options,
+                        url: "/",
+                        params: [:],
+                        version: "HTTP/1.1",
+                        headers: [:],
+                        body: [:]
+                )
+                let responseOptions = responseBuilder.generate200Response(request: request)
                 let expectedResponseOptions = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",

@@ -49,5 +49,7 @@ routesTable.addRoute(route: Route(url: "/method_options2", method: HttpMethod.ge
 routesTable.addRoute(route: Route(url: "/method_options2", method: HttpMethod.options,  action: nullAction))
 
 routesTable.addRoute(route: Route(url:"/logs", method: HttpMethod.get, action: nullAction, realm: "basic-auth", credentials: "YWRtaW46aHVudGVyMg=="))
+routesTable.addRoute(route: Route(url:"/cookie", method: HttpMethod.get, action: nullAction))
+routesTable.addRoute(route: Route(url:"/eat_cookie", method: HttpMethod.get, action: nullAction))
 
 server.run()

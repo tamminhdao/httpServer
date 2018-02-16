@@ -36,7 +36,7 @@ class RouterSpec: QuickSpec {
                 let validRequest = HttpRequest(
                         method: HttpMethod.get,
                         url: "/",
-                        params: [],
+                        params: [:],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]
@@ -61,7 +61,7 @@ class RouterSpec: QuickSpec {
                 let validRequest = HttpRequest(
                         method: HttpMethod.get,
                         url: "/logs",
-                        params: [],
+                        params: [:],
                         version: "HTTP/1.1",
                         headers: ["Authorization": "Basic YWRtaW46aHVudGVyMg=="],
                         body: [:]
@@ -85,7 +85,7 @@ class RouterSpec: QuickSpec {
                 let validRequest = HttpRequest(
                         method: HttpMethod.head,
                         url: "/foobar",
-                        params: [],
+                        params: [:],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]
@@ -110,7 +110,7 @@ class RouterSpec: QuickSpec {
                 let validRequest = HttpRequest(
                         method: HttpMethod.post,
                         url: "/",
-                        params: [],
+                        params: [:],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]
@@ -135,7 +135,7 @@ class RouterSpec: QuickSpec {
                         let validRequest = HttpRequest(
                         method: HttpMethod.get,
                         url: "/redirect",
-                        params: [],
+                        params: [:],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]
@@ -161,7 +161,7 @@ class RouterSpec: QuickSpec {
                 let validRequest = HttpRequest(
                         method: HttpMethod.get,
                         url: "/logs",
-                        params: [],
+                        params: [:],
                         version: "HTTP/1.1",
                         headers: ["Authorization": "incorrect"],
                         body: [:]
@@ -187,7 +187,7 @@ class RouterSpec: QuickSpec {
                 let validRequest = HttpRequest(
                         method: HttpMethod.get,
                         url: "/directory",
-                        params: [],
+                        params: [:],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]
