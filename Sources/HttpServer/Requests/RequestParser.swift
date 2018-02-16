@@ -55,7 +55,9 @@ public class RequestParser {
         let urlAndParams = statusLineTokens[1]
         let version = statusLineTokens[2]
         let urlPlusParams = separateUrlFromParams(path: urlAndParams)
+        print("This is an array of all params \(urlPlusParams.params)")
         let paramsDictionary = convertArrayToDictionary(array: urlPlusParams.params)
+        print("This is the dictionary of params \(paramsDictionary)")
         return (method: method, url: urlPlusParams.url, params: paramsDictionary, version: version)
     }
 
@@ -93,20 +95,23 @@ public class RequestParser {
         return body
     }
 
-    private func convertArrayToDictionary(array: [String]) -> [String: String] {
+    public func convertArrayToDictionary(array: [String]) -> [String: String] {
         var dictionary = [String: String]()
 
         for item in array {
             let line = item.trimmingCharacters(in: .whitespacesAndNewlines)
 
+            print("This is line \(line)")
+
             var listOfPairs = [String]()
 
-            guard line.contains("&") else {
+            if (line.contains("&")) {
+                listOfPairs = line.components(separatedBy: "&")
+                print("ListOfPairs after if there is & \(listOfPairs)")
+            } else {
                 listOfPairs.append(line)
-                break
+                print("ListOfPairs after if there is no & \(listOfPairs)")
             }
-
-            listOfPairs = line.components(separatedBy: "&")
 
             for pair in listOfPairs {
                 let keyValue = pair.split(separator: "=", maxSplits: 1)
@@ -117,6 +122,7 @@ public class RequestParser {
                 }
             }
         }
+        print("This is dictionary \(dictionary)")
         return dictionary
     }
 }
