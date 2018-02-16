@@ -43,7 +43,7 @@ public class RequestParser {
         return request.components(separatedBy: CharacterSet(charactersIn: "\r\n"))
     }
 
-    private func parseStatusLine(statusLine: String) throws -> (method: String, url: String, params: [String], version: String) {
+    private func parseStatusLine(statusLine: String) throws -> (method: String, url: String, params: [String:String], version: String) {
         let trimmedStatus = statusLine.trimmingCharacters(in: .whitespacesAndNewlines)
         let statusLineTokens = trimmedStatus.components(separatedBy: " ")
 
@@ -55,7 +55,8 @@ public class RequestParser {
         let urlAndParams = statusLineTokens[1]
         let version = statusLineTokens[2]
         let urlPlusParams = separateUrlFromParams(path: urlAndParams)
-        return (method: method, url: urlPlusParams.url, params: urlPlusParams.params, version: version)
+        let paramsDictionary = convertArrayToDictionary(array: urlPlusParams.params)
+        return (method: method, url: urlPlusParams.url, params: paramsDictionary, version: version)
     }
 
     private func separateUrlFromParams(path: String) -> (url: String, params: [String]) {
@@ -83,31 +84,39 @@ public class RequestParser {
     }
 
     private func parseBody(bodyLines: [String]) -> [String: String] {
-        var body = [String: String]()
 
-        if bodyLines.count > 0 {
-            for item in bodyLines {
-                let bodyText = item.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard bodyLines.count > 0 else {
+            return [String:String]()
+        }
 
-                var bodyValues = [Substring]()
+        var body = convertArrayToDictionary(array: bodyLines)
+        return body
+    }
 
-                if (bodyText.contains("&")) {
-                    bodyValues = bodyText.split(separator: "&")
-                } else {
-                    bodyValues.append(Substring(bodyText))
+    private func convertArrayToDictionary(array: [String]) -> [String: String] {
+        var dictionary = [String: String]()
+
+        for item in array {
+            let line = item.trimmingCharacters(in: .whitespacesAndNewlines)
+
+            var listOfPairs = [String]()
+
+            guard line.contains("&") else {
+                listOfPairs.append(line)
+                break
+            }
+
+            listOfPairs = line.components(separatedBy: "&")
+
+            for pair in listOfPairs {
+                let keyValue = pair.split(separator: "=", maxSplits: 1)
+                if (keyValue.count > 1) {
+                    let trimmedKey = keyValue[0].trimmingCharacters(in: .whitespacesAndNewlines)
+                    let trimmedValue = keyValue[1].trimmingCharacters(in: .whitespacesAndNewlines)
+                    dictionary[trimmedKey] = trimmedValue
                 }
-
-                for item in bodyValues {
-                    let keyValue = item.split(separator: "=", maxSplits: 1)
-                    if (keyValue.count > 1) {
-                        let trimmedKey = keyValue[0].trimmingCharacters(in: .whitespacesAndNewlines)
-                        let trimmedValue = keyValue[1].trimmingCharacters(in: .whitespacesAndNewlines)
-                        body[trimmedKey] = trimmedValue
-                    }
-                }
-
             }
         }
-        return body
+        return dictionary
     }
 }
