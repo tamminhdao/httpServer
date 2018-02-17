@@ -11,7 +11,7 @@ class HttpRequestSpec: QuickSpec {
                 request = HttpRequest(
                         method: HttpMethod.get,
                         url: "/form",
-                        params: ["format": "text"],
+                        params: ["format=text"],
                         version: "HTTP/1.1",
                         headers: [
                             "Host": "localhost:5000",
@@ -34,7 +34,7 @@ class HttpRequestSpec: QuickSpec {
 
             it ("can return the parameters of a request") {
                 let params = request.returnParams()
-                expect(params).to(equal(["format": "text"]))
+                expect(params).to(equal(["format=text"]))
             }
 
             it ("can return the body of a request") {

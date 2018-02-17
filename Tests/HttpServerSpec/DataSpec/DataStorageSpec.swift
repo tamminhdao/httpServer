@@ -38,9 +38,9 @@ class DataStorageSpec : QuickSpec {
             }
 
             it ("can save cookie data") {
-                dataStorage.saveCookie(url: "/cookie", value: ["type": "vegan", "flavor": "chocolate"])
+                dataStorage.saveCookie(url: "/cookie", value: ["type=vegan", "flavor=chocolate"])
                 let cookieData = dataStorage.retrieveCookieByUrl(url: "/cookie")
-                let expected = ["type": "vegan", "flavor": "chocolate"]
+                let expected = ["type=vegan", "flavor=chocolate"]
                 expect(cookieData).to(equal(expected))
             }
 

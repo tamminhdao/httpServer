@@ -34,13 +34,13 @@ class RequestParserSpec: QuickSpec {
                     Accept-Encoding: gzip,deflate
 
                     Content=Text&My=Value
-                    Format=html
+                    Protocol=html
                 """
 
                 let expected = HttpRequest(
                         method: HttpMethod.get,
                         url: "/logs",
-                        params: ["language": "english", "format": "html"],
+                        params: ["language=english", "format=html"],
                         version: "HTTP/1.1",
                         headers: [
                             "Host": "localhost:5000",
@@ -48,7 +48,7 @@ class RequestParserSpec: QuickSpec {
                             "User-Agent": "Apache-HttpClient/4.3.5 (java 1.5)",
                             "Accept-Encoding": "gzip,deflate"
                         ],
-                        body: ["Content":"Text", "My":"Value", "Format":"html"]
+                        body: ["Content":"Text", "My":"Value", "Protocol":"html"]
                 )
 
                 do {

@@ -18,7 +18,7 @@ class PostActionSpec: QuickSpec {
                 request = HttpRequest(
                         method: HttpMethod.post,
                         url: "/form",
-                        params: [:],
+                        params: [],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: ["Content": "Text", "My": "Value"]

@@ -23,7 +23,7 @@ class ResponseBuilderSpec: QuickSpec {
                 let request = HttpRequest(
                         method: HttpMethod.get,
                         url: "/",
-                        params: [:],
+                        params: [],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]
@@ -47,7 +47,7 @@ class ResponseBuilderSpec: QuickSpec {
                 let request = HttpRequest(
                         method: HttpMethod.head,
                         url: "/pets",
-                        params: [:],
+                        params: [],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]
@@ -70,7 +70,7 @@ class ResponseBuilderSpec: QuickSpec {
                 let request = HttpRequest(
                         method: HttpMethod.get,
                         url: "/logs",
-                        params: [:],
+                        params: [],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]
@@ -103,7 +103,7 @@ class ResponseBuilderSpec: QuickSpec {
                 let request = HttpRequest(
                         method: HttpMethod.options,
                         url: "/",
-                        params: [:],
+                        params: [],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]
@@ -174,12 +174,12 @@ class ResponseBuilderSpec: QuickSpec {
                 let request = HttpRequest(
                         method: HttpMethod.get,
                         url: "/cookie?type=chocolate",
-                        params: ["type": "chocolate"],
+                        params: ["type=chocolate"],
                         version: "Http/1.1",
                         headers: [:],
                         body: [:]
                 )
-                dataStorage.saveCookie(url: "/cookie", value: ["type": "chocolate"])
+                dataStorage.saveCookie(url: "/cookie", value: ["type=chocolate"])
                 let response200Cookie = responseBuilder.generate200Response(request: request)
 
                 let expectedResponse200Cookie = HttpResponse(
