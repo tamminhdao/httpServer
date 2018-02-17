@@ -43,7 +43,7 @@ public class RequestParser {
         return request.components(separatedBy: CharacterSet(charactersIn: "\r\n"))
     }
 
-    private func parseStatusLine(statusLine: String) throws -> (method: String, url: String, params: [String:String], version: String) {
+    private func parseStatusLine(statusLine: String) throws -> (method: String, url: String, params: [String], version: String) {
         let trimmedStatus = statusLine.trimmingCharacters(in: .whitespacesAndNewlines)
         let statusLineTokens = trimmedStatus.components(separatedBy: " ")
 
@@ -55,8 +55,8 @@ public class RequestParser {
         let urlAndParams = statusLineTokens[1]
         let version = statusLineTokens[2]
         let urlPlusParams = separateUrlFromParams(path: urlAndParams)
-        let paramsDictionary = convertArrayToDictionary(array: urlPlusParams.params)
-        return (method: method, url: urlPlusParams.url, params: paramsDictionary, version: version)
+//        let paramsDictionary = convertArrayToDictionary(array: urlPlusParams.params)
+        return (method: method, url: urlPlusParams.url, params: urlPlusParams.params, version: version)
     }
 
     private func separateUrlFromParams(path: String) -> (url: String, params: [String]) {

@@ -3,7 +3,7 @@ import Foundation
 public class DataStorage {
 
     private var data: [String: String]
-    private var cookieJar: [String: [String:String]]
+    private var cookieJar: [String: [String]]
     private var incomingRequests: [String]
     private var location: String
 
@@ -15,15 +15,15 @@ public class DataStorage {
         addData(url: "/cookie", value: "Eat")
     }
 
-    public func saveCookie(url: String, value: [String:String]) {
+    public func saveCookie(url: String, value: [String]) {
         self.cookieJar[url] = value
     }
 
-    public func retrieveCookieByUrl(url: String) -> [String:String] {
+    public func retrieveCookieByUrl(url: String) -> [String] {
         if let cookieData = cookieJar[url] {
             return cookieData
         } else {
-            return [:]
+            return []
         }
     }
 

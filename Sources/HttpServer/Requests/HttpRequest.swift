@@ -1,14 +1,14 @@
 public class HttpRequest {
     var method: HttpMethod?
     var url: String
-    var params: [String:String]
+    var params: [String]
     var version: String
     var headers: [String: String]
     var body: [String: String]
     var crlf: String
     var space: String
 
-    public init(method: HttpMethod?, url: String, params: [String:String], version: String,
+    public init(method: HttpMethod?, url: String, params: [String], version: String,
                 headers: [String: String], body: [String: String]) {
         self.method = method
         self.url = url
@@ -28,7 +28,7 @@ public class HttpRequest {
         return self.url
     }
 
-    public func returnParams() -> [String:String] {
+    public func returnParams() -> [String] {
         return self.params
     }
 
