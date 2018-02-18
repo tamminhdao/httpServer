@@ -174,7 +174,7 @@ public class ResponseBuilder {
     private func obtainRequestLog() -> String {
         var log = ""
         for item in dataStorage.logRequests() {
-            log += item + "\n"
+            log += "\(item)\n"
         }
         return log
     }
