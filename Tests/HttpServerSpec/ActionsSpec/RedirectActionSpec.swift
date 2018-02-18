@@ -39,7 +39,8 @@ class RedirectActionSpec : QuickSpec {
                                   "Content-Type":"text/html",
                                   "Allow": "",
                                   "Location": "/",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data()
                 )
                 expect(response).to(equal(expected))

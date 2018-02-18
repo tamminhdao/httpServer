@@ -36,7 +36,8 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Content-Type":"text/html",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data("data=fatcat ".utf8)
                 )
                 expect(response200).to(equal(expectedResponse200))
@@ -60,7 +61,8 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Content-Type":"text/html",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data()
                 )
                 expect(response200Head).to(equal(expectedResponse200Head))
@@ -87,7 +89,8 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Content-Type":"text/html",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data(bodyContent.utf8)
                 )
 
@@ -116,7 +119,8 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Content-Type":"text/html",
                                   "Allow": "GET,HEAD,PUT,POST,OPTIONS,",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data())
 
                 expect(responseOptions).to(equal(expectedResponseOptions))
@@ -149,7 +153,8 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Content-Type":"text/html",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data(directory.utf8))
 
                 expect(response200Directory).to(equal(expectedResponse200Directory))
@@ -164,7 +169,8 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Content-Type":"image/jpg",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data())
 
                 expect(response200FileContent).to(equal(expectedResponse200FileContent))
@@ -173,24 +179,27 @@ class ResponseBuilderSpec: QuickSpec {
             it ("can set cookie with parameters from the url") {
                 let request = HttpRequest(
                         method: HttpMethod.get,
-                        url: "/cookie?type=chocolate",
+                        url: "/my_cookie",
                         params: ["type=chocolate"],
-                        version: "Http/1.1",
+                        version: "HTTP/1.1",
                         headers: [:],
                         body: [:]
                 )
-                dataStorage.saveCookie(url: "/cookie", value: ["type=chocolate"])
+                dataStorage.saveCookie(url: "/my_cookie", value: ["type=chocolate"])
                 let response200Cookie = responseBuilder.generate200Response(request: request)
 
                 let expectedResponse200Cookie = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length": "0",
-                                  "Content-Type":"text/html",
+                                  "Content-Type": "text/html",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
-                        body: Data())
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": "type=chocolate; "],
+                        body: Data()
+                )
+
                 expect(response200Cookie).to(equal(expectedResponse200Cookie))
             }
 
@@ -200,10 +209,11 @@ class ResponseBuilderSpec: QuickSpec {
                 statusCode: 302,
                 statusPhrase: "Found",
                 headers: ["Content-Length": "0",
-                "Content-Type":"text/html",
-                "Allow": "",
-                "Location": "",
-                "WWW-Authenticate": ""],
+                          "Content-Type":"text/html",
+                          "Allow": "",
+                          "Location": "",
+                          "WWW-Authenticate": "",
+                          "Set-Cookie": ""],
                 body: Data()
                 )
 
@@ -220,7 +230,8 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Content-Type":"text/html",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": "Basic realm=basic-auth"],
+                                  "WWW-Authenticate": "Basic realm=basic-auth",
+                                  "Set-Cookie": ""],
                         body: Data()
                 )
                 expect(response401).to(equal(expectedResponse401))
@@ -235,7 +246,8 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Content-Type":"text/html",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data()
                 )
                 expect(response404).to(equal(expectedResponse404))
@@ -250,7 +262,8 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Content-Type":"text/html",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data()
                 )
                 expect(response405).to(equal(expectedResponse405))

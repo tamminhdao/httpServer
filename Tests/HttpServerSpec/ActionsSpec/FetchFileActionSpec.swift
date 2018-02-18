@@ -36,7 +36,8 @@ class FetchFileActionSpec : QuickSpec {
                                   "Content-Type": "text/plain",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data("file1 contents".utf8))
 
                 expect(response).to(equal(expectedResponse))
@@ -60,7 +61,8 @@ class FetchFileActionSpec : QuickSpec {
                                   "Content-Type": "text/html",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data("file2 contents\n".utf8))
 
                 expect(response).to(equal(expectedResponse))
