@@ -68,35 +68,6 @@ class ResponseBuilderSpec: QuickSpec {
                 expect(response200Head).to(equal(expectedResponse200Head))
             }
 
-            it ("can generate a 200 response logging all incoming requests for /logs route") {
-                let request = HttpRequest(
-                        method: HttpMethod.get,
-                        url: "/logs",
-                        params: [],
-                        version: "HTTP/1.1",
-                        headers: [:],
-                        body: [:]
-                )
-                dataStorage.addToRequestList(request: "PUT /form HTTP/1.1")
-                dataStorage.addToRequestList(request: "HEAD /requests HTTP/1.1")
-                let response200Logs = responseBuilder.generate200Response(request: request)
-                let bodyContent = "PUT /form HTTP/1.1\nHEAD /requests HTTP/1.1\n"
-
-                let expectedResponse200Logs = HttpResponse(
-                        statusCode: 200,
-                        statusPhrase: "OK",
-                        headers: ["Content-Length": String(Data(bodyContent.utf8).count),
-                                  "Content-Type":"text/html",
-                                  "Allow": "",
-                                  "Location": "",
-                                  "WWW-Authenticate": "",
-                                  "Set-Cookie": ""],
-                        body: Data(bodyContent.utf8)
-                )
-
-                expect(response200Logs).to(equal(expectedResponse200Logs))
-            }
-
             it ("can generate a 200 response to an OPTIONS request") {
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: nullAction))
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.head, action: nullAction))

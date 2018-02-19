@@ -27,9 +27,7 @@ public class ResponseBuilder {
             let bodyString = obtainDataByUrlKey(url: request.returnUrl())
             self.setBody(body: Data(bodyString.utf8))
         }
-        if (request.returnUrl() == "/logs") {
-            self.setBody(body: Data(obtainRequestLog().utf8))
-        }
+
         if (request.returnUrl() == "/eat_cookie") {
             let cookieHeader: String = extractCookieInfoFromHeaders(headers: request.returnHeaders())
             self.setBody(body: Data("mmmm \(cookieHeader)".utf8))
@@ -174,14 +172,6 @@ public class ResponseBuilder {
             data += ("\(item); ")
         }
         return data
-    }
-
-    private func obtainRequestLog() -> String {
-        var log = ""
-        for item in dataStorage.logRequests() {
-            log += "\(item)\n"
-        }
-        return log
     }
 
     private func options(url: String) -> String {
