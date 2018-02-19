@@ -20,23 +20,55 @@ class ReturnCookieInfoActionSpec: QuickSpec {
                         url: "/eat_cookie",
                         params: [],
                         version: "HTTP/1.1",
-                        headers: ["Cookie": "flavor=chocolate"],
+                        headers: ["Cookie": "type=vegan; flavor=chocolate"],
                         body: [:]
                 )
             }
 
-            it("generates a 200 response using info from the Cookie header of the request") {
+            it("generates the correct response using info from the Cookie header from the request") {
+                request = HttpRequest(
+                        method: HttpMethod.get,
+                        url: "/eat_cookie",
+                        params: [],
+                        version: "HTTP/1.1",
+                        headers: ["Cookie": "flavor=chocolate"],
+                        body: [:]
+                )
                 let response = action.execute(request: request)
                 let expected = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length": String(Data("mmmm chocolate".utf8).count),
+                        headers: ["Content-Length": String(Data("mmmm chocolate\n".utf8).count),
                                   "Content-Type": "text/html",
                                   "Allow": "",
                                   "Location": "",
                                   "WWW-Authenticate": "",
                                   "Set-Cookie": ""],
-                        body: Data("mmmm chocolate".utf8)
+                        body: Data("mmmm chocolate\n".utf8)
+                )
+                expect(response).to(equal(expected))
+            }
+
+            it("generates the correct response when there are more than one piece of cookie data") {
+                request = HttpRequest(
+                        method: HttpMethod.get,
+                        url: "/eat_cookie",
+                        params: [],
+                        version: "HTTP/1.1",
+                        headers: ["Cookie": "type=vegan; flavor=chocolate"],
+                        body: [:]
+                )
+                let response = action.execute(request: request)
+                let expected = HttpResponse(
+                        statusCode: 200,
+                        statusPhrase: "OK",
+                        headers: ["Content-Length": String(Data("mmmm vegan\nmmmm chocolate\n".utf8).count),
+                                  "Content-Type": "text/html",
+                                  "Allow": "",
+                                  "Location": "",
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
+                        body: Data("mmmm vegan\nmmmm chocolate\n".utf8)
                 )
                 expect(response).to(equal(expected))
             }
