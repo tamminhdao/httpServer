@@ -27,11 +27,6 @@ public class ResponseBuilder {
             let bodyString = obtainDataByUrlKey(url: request.returnUrl())
             self.setBody(body: Data(bodyString.utf8))
         }
-
-        if (request.returnUrl() == "/eat_cookie") {
-            let cookieHeader: String = extractCookieInfoFromHeaders(headers: request.returnHeaders())
-            self.setBody(body: Data("mmmm \(cookieHeader)".utf8))
-        }
         return self.build()
     }
 
@@ -181,13 +176,5 @@ public class ResponseBuilder {
             allMethods = allMethods + "\(method),"
         }
         return allMethods
-    }
-
-    private func extractCookieInfoFromHeaders(headers: [String: String]) -> String {
-        if let cookieHeader = headers["Cookie"] {
-            return cookieHeader.components(separatedBy: "=").last!.trimmingCharacters(in: .punctuationCharacters)
-        } else {
-            return ""
-        }
     }
 }

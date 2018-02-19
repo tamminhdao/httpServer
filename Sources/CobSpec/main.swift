@@ -19,6 +19,7 @@ let directoryListingAction = DirectoryListingAction(directoryNavigator: director
 let fetchFileAction = FetchFileAction(directoryNavigator: directoryNavigator, routesTable: routesTable, dataStorage: dataStorage)
 let redirectAction = RedirectAction(redirectPath: "/", routesTable: routesTable, dataStorage: dataStorage)
 let logRequestsAction = LogRequestsAction(routesTable: routesTable, dataStorage: dataStorage)
+let returnCookieInfoAction = ReturnCookieInfoAction(routesTable: routesTable, dataStorage: dataStorage)
 
 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: directoryListingAction))
 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.head, action: nullAction))
@@ -51,6 +52,6 @@ routesTable.addRoute(route: Route(url: "/method_options2", method: HttpMethod.op
 
 routesTable.addRoute(route: Route(url:"/logs", method: HttpMethod.get, action: logRequestsAction, realm: "basic-auth", credentials: "YWRtaW46aHVudGVyMg=="))
 routesTable.addRoute(route: Route(url:"/cookie", method: HttpMethod.get, action: nullAction))
-routesTable.addRoute(route: Route(url:"/eat_cookie", method: HttpMethod.get, action: nullAction))
+routesTable.addRoute(route: Route(url:"/eat_cookie", method: HttpMethod.get, action: returnCookieInfoAction))
 
 server.run()
