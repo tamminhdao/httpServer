@@ -39,6 +39,18 @@ class RoutesTableSpec: QuickSpec {
                 let allowedMethods = routesTable.options(url: "/")
                 expect(allowedMethods).to(equal(expectedVerbs))
             }
+
+            it ("can check if a route already exist in the table") {
+                let route = Route(url: "/", method: HttpMethod.get, action: nullAction)
+                let exist = routesTable.verifyRoute(newRoute: route)
+                expect(exist).to(be(true))
+            }
+
+            it ("can check if a route does not currently exist in the table") {
+                let route = Route(url: "/new", method: HttpMethod.head, action: nullAction)
+                let exist = routesTable.verifyRoute(newRoute: route)
+                expect(exist).to(be(false))
+            }
         }
     }
 }
