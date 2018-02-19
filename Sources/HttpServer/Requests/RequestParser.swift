@@ -55,7 +55,6 @@ public class RequestParser {
         let urlAndParams = statusLineTokens[1]
         let version = statusLineTokens[2]
         let urlPlusParams = separateUrlFromParams(path: urlAndParams)
-//        let paramsDictionary = convertArrayToDictionary(array: urlPlusParams.params)
         return (method: method, url: urlPlusParams.url, params: urlPlusParams.params, version: version)
     }
 
