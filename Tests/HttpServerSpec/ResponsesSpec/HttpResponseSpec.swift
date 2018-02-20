@@ -7,6 +7,12 @@ import Foundation
 class HttpResponseSpec: QuickSpec {
     override func spec() {
         describe ("#HttpResponse") {
+            var response: HttpResponse!
+
+            beforeEach {
+                response = HttpResponse.empty404Response()
+            }
+
             it ("can equate two response objects") {
                 let response1 = HttpResponse(
                         statusCode: 200,
@@ -26,16 +32,46 @@ class HttpResponseSpec: QuickSpec {
             }
 
             it ("can convert a response object to type Data") {
-                let response = HttpResponse(
+                let response200 = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length":"5"],
                         body : Data("Hello".utf8)
                 )
 
-                let data = response.constructResponse()
+                let data = response200.constructResponse()
                 let expected = Data("HTTP/1.1 200 OK\r\nContent-Length: 5\r\n\r\nHello".utf8)
                 expect(data).to(equal(expected))
+            }
+
+            it ("can edit the status code of a response") {
+                response.setStatusCode(status: 200)
+                expect(response.getStatusCode()).to(equal(200))
+            }
+
+            it ("can edit the status phrase of a response") {
+                response.setStatusPhrase(phrase: "OK")
+                expect(response.getStatusPhrase()).to(equal("OK"))
+            }
+
+            it ("can add headers to the response") {
+                response.setContentLength(length: "15")
+                response.setContentType(type: "text/html")
+                response.setAllow(allow: "GET, PUT, POST")
+                response.setLocation(location: "Chicago")
+                response.setCookie(cookie: "format=text")
+                response.setWWWAuthenticate(authenticate: "password=secret")
+                expect(response.getContentLength()).to(equal("15"))
+                expect(response.getContentType()).to(equal("text/html"))
+                expect(response.getAllow()).to(equal("GET, PUT, POST"))
+                expect(response.getLocation()).to(equal("Chicago"))
+                expect(response.getCookie()).to(equal("format=text"))
+                expect(response.getWWWAuthenticate()).to(equal("password=secret"))
+            }
+
+            it ("can set the body of a response") {
+                response.setBody(body: Data("this is the body".utf8))
+                expect(response.getBody()).to(equal(Data("this is the body".utf8)))
             }
         }
     }
