@@ -13,6 +13,17 @@ public class RoutesTable {
         return self.routes
     }
 
+    public func verifyRoute(newRoute: Route) -> Bool {
+        var exist = false
+        for route in showAllRoutes() {
+            if route == newRoute {
+                exist = true
+                break
+            }
+        }
+        return exist
+    }
+
     public func options (url: String) -> [String] {
         var methods : [String] = []
         for route in routes {

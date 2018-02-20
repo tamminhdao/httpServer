@@ -43,6 +43,8 @@ public class FetchFileAction : HttpAction {
                 return (fileType: "text", fileExt: "html")
             case "jpeg":
                 return (fileType: "image", fileExt: "jpeg")
+            case "jpg":
+                return (fileType: "image", fileExt: "jpg")
             case "png":
                 return (fileType: "image", fileExt: "png")
             case "gif":

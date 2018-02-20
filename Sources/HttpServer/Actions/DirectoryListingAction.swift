@@ -16,6 +16,7 @@ public class DirectoryListingAction: HttpAction {
         do {
             let content = try directoryNavigator.contentsOfDirectory()
             let htmlContent = convertToHTML(content: content)
+            addRoutesToRoutesTable(contentOfDirectory: content)
             return ResponseBuilder(
                     routesTable: self.routesTable,
                     dataStorage: self.dataStorage)
@@ -26,6 +27,16 @@ public class DirectoryListingAction: HttpAction {
                     routesTable: self.routesTable,
                     dataStorage: self.dataStorage)
                     .generate404Response()
+        }
+    }
+
+    private func addRoutesToRoutesTable(contentOfDirectory: [String]) {
+        for item in contentOfDirectory {
+            let action = FetchFileAction(directoryNavigator: self.directoryNavigator, routesTable: self.routesTable, dataStorage: self.dataStorage)
+            let newRoute = Route(url: "/\(item)", method: HttpMethod.get, action: action)
+            if routesTable.verifyRoute(newRoute: newRoute) == false {
+                routesTable.addRoute(route: newRoute)
+            }
         }
     }
 
