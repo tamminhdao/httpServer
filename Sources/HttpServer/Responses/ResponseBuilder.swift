@@ -10,23 +10,22 @@ public class ResponseBuilder {
     private var allow: String?
     private var location: String?
     private var authenticate: String?
+    private var cookieData: String?
 
     public init(routesTable: RoutesTable, dataStorage: DataStorage) {
         self.routesTable = routesTable
         self.dataStorage = dataStorage
     }
 
-    public func generate200Response(method: HttpMethod, url: String) -> HttpResponse {
+    public func generate200Response(request: HttpRequest) -> HttpResponse {
         self.resetBuilder()
-                .setStatusCode(statusCode: 200)
-                .setStatusPhrase(statusPhrase: "OK")
-                .setAllow(url: options(url: url))
-        if (method != HttpMethod.head) {
-            let bodyString = obtainDataByUrlKey(url: url)
+            .setStatusCode(statusCode: 200)
+            .setStatusPhrase(statusPhrase: "OK")
+            .setAllow(url: options(url: request.returnUrl()))
+            .setCookie(cookieData: obtainCookieDataByUrl(url: request.returnUrl()))
+        if (request.returnMethod() != HttpMethod.head) {
+            let bodyString = obtainDataByUrlKey(url: request.returnUrl())
             self.setBody(body: Data(bodyString.utf8))
-        }
-        if (url == "/logs") {
-            self.setBody(body: Data(obtainRequestLog().utf8))
         }
         return self.build()
     }
@@ -114,6 +113,11 @@ public class ResponseBuilder {
         return self
     }
 
+    private func setCookie(cookieData: String) -> ResponseBuilder {
+        self.cookieData = cookieData
+        return self
+    }
+
     private func resetBuilder() -> ResponseBuilder {
         self.statusCode = nil
         self.statusPhrase = nil
@@ -122,6 +126,7 @@ public class ResponseBuilder {
         self.location = nil
         self.authenticate = nil
         self.allow = nil
+        self.cookieData = nil
         return self
     }
 
@@ -143,7 +148,8 @@ public class ResponseBuilder {
         "Content-Type": checkField(value: self.contentType, defaultValue: "text/html"),
         "Allow": checkField(value: self.allow, defaultValue: ""),
         "Location": checkField(value: self.location, defaultValue: ""),
-        "WWW-Authenticate": checkField(value: self.authenticate, defaultValue: "")
+        "WWW-Authenticate": checkField(value: self.authenticate, defaultValue: ""),
+        "Set-Cookie": checkField(value: self.cookieData, defaultValue: "")
         ],
         body: bodyValue)
     }
@@ -154,12 +160,13 @@ public class ResponseBuilder {
         return result
     }
 
-    private func obtainRequestLog() -> String {
-        var log = ""
-        for item in dataStorage.logRequests() {
-            log += item + "\n"
+    public func obtainCookieDataByUrl(url: String) -> String {
+        let dataInArray = dataStorage.retrieveCookieByUrl(url: url)
+        var cookieData = ""
+        for item in dataInArray {
+            cookieData += ("\(item); ")
         }
-        return log
+        return cookieData
     }
 
     private func options(url: String) -> String {

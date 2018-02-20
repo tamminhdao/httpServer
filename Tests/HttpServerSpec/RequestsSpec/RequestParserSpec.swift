@@ -27,18 +27,20 @@ class RequestParserSpec: QuickSpec {
 
             it ("returns an HttpRequest object if the incoming request is valid") {
                 let validRequest = """
-                    GET /logs HTTP/1.1
+                    GET /logs?language=english&format=html HTTP/1.1
                     Host: localhost:5000
                     Connection: Keep-Alive
                     User-Agent: Apache-HttpClient/4.3.5 (java 1.5)
                     Accept-Encoding: gzip,deflate
 
                     Content=Text&My=Value
+                    Protocol=html
                 """
 
                 let expected = HttpRequest(
                         method: HttpMethod.get,
                         url: "/logs",
+                        params: ["language=english", "format=html"],
                         version: "HTTP/1.1",
                         headers: [
                             "Host": "localhost:5000",
@@ -46,7 +48,7 @@ class RequestParserSpec: QuickSpec {
                             "User-Agent": "Apache-HttpClient/4.3.5 (java 1.5)",
                             "Accept-Encoding": "gzip,deflate"
                         ],
-                        body: ["Content":"Text", "My":"Value"]
+                        body: ["Content":"Text", "My":"Value", "Protocol":"html"]
                 )
 
                 do {

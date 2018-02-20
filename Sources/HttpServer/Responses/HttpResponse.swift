@@ -42,6 +42,7 @@ extension HttpResponse: Equatable {
             lhs.VERSION == rhs.VERSION &&
             lhs.statusCode == rhs.statusCode &&
             lhs.statusPhrase == rhs.statusPhrase &&
-            lhs.headers == rhs.headers
+            lhs.headers == rhs.headers &&
+            lhs.body == rhs.body
     }
 }

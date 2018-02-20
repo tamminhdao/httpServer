@@ -20,13 +20,13 @@ class RouteSpec : QuickSpec {
             }
 
             it ("returns true if a route needs authorized credentials") {
-                let boolean = authorizedRoute.needsAuthorization()
-                expect(boolean).to(be(true))
+                let auth = authorizedRoute.needsAuthorization()
+                expect(auth).to(be(true))
             }
 
             it ("returns false if a route does not need authorized credentials") {
-                let boolean = route.needsAuthorization()
-                expect(boolean).to(be(false))
+                let auth = route.needsAuthorization()
+                expect(auth).to(be(false))
             }
 
             it ("returns the correct string value for the realm of an authorized route") {

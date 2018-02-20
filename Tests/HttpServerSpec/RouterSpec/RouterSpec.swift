@@ -36,6 +36,7 @@ class RouterSpec: QuickSpec {
                 let validRequest = HttpRequest(
                         method: HttpMethod.get,
                         url: "/",
+                        params: [],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]
@@ -48,7 +49,8 @@ class RouterSpec: QuickSpec {
                                   "Content-Type": "text/html",
                                   "Allow": "GET,",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data("data=fatcat ".utf8)
                 )
 
@@ -60,6 +62,7 @@ class RouterSpec: QuickSpec {
                 let validRequest = HttpRequest(
                         method: HttpMethod.get,
                         url: "/logs",
+                        params: [],
                         version: "HTTP/1.1",
                         headers: ["Authorization": "Basic YWRtaW46aHVudGVyMg=="],
                         body: [:]
@@ -72,7 +75,8 @@ class RouterSpec: QuickSpec {
                                   "Content-Type":"text/html",
                                   "Allow": "GET,",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data()
                 )
                 let response = router.route(request: validRequest)
@@ -83,6 +87,7 @@ class RouterSpec: QuickSpec {
                 let validRequest = HttpRequest(
                         method: HttpMethod.head,
                         url: "/foobar",
+                        params: [],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]
@@ -92,10 +97,11 @@ class RouterSpec: QuickSpec {
                         statusCode: 404,
                         statusPhrase: "Not Found",
                         headers: ["Content-Length": "0",
-                                    "Content-Type": "text/html",
-                                    "Allow": "",
-                                    "Location": "",
-                                    "WWW-Authenticate": ""],
+                                  "Content-Type": "text/html",
+                                  "Allow": "",
+                                  "Location": "",
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data()
                 )
 
@@ -107,6 +113,7 @@ class RouterSpec: QuickSpec {
                 let validRequest = HttpRequest(
                         method: HttpMethod.post,
                         url: "/",
+                        params: [],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]
@@ -116,10 +123,11 @@ class RouterSpec: QuickSpec {
                         statusCode: 405,
                         statusPhrase: "Method Not Allowed",
                         headers: ["Content-Length": "0",
-                                    "Content-Type": "text/html",
-                                    "Allow": "",
-                                    "Location": "",
-                                    "WWW-Authenticate": ""],
+                                  "Content-Type": "text/html",
+                                  "Allow": "",
+                                  "Location": "",
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data()
                 )
 
@@ -131,6 +139,7 @@ class RouterSpec: QuickSpec {
                         let validRequest = HttpRequest(
                         method: HttpMethod.get,
                         url: "/redirect",
+                        params: [],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]
@@ -140,10 +149,11 @@ class RouterSpec: QuickSpec {
                         statusCode: 302,
                         statusPhrase: "Found",
                         headers: ["Content-Length": "0",
-                                    "Content-Type":"text/html",
-                                    "Allow": "",
-                                    "Location": "/",
-                                    "WWW-Authenticate": ""],
+                                "Content-Type":"text/html",
+                                "Allow": "",
+                                "Location": "/",
+                                "WWW-Authenticate": "",
+                                "Set-Cookie": ""],
                         body: Data()
                 )
 
@@ -156,6 +166,7 @@ class RouterSpec: QuickSpec {
                 let validRequest = HttpRequest(
                         method: HttpMethod.get,
                         url: "/logs",
+                        params: [],
                         version: "HTTP/1.1",
                         headers: ["Authorization": "incorrect"],
                         body: [:]
@@ -168,7 +179,8 @@ class RouterSpec: QuickSpec {
                                   "Content-Type":"text/html",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": "Basic realm=basic-auth"],
+                                  "WWW-Authenticate": "Basic realm=basic-auth",
+                                  "Set-Cookie": ""],
                         body: Data()
                 )
 
@@ -181,6 +193,7 @@ class RouterSpec: QuickSpec {
                 let validRequest = HttpRequest(
                         method: HttpMethod.get,
                         url: "/directory",
+                        params: [],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]
@@ -199,7 +212,8 @@ class RouterSpec: QuickSpec {
                                   "Content-Type":"text/html",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data(folderContent.utf8)
                 )
 

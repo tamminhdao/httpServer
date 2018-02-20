@@ -18,6 +18,7 @@ class PutActionSpec: QuickSpec {
                 request = HttpRequest(
                         method: HttpMethod.put,
                         url: "/form",
+                        params: [],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: ["Content": "Text", "My": "Value"]
@@ -40,7 +41,8 @@ class PutActionSpec: QuickSpec {
                                   "Content-Type": "text/html",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data("Content=Text My=Value ".utf8)
                 )
                 expect(response).to(equal(expected))

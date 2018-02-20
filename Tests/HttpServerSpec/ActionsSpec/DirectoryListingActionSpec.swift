@@ -20,6 +20,7 @@ class DirectoryListingActionSpec : QuickSpec {
                 request = HttpRequest(
                         method: HttpMethod.get,
                         url: "/",
+                        params: [],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]
@@ -42,7 +43,8 @@ class DirectoryListingActionSpec : QuickSpec {
                                   "Content-Type":"text/html",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data(bodyContent.utf8)
                 )
 

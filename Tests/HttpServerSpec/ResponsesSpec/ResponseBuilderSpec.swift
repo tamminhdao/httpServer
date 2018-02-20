@@ -20,7 +20,15 @@ class ResponseBuilderSpec: QuickSpec {
 
             it ("can generate a 200 response putting url data in the body") {
                 dataStorage.addData(url: "/", value: "data=fatcat ")
-                let response200 = responseBuilder.generate200Response(method: HttpMethod.get, url: "/")
+                let request = HttpRequest(
+                        method: HttpMethod.get,
+                        url: "/",
+                        params: [],
+                        version: "HTTP/1.1",
+                        headers: [:],
+                        body: [:]
+                )
+                let response200 = responseBuilder.generate200Response(request: request)
                 let expectedResponse200 = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
@@ -28,7 +36,8 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Content-Type":"text/html",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data("data=fatcat ".utf8)
                 )
                 expect(response200).to(equal(expectedResponse200))
@@ -36,7 +45,15 @@ class ResponseBuilderSpec: QuickSpec {
 
             it ("can generate a 200 response with an empty body to a HEAD request") {
                 dataStorage.addData(url: "/pets", value: "my=spoiled_cat ")
-                let response200Head = responseBuilder.generate200Response(method: HttpMethod.head, url: "/pets")
+                let request = HttpRequest(
+                        method: HttpMethod.head,
+                        url: "/pets",
+                        params: [],
+                        version: "HTTP/1.1",
+                        headers: [:],
+                        body: [:]
+                )
+                let response200Head = responseBuilder.generate200Response(request: request)
                 let expectedResponse200Head = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
@@ -44,30 +61,11 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Content-Type":"text/html",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data()
                 )
                 expect(response200Head).to(equal(expectedResponse200Head))
-            }
-
-            it ("can generate a 200 response logging all incoming requests for /logs route") {
-                dataStorage.addToRequestList(request: "PUT /form HTTP/1.1")
-                dataStorage.addToRequestList(request: "HEAD /requests HTTP/1.1")
-                let response200Logs = responseBuilder.generate200Response(method: HttpMethod.get, url: "/logs")
-                let bodyContent = "PUT /form HTTP/1.1\nHEAD /requests HTTP/1.1\n"
-
-                let expectedResponse200Logs = HttpResponse(
-                        statusCode: 200,
-                        statusPhrase: "OK",
-                        headers: ["Content-Length": String(Data(bodyContent.utf8).count),
-                                  "Content-Type":"text/html",
-                                  "Allow": "",
-                                  "Location": "",
-                                  "WWW-Authenticate": ""],
-                        body: Data(bodyContent.utf8)
-                )
-
-                expect(response200Logs).to(equal(expectedResponse200Logs))
             }
 
             it ("can generate a 200 response to an OPTIONS request") {
@@ -76,8 +74,15 @@ class ResponseBuilderSpec: QuickSpec {
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.put, action: nullAction))
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.post, action: nullAction))
                 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.options, action: nullAction))
-
-                let responseOptions = responseBuilder.generate200Response(method: HttpMethod.options, url: "/")
+                let request = HttpRequest(
+                        method: HttpMethod.options,
+                        url: "/",
+                        params: [],
+                        version: "HTTP/1.1",
+                        headers: [:],
+                        body: [:]
+                )
+                let responseOptions = responseBuilder.generate200Response(request: request)
                 let expectedResponseOptions = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
@@ -85,7 +90,8 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Content-Type":"text/html",
                                   "Allow": "GET,HEAD,PUT,POST,OPTIONS,",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data())
 
                 expect(responseOptions).to(equal(expectedResponseOptions))
@@ -118,7 +124,8 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Content-Type":"text/html",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data(directory.utf8))
 
                 expect(response200Directory).to(equal(expectedResponse200Directory))
@@ -133,27 +140,57 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Content-Type":"image/jpg",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data())
 
                 expect(response200FileContent).to(equal(expectedResponse200FileContent))
             }
-            
+
+            it ("can set cookie with parameters from the url") {
+                let request = HttpRequest(
+                        method: HttpMethod.get,
+                        url: "/my_cookie",
+                        params: ["type=chocolate"],
+                        version: "HTTP/1.1",
+                        headers: [:],
+                        body: [:]
+                )
+                dataStorage.saveCookie(url: "/my_cookie", value: ["type=chocolate"])
+                let response200Cookie = responseBuilder.generate200Response(request: request)
+
+                let expectedResponse200Cookie = HttpResponse(
+                        statusCode: 200,
+                        statusPhrase: "OK",
+                        headers: ["Content-Length": "0",
+                                  "Content-Type": "text/html",
+                                  "Allow": "",
+                                  "Location": "",
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": "type=chocolate; "],
+                        body: Data()
+                )
+
+                expect(response200Cookie).to(equal(expectedResponse200Cookie))
+            }
+
             it ("can generate a 302 response") {
                 let response302 = responseBuilder.generate302Response()
                 let expectedResponse302 = HttpResponse(
-                        statusCode: 302,
-                        statusPhrase: "Found",
-                        headers: ["Content-Length": "0",
-                                  "Content-Type":"text/html",
-                                  "Allow": "",
-                                  "Location": "",
-                                  "WWW-Authenticate": ""],
-                        body: Data()
+                statusCode: 302,
+                statusPhrase: "Found",
+                headers: ["Content-Length": "0",
+                          "Content-Type":"text/html",
+                          "Allow": "",
+                          "Location": "",
+                          "WWW-Authenticate": "",
+                          "Set-Cookie": ""],
+                body: Data()
                 )
 
                 expect(response302).to(equal(expectedResponse302))
             }
+
 
             it ("can generate a 401 response") {
                 let response401 = responseBuilder.generate401Response(realm: "basic-auth")
@@ -164,7 +201,8 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Content-Type":"text/html",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": "Basic realm=basic-auth"],
+                                  "WWW-Authenticate": "Basic realm=basic-auth",
+                                  "Set-Cookie": ""],
                         body: Data()
                 )
                 expect(response401).to(equal(expectedResponse401))
@@ -179,7 +217,8 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Content-Type":"text/html",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data()
                 )
                 expect(response404).to(equal(expectedResponse404))
@@ -194,7 +233,8 @@ class ResponseBuilderSpec: QuickSpec {
                                   "Content-Type":"text/html",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data()
                 )
                 expect(response405).to(equal(expectedResponse405))

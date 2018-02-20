@@ -22,6 +22,7 @@ class FetchFileActionSpec : QuickSpec {
                 let requestTextFile = HttpRequest(
                         method: HttpMethod.get,
                         url: "/text-file.txt",
+                        params: [],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]
@@ -35,7 +36,8 @@ class FetchFileActionSpec : QuickSpec {
                                   "Content-Type": "text/plain",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data("file1 contents".utf8))
 
                 expect(response).to(equal(expectedResponse))
@@ -45,6 +47,7 @@ class FetchFileActionSpec : QuickSpec {
                 let requestFile = HttpRequest(
                         method: HttpMethod.get,
                         url: "/file2",
+                        params: [],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]
@@ -58,7 +61,8 @@ class FetchFileActionSpec : QuickSpec {
                                   "Content-Type": "text/html",
                                   "Allow": "",
                                   "Location": "",
-                                  "WWW-Authenticate": ""],
+                                  "WWW-Authenticate": "",
+                                  "Set-Cookie": ""],
                         body: Data("file2 contents\n".utf8))
 
                 expect(response).to(equal(expectedResponse))

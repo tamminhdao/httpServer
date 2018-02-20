@@ -1,5 +1,4 @@
-public class NullAction: HttpAction {
-
+public class LogRequestsAction: HttpAction {
     private var dataStorage: DataStorage
     private var routesTable: RoutesTable
 
@@ -9,10 +8,18 @@ public class NullAction: HttpAction {
     }
 
     public func execute(request: HttpRequest) -> HttpResponse {
-        storeCookieData(request: request, dataStorage: self.dataStorage)
+        dataStorage.addData(url: request.returnUrl(), value: obtainRequestLog())
         return ResponseBuilder(
                 routesTable: self.routesTable,
                 dataStorage: self.dataStorage)
                 .generate200Response(request: request)
+    }
+
+    private func obtainRequestLog() -> String {
+        var log = ""
+        for item in dataStorage.logRequests() {
+            log += "\(item)\n"
+        }
+        return log
     }
 }

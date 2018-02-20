@@ -33,8 +33,15 @@ class DataStorageSpec : QuickSpec {
                 dataStorage.addData(url: "/", value: "Info")
                 dataStorage.addData(url: "/form", value: "My_Form")
                 let allValues = dataStorage.logData()
-                let expected = ["/": "Info", "/form": "My_Form"]
+                let expected = ["/cookie": "Eat", "/": "Info", "/form": "My_Form"]
                 expect(allValues).to(equal(expected))
+            }
+
+            it ("can save cookie data") {
+                dataStorage.saveCookie(url: "/cookie", value: ["type=vegan", "flavor=chocolate"])
+                let cookieData = dataStorage.retrieveCookieByUrl(url: "/cookie")
+                let expected = ["type=vegan", "flavor=chocolate"]
+                expect(cookieData).to(equal(expected))
             }
 
             it ("can add requests to the list of incoming requests") {

@@ -1,12 +1,12 @@
-import HttpServer
+import Foundation
 import Quick
 import Nimble
-import Foundation
+import HttpServer
 
-class NullActionSpec: QuickSpec {
+class UrlDecodeActionSpec: QuickSpec {
     override func spec() {
-        describe("#NullAction") {
-            var action: NullAction!
+        describe("#UrlDecodeAction") {
+            var action: UrlDecodeAction!
             var dataStorage: DataStorage!
             var request: HttpRequest!
             var routesTable: RoutesTable!
@@ -14,31 +14,31 @@ class NullActionSpec: QuickSpec {
             beforeEach {
                 dataStorage = DataStorage()
                 routesTable = RoutesTable()
-                action = NullAction(routesTable: routesTable, dataStorage: dataStorage)
+                action = UrlDecodeAction(routesTable: routesTable, dataStorage: dataStorage)
                 request = HttpRequest(
                         method: HttpMethod.get,
-                        url: "/",
-                        params: [],
+                        url: "/params",
+                        params: ["%3C", "this=stuff"],
                         version: "HTTP/1.1",
                         headers: [:],
                         body: [:]
                 )
             }
 
-            it ("generates a 200 response to an appropriate request") {
+            it ("can decode the params of a request") {
                 let response = action.execute(request: request)
-                let expected = HttpResponse(
+                let expectedResponse = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length": "0",
+                        headers: ["Content-Length": String(("<this=stuff").count),
                                   "Content-Type": "text/html",
                                   "Allow": "",
                                   "Location": "",
                                   "WWW-Authenticate": "",
                                   "Set-Cookie": ""],
-                        body: Data()
-                )
-                expect(response).to(equal(expected))
+                        body: Data("<this=stuff".utf8))
+                
+                expect(response).to(equal(expectedResponse))
             }
         }
     }
