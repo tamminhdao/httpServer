@@ -162,11 +162,11 @@ public class ResponseBuilder {
 
     public func obtainCookieDataByUrl(url: String) -> String {
         let dataInArray = dataStorage.retrieveCookieByUrl(url: url)
-        var data = ""
+        var cookieData = ""
         for item in dataInArray {
-            data += ("\(item); ")
+            cookieData += ("\(item); ")
         }
-        return data
+        return cookieData
     }
 
     private func options(url: String) -> String {
