@@ -15,8 +15,8 @@ swift build
 
 ### Run the code
 
-```./.build/debug/Main -p <port number> -d <directory path>```
-e.g: ```./.build/debug/Main -p 5000 -d ./cob_spec/public```
+```./.build/debug/CobSpec -p <port number> -d <directory path>
+e.g: ./.build/debug/CobSpec -p 5000 -d ./cob_spec/public```
 
 ### Run the unit tests
 
