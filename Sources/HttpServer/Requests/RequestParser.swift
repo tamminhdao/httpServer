@@ -97,14 +97,14 @@ public class RequestParser {
 
         for item in array {
             let line = item.trimmingCharacters(in: .whitespacesAndNewlines)
-            var listOfPairs = [String]()
+            var listOfKeyValuePairs = [String]()
             if (line.contains("&")) {
-                listOfPairs = line.components(separatedBy: "&")
+                listOfKeyValuePairs = line.components(separatedBy: "&")
             } else {
-                listOfPairs.append(line)
+                listOfKeyValuePairs.append(line)
             }
 
-            for pair in listOfPairs {
+            for pair in listOfKeyValuePairs {
                 let keyValue = pair.split(separator: "=", maxSplits: 1)
                 if (keyValue.count > 1) {
                     let trimmedKey = keyValue[0].trimmingCharacters(in: .whitespacesAndNewlines)
