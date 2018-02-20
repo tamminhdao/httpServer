@@ -20,6 +20,10 @@ public class HttpRequest {
         self.space = " "
     }
 
+    public static func emptyRequest() -> HttpRequest {
+        return HttpRequest(method: nil, url: "", params: [], version: "", headers: ["" : ""], body: ["": ""])
+    }
+
     public func returnMethod() -> HttpMethod? {
         return self.method
     }
