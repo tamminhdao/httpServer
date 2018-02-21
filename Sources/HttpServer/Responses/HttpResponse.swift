@@ -39,84 +39,84 @@ public class HttpResponse {
         return HttpResponse(statusCode: 404, statusPhrase: "Not Found", headers: [:], body: Data())
     }
 
-    public func setStatusCode(status: Int) -> HttpResponse {
+    public func setResponseStatusCode(status: Int) -> HttpResponse {
     self.statusCode = status
     return self
 }
 
-    public func getStatusCode() -> Int {
+    public func getResponseStatusCode() -> Int {
         return self.statusCode
     }
 
-    public func setStatusPhrase(phrase: String) -> HttpResponse {
+    public func setResponseStatusPhrase(phrase: String) -> HttpResponse {
         self.statusPhrase = phrase
         return self
     }
 
-    public func getStatusPhrase() -> String {
+    public func getResponseStatusPhrase() -> String {
         return self.statusPhrase
     }
 
-    public func setContentLength(length: String) -> HttpResponse {
+    public func setResponseContentLength(length: String) -> HttpResponse {
         self.headers["Content-Length"] = length
         return self
     }
 
-    public func getContentLength() -> String? {
+    public func getResponseContentLength() -> String? {
         return self.headers["Content-Length"]
     }
 
-    public func setContentType(type: String) -> HttpResponse {
+    public func setResponseContentType(type: String) -> HttpResponse {
         self.headers["Content-Type"] = type
         return self
     }
 
-    public func getContentType() -> String? {
+    public func getResponseContentType() -> String? {
         return self.headers["Content-Type"]
     }
 
-    public func setAllow(allow: String) -> HttpResponse {
+    public func setResponseAllow(allow: String) -> HttpResponse {
         self.headers["Allow"] = allow
         return self
     }
 
-    public func getAllow() -> String? {
+    public func getResponseAllow() -> String? {
         return self.headers["Allow"]
     }
 
-    public func setLocation(location: String) -> HttpResponse {
+    public func setResponseLocation(location: String) -> HttpResponse {
         self.headers["Location"] = location
         return self
     }
 
-    public func getLocation() -> String? {
+    public func getResponseLocation() -> String? {
         return self.headers["Location"]
     }
 
-    public func setCookie(cookie: String) -> HttpResponse {
+    public func setResponseCookie(cookie: String) -> HttpResponse {
         self.headers["Set-Cookie"] = cookie
         return self
     }
 
-    public func getCookie() -> String? {
+    public func getResponseCookie() -> String? {
         return self.headers["Set-Cookie"]
     }
 
-    public func setWWWAuthenticate(authenticate: String) -> HttpResponse {
+    public func setResponseWWWAuthenticate(authenticate: String) -> HttpResponse {
         self.headers["WWW-Authenticate"] = authenticate
         return self
     }
 
-    public func getWWWAuthenticate() -> String? {
+    public func getResponseWWWAuthenticate() -> String? {
         return self.headers["WWW-Authenticate"]
     }
 
-    public func setBody(body: Data) -> HttpResponse {
+    public func setResponseBody(body: Data) -> HttpResponse {
         self.body = body
         return self
     }
 
-    public func getBody() -> Data {
+    public func getResponseBody() -> Data {
         return self.body
     }
 }

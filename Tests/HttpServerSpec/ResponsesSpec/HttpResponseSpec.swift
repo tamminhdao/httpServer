@@ -45,45 +45,45 @@ class HttpResponseSpec: QuickSpec {
             }
 
             it ("can edit the status code of a response") {
-                response.setStatusCode(status: 200)
-                expect(response.getStatusCode()).to(equal(200))
+                response.setResponseStatusCode(status: 200)
+                expect(response.getResponseStatusCode()).to(equal(200))
             }
 
             it ("can edit the status phrase of a response") {
-                response.setStatusPhrase(phrase: "OK")
-                expect(response.getStatusPhrase()).to(equal("OK"))
+                response.setResponseStatusPhrase(phrase: "OK")
+                expect(response.getResponseStatusPhrase()).to(equal("OK"))
             }
 
             it ("can add headers to the response") {
-                response.setContentLength(length: "15")
-                response.setContentType(type: "text/html")
-                response.setAllow(allow: "GET, PUT, POST")
-                response.setLocation(location: "Chicago")
-                response.setCookie(cookie: "format=text")
-                response.setWWWAuthenticate(authenticate: "password=secret")
-                expect(response.getContentLength()).to(equal("15"))
-                expect(response.getContentType()).to(equal("text/html"))
-                expect(response.getAllow()).to(equal("GET, PUT, POST"))
-                expect(response.getLocation()).to(equal("Chicago"))
-                expect(response.getCookie()).to(equal("format=text"))
-                expect(response.getWWWAuthenticate()).to(equal("password=secret"))
+                response.setResponseContentLength(length: "15")
+                response.setResponseContentType(type: "text/html")
+                response.setResponseAllow(allow: "GET, PUT, POST")
+                response.setResponseLocation(location: "Chicago")
+                response.setResponseCookie(cookie: "format=text")
+                response.setResponseWWWAuthenticate(authenticate: "password=secret")
+                expect(response.getResponseContentLength()).to(equal("15"))
+                expect(response.getResponseContentType()).to(equal("text/html"))
+                expect(response.getResponseAllow()).to(equal("GET, PUT, POST"))
+                expect(response.getResponseLocation()).to(equal("Chicago"))
+                expect(response.getResponseCookie()).to(equal("format=text"))
+                expect(response.getResponseWWWAuthenticate()).to(equal("password=secret"))
             }
 
             it ("can set the body of a response") {
-                response.setBody(body: Data("this is the body".utf8))
-                expect(response.getBody()).to(equal(Data("this is the body".utf8)))
+                response.setResponseBody(body: Data("this is the body".utf8))
+                expect(response.getResponseBody()).to(equal(Data("this is the body".utf8)))
             }
 
             it ("can reset all attribute of a response") {
-                response.setStatusCode(status: 200)
-                response.setStatusPhrase(phrase: "OK")
-                response.setContentLength(length: "5")
-                response.setContentType(type: "text/html")
-                response.setAllow(allow: "GET, PUT, POST")
-                response.setLocation(location: "Chicago")
-                response.setCookie(cookie: "format=text")
-                response.setWWWAuthenticate(authenticate: "password=secret")
-                response.setBody(body: Data("Hello".utf8))
+                response.setResponseStatusCode(status: 200)
+                response.setResponseStatusPhrase(phrase: "OK")
+                response.setResponseContentLength(length: "5")
+                response.setResponseContentType(type: "text/html")
+                response.setResponseAllow(allow: "GET, PUT, POST")
+                response.setResponseLocation(location: "Chicago")
+                response.setResponseCookie(cookie: "format=text")
+                response.setResponseWWWAuthenticate(authenticate: "password=secret")
+                response.setResponseBody(body: Data("Hello".utf8))
                 let expectedResponse = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",

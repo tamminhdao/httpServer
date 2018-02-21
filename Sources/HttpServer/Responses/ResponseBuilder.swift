@@ -141,15 +141,15 @@ public class ResponseBuilder {
     private func build() -> HttpResponse {
         let bodyValue = checkField(value: self.body, defaultValue: Data())
         return HttpResponse.emptyResponse()
-                            .setStatusCode(status: checkField(value: self.statusCode, defaultValue: 404))
-                            .setStatusPhrase(phrase: checkField(value: self.statusPhrase, defaultValue: "Not Found"))
-                            .setContentLength(length: String(bodyValue.count))
-                            .setContentType(type: checkField(value: self.contentType, defaultValue: "text/html"))
-                            .setAllow(allow: checkField(value: self.allow, defaultValue: ""))
-                            .setLocation(location: checkField(value: self.location, defaultValue: ""))
-                            .setWWWAuthenticate(authenticate: checkField(value: self.authenticate, defaultValue: ""))
-                            .setCookie(cookie: checkField(value: self.cookieData, defaultValue: ""))
-                            .setBody(body: bodyValue)
+                            .setResponseStatusCode(status: checkField(value: self.statusCode, defaultValue: 404))
+                            .setResponseStatusPhrase(phrase: checkField(value: self.statusPhrase, defaultValue: "Not Found"))
+                            .setResponseContentLength(length: String(bodyValue.count))
+                            .setResponseContentType(type: checkField(value: self.contentType, defaultValue: "text/html"))
+                            .setResponseAllow(allow: checkField(value: self.allow, defaultValue: ""))
+                            .setResponseLocation(location: checkField(value: self.location, defaultValue: ""))
+                            .setResponseWWWAuthenticate(authenticate: checkField(value: self.authenticate, defaultValue: ""))
+                            .setResponseCookie(cookie: checkField(value: self.cookieData, defaultValue: ""))
+                            .setResponseBody(body: bodyValue)
     }
 
     private func obtainDataByUrlKey(url: String) -> String {
