@@ -35,7 +35,7 @@ public class HttpResponse {
         return headerString
     }
 
-    public static func empty404Response() -> HttpResponse {
+    public static func emptyResponse() -> HttpResponse {
         return HttpResponse(statusCode: 404, statusPhrase: "Not Found", headers: [:], body: Data())
     }
 

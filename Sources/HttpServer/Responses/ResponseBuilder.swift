@@ -140,18 +140,16 @@ public class ResponseBuilder {
 
     private func build() -> HttpResponse {
         let bodyValue = checkField(value: self.body, defaultValue: Data())
-        return HttpResponse(
-        statusCode: checkField(value: self.statusCode, defaultValue: 404),
-        statusPhrase: checkField(value: self.statusPhrase, defaultValue: "Not Found"),
-        headers: [
-        "Content-Length": String(bodyValue.count),
-        "Content-Type": checkField(value: self.contentType, defaultValue: "text/html"),
-        "Allow": checkField(value: self.allow, defaultValue: ""),
-        "Location": checkField(value: self.location, defaultValue: ""),
-        "WWW-Authenticate": checkField(value: self.authenticate, defaultValue: ""),
-        "Set-Cookie": checkField(value: self.cookieData, defaultValue: "")
-        ],
-        body: bodyValue)
+        return HttpResponse.emptyResponse()
+                            .setStatusCode(status: checkField(value: self.statusCode, defaultValue: 404))
+                            .setStatusPhrase(phrase: checkField(value: self.statusPhrase, defaultValue: "Not Found"))
+                            .setContentLength(length: String(bodyValue.count))
+                            .setContentType(type: checkField(value: self.contentType, defaultValue: "text/html"))
+                            .setAllow(allow: checkField(value: self.allow, defaultValue: ""))
+                            .setLocation(location: checkField(value: self.location, defaultValue: ""))
+                            .setWWWAuthenticate(authenticate: checkField(value: self.authenticate, defaultValue: ""))
+                            .setCookie(cookie: checkField(value: self.cookieData, defaultValue: ""))
+                            .setBody(body: bodyValue)
     }
 
     private func obtainDataByUrlKey(url: String) -> String {

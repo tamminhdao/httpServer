@@ -10,7 +10,7 @@ class HttpResponseSpec: QuickSpec {
             var response: HttpResponse!
 
             beforeEach {
-                response = HttpResponse.empty404Response()
+                response = HttpResponse.emptyResponse()
             }
 
             it ("can equate two response objects") {
