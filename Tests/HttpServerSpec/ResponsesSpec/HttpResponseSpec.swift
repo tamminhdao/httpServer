@@ -73,6 +73,29 @@ class HttpResponseSpec: QuickSpec {
                 response.setBody(body: Data("this is the body".utf8))
                 expect(response.getBody()).to(equal(Data("this is the body".utf8)))
             }
+
+            it ("can reset all attribute of a response") {
+                response.setStatusCode(status: 200)
+                response.setStatusPhrase(phrase: "OK")
+                response.setContentLength(length: "5")
+                response.setContentType(type: "text/html")
+                response.setAllow(allow: "GET, PUT, POST")
+                response.setLocation(location: "Chicago")
+                response.setCookie(cookie: "format=text")
+                response.setWWWAuthenticate(authenticate: "password=secret")
+                response.setBody(body: Data("Hello".utf8))
+                let expectedResponse = HttpResponse(
+                        statusCode: 200,
+                        statusPhrase: "OK",
+                        headers: ["Content-Length": "5",
+                                  "Content-Type":"text/html",
+                                  "Allow": "GET, PUT, POST",
+                                  "Location": "Chicago",
+                                  "WWW-Authenticate": "password=secret",
+                                  "Set-Cookie": "format=text"],
+                        body: Data("Hello".utf8))
+                expect(response).to(equal(expectedResponse))
+            }
         }
     }
 }
