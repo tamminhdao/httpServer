@@ -96,6 +96,25 @@ class HttpResponseSpec: QuickSpec {
                         body: Data("Hello".utf8))
                 expect(response).to(equal(expectedResponse))
             }
+
+            it ("does not add a header if its value is an empty string") {
+                response.setResponseStatusCode(status: 200)
+                response.setResponseStatusPhrase(phrase: "OK")
+                response.setResponseContentLength(length: "5")
+                response.setResponseContentType(type: "text/html")
+                response.setResponseAllow(allow: "")
+                response.setResponseLocation(location: "")
+                response.setResponseCookie(cookie: "")
+                response.setResponseWWWAuthenticate(authenticate: "")
+                response.setResponseBody(body: Data("Hello".utf8))
+                let expectedResponse = HttpResponse(
+                        statusCode: 200,
+                        statusPhrase: "OK",
+                        headers: ["Content-Length": "5",
+                                  "Content-Type":"text/html"],
+                        body: Data("Hello".utf8))
+                expect(response).to(equal(expectedResponse))
+            }
         }
     }
 }

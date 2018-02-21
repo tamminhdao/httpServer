@@ -47,10 +47,7 @@ class RouterSpec: QuickSpec {
                         statusPhrase: "OK",
                         headers: ["Content-Length": String(("data=fatcat ").count),
                                   "Content-Type": "text/html",
-                                  "Allow": "GET,",
-                                  "Location": "",
-                                  "WWW-Authenticate": "",
-                                  "Set-Cookie": ""],
+                                  "Allow": "GET,"],
                         body: Data("data=fatcat ".utf8)
                 )
 
@@ -73,10 +70,7 @@ class RouterSpec: QuickSpec {
                         statusPhrase: "OK",
                         headers: ["Content-Length": "0",
                                   "Content-Type":"text/html",
-                                  "Allow": "GET,",
-                                  "Location": "",
-                                  "WWW-Authenticate": "",
-                                  "Set-Cookie": ""],
+                                  "Allow": "GET,"],
                         body: Data()
                 )
                 let response = router.route(request: validRequest)
@@ -97,11 +91,7 @@ class RouterSpec: QuickSpec {
                         statusCode: 404,
                         statusPhrase: "Not Found",
                         headers: ["Content-Length": "0",
-                                  "Content-Type": "text/html",
-                                  "Allow": "",
-                                  "Location": "",
-                                  "WWW-Authenticate": "",
-                                  "Set-Cookie": ""],
+                                  "Content-Type": "text/html"],
                         body: Data()
                 )
 
@@ -123,11 +113,7 @@ class RouterSpec: QuickSpec {
                         statusCode: 405,
                         statusPhrase: "Method Not Allowed",
                         headers: ["Content-Length": "0",
-                                  "Content-Type": "text/html",
-                                  "Allow": "",
-                                  "Location": "",
-                                  "WWW-Authenticate": "",
-                                  "Set-Cookie": ""],
+                                  "Content-Type": "text/html"],
                         body: Data()
                 )
 
@@ -150,10 +136,7 @@ class RouterSpec: QuickSpec {
                         statusPhrase: "Found",
                         headers: ["Content-Length": "0",
                                 "Content-Type":"text/html",
-                                "Allow": "",
-                                "Location": "/",
-                                "WWW-Authenticate": "",
-                                "Set-Cookie": ""],
+                                "Location": "/"],
                         body: Data()
                 )
 
@@ -177,10 +160,7 @@ class RouterSpec: QuickSpec {
                         statusPhrase: "Unauthorized",
                         headers: ["Content-Length": "0",
                                   "Content-Type":"text/html",
-                                  "Allow": "",
-                                  "Location": "",
-                                  "WWW-Authenticate": "Basic realm=basic-auth",
-                                  "Set-Cookie": ""],
+                                  "WWW-Authenticate": "Basic realm=basic-auth"],
                         body: Data()
                 )
 
@@ -209,11 +189,7 @@ class RouterSpec: QuickSpec {
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length": String(folderContent.count),
-                                  "Content-Type":"text/html",
-                                  "Allow": "",
-                                  "Location": "",
-                                  "WWW-Authenticate": "",
-                                  "Set-Cookie": ""],
+                                  "Content-Type":"text/html"],
                         body: Data(folderContent.utf8)
                 )
 

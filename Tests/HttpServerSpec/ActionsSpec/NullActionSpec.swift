@@ -31,11 +31,7 @@ class NullActionSpec: QuickSpec {
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length": "0",
-                                  "Content-Type": "text/html",
-                                  "Allow": "",
-                                  "Location": "",
-                                  "WWW-Authenticate": "",
-                                  "Set-Cookie": ""],
+                                  "Content-Type": "text/html"],
                         body: Data()
                 )
                 expect(response).to(equal(expected))

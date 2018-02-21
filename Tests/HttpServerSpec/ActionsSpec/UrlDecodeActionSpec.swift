@@ -31,11 +31,7 @@ class UrlDecodeActionSpec: QuickSpec {
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length": String(("<this=stuff").count),
-                                  "Content-Type": "text/html",
-                                  "Allow": "",
-                                  "Location": "",
-                                  "WWW-Authenticate": "",
-                                  "Set-Cookie": ""],
+                                  "Content-Type": "text/html"],
                         body: Data("<this=stuff".utf8))
                 
                 expect(response).to(equal(expectedResponse))

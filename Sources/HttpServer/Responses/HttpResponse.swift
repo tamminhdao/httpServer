@@ -76,7 +76,9 @@ public class HttpResponse {
     }
 
     public func setResponseAllow(allow: String) -> HttpResponse {
-        self.headers["Allow"] = allow
+        if (allow != "") {
+            self.headers["Allow"] = allow
+        }
         return self
     }
 
@@ -85,7 +87,9 @@ public class HttpResponse {
     }
 
     public func setResponseLocation(location: String) -> HttpResponse {
-        self.headers["Location"] = location
+        if (location != "") {
+            self.headers["Location"] = location
+        }
         return self
     }
 
@@ -94,7 +98,9 @@ public class HttpResponse {
     }
 
     public func setResponseCookie(cookie: String) -> HttpResponse {
-        self.headers["Set-Cookie"] = cookie
+        if (cookie != "") {
+            self.headers["Set-Cookie"] = cookie
+        }
         return self
     }
 
@@ -103,7 +109,9 @@ public class HttpResponse {
     }
 
     public func setResponseWWWAuthenticate(authenticate: String) -> HttpResponse {
-        self.headers["WWW-Authenticate"] = authenticate
+        if (authenticate != "") {
+            self.headers["WWW-Authenticate"] = authenticate
+        }
         return self
     }
 
