@@ -47,7 +47,7 @@ class RouterSpec: QuickSpec {
                         statusPhrase: "OK",
                         headers: ["Content-Length": String(("data=fatcat ").count),
                                   "Content-Type": "text/html",
-                                  "Allow": "GET,"],
+                                  "Allow": "GET"],
                         body: Data("data=fatcat ".utf8)
                 )
 
@@ -70,7 +70,7 @@ class RouterSpec: QuickSpec {
                         statusPhrase: "OK",
                         headers: ["Content-Length": "0",
                                   "Content-Type":"text/html",
-                                  "Allow": "GET,"],
+                                  "Allow": "GET"],
                         body: Data()
                 )
                 let response = router.route(request: validRequest)

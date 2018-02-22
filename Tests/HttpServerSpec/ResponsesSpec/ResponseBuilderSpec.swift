@@ -80,7 +80,7 @@ class ResponseBuilderSpec: QuickSpec {
                         statusPhrase: "OK",
                         headers: ["Content-Length": "0",
                                   "Content-Type":"text/html",
-                                  "Allow": "GET,HEAD,PUT,POST,OPTIONS,"],
+                                  "Allow": "GET,HEAD,PUT,POST,OPTIONS"],
                         body: Data())
 
                 expect(responseOptions).to(equal(expectedResponseOptions))

@@ -168,11 +168,7 @@ public class ResponseBuilder {
     }
 
     private func options(url: String) -> String {
-        var allMethods = ""
         let listOfMethods = routesTable.options(url: url)
-        for method in listOfMethods {
-            allMethods = allMethods + "\(method),"
-        }
-        return allMethods
+        return listOfMethods.joined(separator: ",")
     }
 }
