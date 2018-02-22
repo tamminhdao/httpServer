@@ -32,10 +32,18 @@ public class Server {
 
         do {
             try self.listeningSocket = Socket.create()
-            try self.listeningSocket.listen(on: port)
+
+            guard let socket = self.listeningSocket else {
+                logger.error("Unable to unwrap socket...")
+                return
+            }
+
+            try socket.listen(on: port)
+            logger.info("Listening on port: \(port)")
 
             repeat {
-                let clientSocket = try self.listeningSocket.acceptClientConnection()
+                let clientSocket = try socket.acceptClientConnection()
+
                 queue.async {
                     self.handleRequest(socket: clientSocket)
                 }
@@ -57,8 +65,8 @@ public class Server {
             let data = response.constructResponse()
             try socket.write(from: data)
 
-            if let stringyData = String(data: data, encoding: .utf8) {
-                logger.debug("Outgoing response: \n \(stringyData)")
+            if let dataToString = String(data: data, encoding: .utf8) {
+                logger.debug("Outgoing response: \n\(dataToString)")
             } else {
                 logger.debug("No Response")
             }
@@ -74,7 +82,7 @@ public class Server {
             _ = try socket.read(into: &readData)
 
             if let incomingText = String(data: readData, encoding: .utf8) {
-                logger.debug("Incoming request: \n \(incomingText)")
+                logger.debug("Incoming request: \n\(incomingText)")
 
                 let parsedRequest = try self.parser.parse(request: incomingText)
 
