@@ -41,7 +41,7 @@ public class Server {
                 }
             } while true
         } catch let error {
-            print (error.localizedDescription)
+            logger.error("Error while making socket connection \(error.localizedDescription)")
         }
     }
 
@@ -60,11 +60,11 @@ public class Server {
             if let stringyData = String(data: data, encoding: .utf8) {
                 logger.debug("Outgoing response: \n \(stringyData)")
             } else {
-                logger.info("No Response")
+                logger.debug("No Response")
             }
         }
         catch let error {
-            print (error.localizedDescription)
+            logger.error("Error while sending back response \(error.localizedDescription)")
         }
     }
 
@@ -88,7 +88,7 @@ public class Server {
                 return HttpRequest.emptyRequest()
             }
         } catch let error {
-            print (error.localizedDescription)
+            logger.error("Error while parsing request \(error.localizedDescription)")
             return HttpRequest.emptyRequest()
         }
     }
