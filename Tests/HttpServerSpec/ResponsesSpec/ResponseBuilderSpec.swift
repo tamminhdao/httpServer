@@ -145,7 +145,7 @@ class ResponseBuilderSpec: QuickSpec {
                         statusPhrase: "OK",
                         headers: ["Content-Length": "0",
                                   "Content-Type": "text/html",
-                                  "Set-Cookie": "type=chocolate; "],
+                                  "Set-Cookie": "type=chocolate"],
                         body: Data()
                 )
 
