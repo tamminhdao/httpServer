@@ -33,7 +33,7 @@ public class ReturnCookieInfoAction: HttpAction {
     private func extractValueFromKeyValuePair(array: [String]) -> [String]{
         var newCookies = [String]()
         for cookie in array {
-            newCookies.append(cookie.components(separatedBy: "=").last!.trimmingCharacters(in: .punctuationCharacters))
+            newCookies.append(cookie.components(separatedBy: "=").last!)
         }
         return newCookies
     }

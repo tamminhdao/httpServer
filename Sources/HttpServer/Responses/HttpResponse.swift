@@ -40,9 +40,9 @@ public class HttpResponse {
     }
 
     public func setResponseStatusCode(status: Int) -> HttpResponse {
-    self.statusCode = status
-    return self
-}
+        self.statusCode = status
+        return self
+    }
 
     public func getResponseStatusCode() -> Int {
         return self.statusCode
