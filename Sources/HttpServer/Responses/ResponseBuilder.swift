@@ -140,18 +140,16 @@ public class ResponseBuilder {
 
     private func build() -> HttpResponse {
         let bodyValue = checkField(value: self.body, defaultValue: Data())
-        return HttpResponse(
-        statusCode: checkField(value: self.statusCode, defaultValue: 404),
-        statusPhrase: checkField(value: self.statusPhrase, defaultValue: "Not Found"),
-        headers: [
-        "Content-Length": String(bodyValue.count),
-        "Content-Type": checkField(value: self.contentType, defaultValue: "text/html"),
-        "Allow": checkField(value: self.allow, defaultValue: ""),
-        "Location": checkField(value: self.location, defaultValue: ""),
-        "WWW-Authenticate": checkField(value: self.authenticate, defaultValue: ""),
-        "Set-Cookie": checkField(value: self.cookieData, defaultValue: "")
-        ],
-        body: bodyValue)
+        return HttpResponse.emptyResponse()
+                            .setResponseStatusCode(status: checkField(value: self.statusCode, defaultValue: 404))
+                            .setResponseStatusPhrase(phrase: checkField(value: self.statusPhrase, defaultValue: "Not Found"))
+                            .setResponseContentLength(length: String(bodyValue.count))
+                            .setResponseContentType(type: checkField(value: self.contentType, defaultValue: "text/html"))
+                            .setResponseAllow(allow: checkField(value: self.allow, defaultValue: ""))
+                            .setResponseLocation(location: checkField(value: self.location, defaultValue: ""))
+                            .setResponseWWWAuthenticate(authenticate: checkField(value: self.authenticate, defaultValue: ""))
+                            .setResponseCookie(cookie: checkField(value: self.cookieData, defaultValue: ""))
+                            .setResponseBody(body: bodyValue)
     }
 
     private func obtainDataByUrlKey(url: String) -> String {
@@ -162,19 +160,11 @@ public class ResponseBuilder {
 
     public func obtainCookieDataByUrl(url: String) -> String {
         let dataInArray = dataStorage.retrieveCookieByUrl(url: url)
-        var cookieData = ""
-        for item in dataInArray {
-            cookieData += ("\(item); ")
-        }
-        return cookieData
+        return dataInArray.joined(separator: ";")
     }
 
     private func options(url: String) -> String {
-        var allMethods = ""
         let listOfMethods = routesTable.options(url: url)
-        for method in listOfMethods {
-            allMethods = allMethods + "\(method),"
-        }
-        return allMethods
+        return listOfMethods.joined(separator: ",")
     }
 }

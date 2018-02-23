@@ -33,11 +33,7 @@ class FetchFileActionSpec : QuickSpec {
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length": String(Data("file1 contents".utf8).count),
-                                  "Content-Type": "text/plain",
-                                  "Allow": "",
-                                  "Location": "",
-                                  "WWW-Authenticate": "",
-                                  "Set-Cookie": ""],
+                                  "Content-Type": "text/plain"],
                         body: Data("file1 contents".utf8))
 
                 expect(response).to(equal(expectedResponse))
@@ -58,11 +54,7 @@ class FetchFileActionSpec : QuickSpec {
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length": String(Data("file2 contents\n".utf8).count),
-                                  "Content-Type": "text/html",
-                                  "Allow": "",
-                                  "Location": "",
-                                  "WWW-Authenticate": "",
-                                  "Set-Cookie": ""],
+                                  "Content-Type": "text/html"],
                         body: Data("file2 contents\n".utf8))
 
                 expect(response).to(equal(expectedResponse))

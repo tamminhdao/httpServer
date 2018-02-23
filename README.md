@@ -15,16 +15,21 @@ swift build
 
 ### Run the code
 
-```./.build/debug/CobSpec -p <port number> -d <directory path>
-e.g: ./.build/debug/CobSpec -p 5000 -d ./cob_spec/public```
+```./.build/debug/CobSpec -p <port number> -d <directory path>```
+e.g: ./.build/debug/CobSpec -p 5000 -d ./cob_spec/public
 
 ### Run the unit tests
 
-```swift test```
+```
+swift build
+swift test
+```
 
 ### Run Cob_spec suite of acceptance tests
+
+From the root folder:
 ```
-From the root folder: cd cob_spec
+cd cob_spec
 mvn package
 java -jar fitnesse.jar -c 'PassingTestSuite?suite&format=text'
 ```

@@ -78,18 +78,14 @@ public class RequestParser {
             let trimmedValue = keyValue[1].trimmingCharacters(in: .whitespacesAndNewlines)
             headers[trimmedKey] = trimmedValue
         }
-
         return headers
     }
 
     private func parseBody(bodyLines: [String]) -> [String: String] {
-
         guard bodyLines.count > 0 else {
             return [String:String]()
         }
-
-        var body = convertArrayToDictionary(array: bodyLines)
-        return body
+        return convertArrayToDictionary(array: bodyLines)
     }
 
     private func convertArrayToDictionary(array: [String]) -> [String: String] {

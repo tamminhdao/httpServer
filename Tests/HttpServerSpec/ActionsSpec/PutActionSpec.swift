@@ -38,11 +38,7 @@ class PutActionSpec: QuickSpec {
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length": String(Data("Content=Text My=Value ".utf8).count),
-                                  "Content-Type": "text/html",
-                                  "Allow": "",
-                                  "Location": "",
-                                  "WWW-Authenticate": "",
-                                  "Set-Cookie": ""],
+                                  "Content-Type": "text/html"],
                         body: Data("Content=Text My=Value ".utf8)
                 )
                 expect(response).to(equal(expected))

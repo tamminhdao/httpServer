@@ -40,11 +40,7 @@ class DirectoryListingActionSpec : QuickSpec {
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length": String(bodyContent.count),
-                                  "Content-Type":"text/html",
-                                  "Allow": "",
-                                  "Location": "",
-                                  "WWW-Authenticate": "",
-                                  "Set-Cookie": ""],
+                                  "Content-Type":"text/html"],
                         body: Data(bodyContent.utf8)
                 )
 

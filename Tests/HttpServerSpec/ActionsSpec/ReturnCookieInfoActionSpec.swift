@@ -39,11 +39,7 @@ class ReturnCookieInfoActionSpec: QuickSpec {
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length": String(Data("mmmm chocolate\n".utf8).count),
-                                  "Content-Type": "text/html",
-                                  "Allow": "",
-                                  "Location": "",
-                                  "WWW-Authenticate": "",
-                                  "Set-Cookie": ""],
+                                  "Content-Type": "text/html"],
                         body: Data("mmmm chocolate\n".utf8)
                 )
                 expect(response).to(equal(expected))
@@ -63,11 +59,7 @@ class ReturnCookieInfoActionSpec: QuickSpec {
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length": String(Data("mmmm vegan\nmmmm chocolate\n".utf8).count),
-                                  "Content-Type": "text/html",
-                                  "Allow": "",
-                                  "Location": "",
-                                  "WWW-Authenticate": "",
-                                  "Set-Cookie": ""],
+                                  "Content-Type": "text/html"],
                         body: Data("mmmm vegan\nmmmm chocolate\n".utf8)
                 )
                 expect(response).to(equal(expected))
