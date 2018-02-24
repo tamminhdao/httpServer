@@ -7,8 +7,8 @@
 
 ### Generate xcode project
 
+From the root folder:
 ```
-`cd` to the root folder
 swift package generate-xcodeproj
 swift build
 ```
@@ -16,7 +16,7 @@ swift build
 ### Run the code
 
 ```./.build/debug/CobSpec -p <port number> -d <directory path>```
-e.g: ./.build/debug/CobSpec -p 5000 -d ./cob_spec/public
+
 
 ### Run the unit tests
 
