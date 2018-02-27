@@ -71,6 +71,7 @@ public class ResponseBuilder {
         self.resetBuilder()
         .setStatusCode(statusCode: 404)
         .setStatusPhrase(statusPhrase: "Not Found")
+        .setBody(body: Data("404 Not Found".utf8))
         return self.build()
     }
 

@@ -184,9 +184,9 @@ class ResponseBuilderSpec: QuickSpec {
                 let expectedResponse404 = HttpResponse(
                         statusCode: 404,
                         statusPhrase: "Not Found",
-                        headers: ["Content-Length": "0",
+                        headers: ["Content-Length": String(("404 Not Found").count),
                                   "Content-Type":"text/html"],
-                        body: Data()
+                        body: Data("404 Not Found".utf8)
                 )
                 expect(response404).to(equal(expectedResponse404))
             }

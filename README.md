@@ -5,6 +5,17 @@
 * Swift 4.0
 * Java 8 (to run Cob_spec suite of acceptance tests) 
 
+### Clone the repo
+```
+git clone https://github.com/tamminhdao/httpServer
+```
+Navigate into the repo and pull the submodule
+```
+cd httpServer
+git submodule init
+git submodule update
+```
+
 ### Generate xcode project
 
 From the root folder:
