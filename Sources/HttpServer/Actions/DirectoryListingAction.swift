@@ -14,7 +14,7 @@ public class DirectoryListingAction: HttpAction {
 
     public func execute(request: HttpRequest) -> HttpResponse {
         do {
-            let content = try directoryNavigator.contentsOfDirectory()
+            let content = try directoryNavigator.contentsOfDirectory(atPath: request.returnUrl())
             let htmlContent = convertToHTML(content: content)
             addRoutesToRoutesTable(contentOfDirectory: content)
             return ResponseBuilder(

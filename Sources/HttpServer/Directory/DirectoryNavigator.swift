@@ -12,12 +12,12 @@ public class DirectoryNavigator {
         self.directoryPath = directoryPath
     }
 
-    public func contentsOfDirectory() throws -> [String] {
+    public func contentsOfDirectory(atPath: String) throws -> [String] {
         var content : [String] = []
         do {
-            try content = fileManager.contentsOfDirectory(atPath: directoryPath)
+            try content = fileManager.contentsOfDirectory(atPath: "\(directoryPath)\(atPath)")
         } catch {
-            throw DirectoryNavigatorError.PathDoesNotExist(atPath: directoryPath)
+            throw DirectoryNavigatorError.PathDoesNotExist(atPath: atPath)
         }
         return content
     }
@@ -37,5 +37,12 @@ public class DirectoryNavigator {
 
     private func fileExists(atPath: String) -> Bool {
         return self.fileManager.fileExists(atPath: atPath)
+    }
+
+    private func fileType(atPath: String) throws -> String {
+        guard fileExists(atPath: atPath) else {
+            throw DirectoryNavigatorError.PathDoesNotExist(atPath: atPath)
+        }
+        return try fileManager.attributesOfItem(atPath: atPath)[FileAttributeKey("NSFileType")] as! String
     }
 }
