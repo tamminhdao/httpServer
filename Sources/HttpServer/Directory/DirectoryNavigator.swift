@@ -15,7 +15,7 @@ public class DirectoryNavigator {
     public func contentsOfDirectory(atPath: String) throws -> [String] {
         var content : [String] = []
         do {
-            try content = fileManager.contentsOfDirectory(atPath: "\(directoryPath)\(atPath)")
+            try content = fileManager.contentsOfDirectory(atPath: "\(directoryPath)\(atPath)").sorted()
         } catch {
             throw DirectoryNavigatorError.PathDoesNotExist(atPath: atPath)
         }

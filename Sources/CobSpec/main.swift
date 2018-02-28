@@ -31,7 +31,6 @@ routesTable.addRoute(route: Route(url: "/form", method: HttpMethod.put, action: 
 routesTable.addRoute(route: Route(url: "/form", method: HttpMethod.post, action: postAction))
 routesTable.addRoute(route: Route(url: "/form", method: HttpMethod.delete, action: deleteAction))
 
-
 routesTable.addRoute(route: Route(url: "/method_options", method: HttpMethod.head, action: nullAction))
 routesTable.addRoute(route: Route(url: "/method_options", method: HttpMethod.get, action: nullAction))
 routesTable.addRoute(route: Route(url: "/method_options", method: HttpMethod.put, action: putAction))
