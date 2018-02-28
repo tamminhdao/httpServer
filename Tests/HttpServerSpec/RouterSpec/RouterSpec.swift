@@ -180,10 +180,10 @@ class RouterSpec: QuickSpec {
                 )
 
                 let folderContent = "<!DOCTYPE html><html><head><title>Directory Listing</title></head>" +
-                    "<body><ul><li><a href=/file1> file1 </a></li><li><a href=/file2> file2 </a></li>" +
-                    "<li><a href=/image.gif> image.gif </a></li><li><a href=/image.jpeg> image.jpeg </a></li>" +
-                    "<li><a href=/image.png> image.png </a></li><li><a href=/partial_content.txt> partial_content.txt </a></li>" +
-                    "<li><a href=/patch-content.txt> patch-content.txt </a></li><li><a href=/text-file.txt> text-file.txt </a></li></ul></body></html>"
+                    "<body><ul><li><a href=/file1> /file1 </a></li><li><a href=/file2> /file2 </a></li>" +
+                    "<li><a href=/image.gif> /image.gif </a></li><li><a href=/image.jpeg> /image.jpeg </a></li>" +
+                    "<li><a href=/image.png> /image.png </a></li><li><a href=/partial_content.txt> /partial_content.txt </a></li>" +
+                    "<li><a href=/patch-content.txt> /patch-content.txt </a></li><li><a href=/text-file.txt> /text-file.txt </a></li></ul></body></html>"
 
                 let responseOK = HttpResponse(
                         statusCode: 200,

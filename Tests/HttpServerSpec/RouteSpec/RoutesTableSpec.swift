@@ -34,6 +34,12 @@ class RoutesTableSpec: QuickSpec {
                 expect(allRoutes[1]).to(equal(expectedTable[1]))
             }
 
+            it ("can list all route urls in the table") {
+                let allRoutesUrls = routesTable.showAllRoutesUrl()
+                let expectedUrls = ["/", "/table"]
+                expect(allRoutesUrls).to(equal(expectedUrls))
+            }
+
             it ("can support the OPTIONS request by identifying all allowed methods on an url") {
                 let expectedVerbs = ["GET"]
                 let allowedMethods = routesTable.options(url: "/")
