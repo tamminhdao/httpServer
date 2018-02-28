@@ -38,16 +38,12 @@ public class ResponseBuilder {
         return self.build()
     }
 
-    public func generate200ResponseWithFileContent(content: Data?, contentType: (fileType: String, fileExt: String)) -> HttpResponse {
+    public func generate200ResponseWithFileContent(content: Data, contentType: (fileType: String, fileExt: String)) -> HttpResponse {
         self.resetBuilder()
             .setStatusCode(statusCode: 200)
             .setStatusPhrase(statusPhrase: "OK")
             .setContentType(contentType: "\(contentType.fileType)/\(contentType.fileExt)")
-        if let bodyContent = content {
-            self.setBody(body: bodyContent)
-        } else {
-            self.setBody(body: Data())
-        }
+            .setBody(body: content)
         return self.build()
     }
 

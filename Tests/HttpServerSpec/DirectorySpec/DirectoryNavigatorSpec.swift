@@ -13,7 +13,7 @@ class DirectoryNavigatorSpec : QuickSpec {
         describe("#DirectoryNavigator") {
             it ("throws PathDoesNotExistError for the path is invalid") {
                 expect {
-                    try directoryNavigator.contentsOfDirectory()
+                    try directoryNavigator.contentsOfDirectory(atPath: "/invalid/path/")
                 }.to(throwError(DirectoryNavigatorError.PathDoesNotExist(atPath: "/invalid/path/")))
             }
         }

@@ -11,16 +11,27 @@ public class DirectoryListingAction: HttpAction {
         self.dataStorage = dataStorage
         self.routesTable = routesTable
     }
-
     public func execute(request: HttpRequest) -> HttpResponse {
         do {
-            let content = try directoryNavigator.contentsOfDirectory()
-            let htmlContent = convertToHTML(content: content)
-            addRoutesToRoutesTable(contentOfDirectory: content)
-            return ResponseBuilder(
-                    routesTable: self.routesTable,
-                    dataStorage: self.dataStorage)
-                    .generate200ResponseWithDirectoryListing(directory: htmlContent)
+            if let fileContent = try directoryNavigator.readFileContents(filePath: request.returnUrl()) {
+                let contentType = determineFileType(filePath: request.returnUrl())
+                return ResponseBuilder(
+                        routesTable: self.routesTable,
+                        dataStorage: self.dataStorage)
+                        .generate200ResponseWithFileContent(
+                                content: fileContent,
+                                contentType: contentType)
+            } else {
+                let listings = try directoryNavigator.contentsOfDirectory(atPath: request.returnUrl())
+                let path = request.returnUrl() == "/" ? "" : request.returnUrl()
+                let listingsWithFullPath = listings.map{"\(path)/\($0)"}
+                let htmlContent = convertToHTML(content: listingsWithFullPath)
+                addRoutesToRoutesTable(contentOfDirectory: listingsWithFullPath)
+                return ResponseBuilder(
+                        routesTable: self.routesTable,
+                        dataStorage: self.dataStorage)
+                        .generate200ResponseWithDirectoryListing(directory: htmlContent)
+            }
         } catch let error {
             print(error.localizedDescription)
             return ResponseBuilder(
@@ -30,10 +41,34 @@ public class DirectoryListingAction: HttpAction {
         }
     }
 
+    private func determineFileType(filePath: String) -> (fileType: String, fileExt: String) {
+        guard let fileExt = filePath.components(separatedBy: ".").last else {
+            return (fileType: "text", fileExt: "html")
+        }
+
+        switch fileExt {
+        case "txt":
+            return (fileType: "text", fileExt: "plain")
+        case "html":
+            return (fileType: "text", fileExt: "html")
+        case "jpeg":
+            return (fileType: "image", fileExt: "jpeg")
+        case "jpg":
+            return (fileType: "image", fileExt: "jpg")
+        case "png":
+            return (fileType: "image", fileExt: "png")
+        case "gif":
+            return (fileType: "image", fileExt: "gif")
+        default:
+            return (fileType: "text", fileExt: "html")
+        }
+    }
+
     private func addRoutesToRoutesTable(contentOfDirectory: [String]) {
+
         for item in contentOfDirectory {
-            let action = FetchFileAction(directoryNavigator: self.directoryNavigator, routesTable: self.routesTable, dataStorage: self.dataStorage)
-            let newRoute = Route(url: "/\(item)", method: HttpMethod.get, action: action)
+            let action = DirectoryListingAction(directoryNavigator: self.directoryNavigator, routesTable: self.routesTable, dataStorage: self.dataStorage)
+            let newRoute = Route(url: "\(item)", method: HttpMethod.get, action: action)
             if routesTable.verifyRoute(newRoute: newRoute) == false {
                 routesTable.addRoute(route: newRoute)
             }
@@ -43,7 +78,7 @@ public class DirectoryListingAction: HttpAction {
     private func convertToHTML(content: [String]) -> String {
         var htmlBody = "<!DOCTYPE html><html><head><title>Directory Listing</title></head><body><ul>"
         for item in content {
-            htmlBody += "<li><a href=" + "/\(item)> \(item) </a></li>"
+            htmlBody += "<li><a href=" + "\(item)> \(item) </a></li>"
         }
         htmlBody += "</ul></body></html>"
         return htmlBody

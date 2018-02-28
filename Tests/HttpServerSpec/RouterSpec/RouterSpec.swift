@@ -19,14 +19,14 @@ class RouterSpec: QuickSpec {
                 routesTable = RoutesTable()
                 dataStorage = DataStorage()
                 directoryNavigator = DirectoryNavigator(directoryPath: "./cob_spec/public")
-                dataStorage.addData(url: "/", value: "data=fatcat ")
+                dataStorage.addData(url: "/form", value: "data=fatcat ")
                 responseBuilder = ResponseBuilder(routesTable: routesTable, dataStorage: dataStorage)
                 router = Router(routesTable: routesTable, responseBuilder: responseBuilder)
                 nullAction = NullAction(routesTable: routesTable, dataStorage: dataStorage)
                 redirectAction =  RedirectAction(redirectPath: "/", routesTable: routesTable, dataStorage: dataStorage)
                 directoryListingAction = DirectoryListingAction(directoryNavigator: directoryNavigator, routesTable: routesTable, dataStorage: dataStorage)
-                routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: nullAction))
-                routesTable.addRoute(route: Route(url: "/directory", method: HttpMethod.get, action: directoryListingAction))
+                routesTable.addRoute(route: Route(url: "/form", method: HttpMethod.get, action: nullAction))
+                routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: directoryListingAction))
                 routesTable.addRoute(route: Route(url: "/method_options2", method: HttpMethod.get, action: nullAction))
                 routesTable.addRoute(route: Route(url: "/redirect", method: HttpMethod.get, action: redirectAction))
                 routesTable.addRoute(route: Route(url: "/logs", method: HttpMethod.get, action: nullAction, realm: "basic-auth", credentials: "YWRtaW46aHVudGVyMg=="))
@@ -35,7 +35,7 @@ class RouterSpec: QuickSpec {
             it("returns a 200 OK response with data in the body") {
                 let validRequest = HttpRequest(
                         method: HttpMethod.get,
-                        url: "/",
+                        url: "/form",
                         params: [],
                         version: "HTTP/1.1",
                         headers: [:],
@@ -172,7 +172,7 @@ class RouterSpec: QuickSpec {
 
                 let validRequest = HttpRequest(
                         method: HttpMethod.get,
-                        url: "/directory",
+                        url: "/",
                         params: [],
                         version: "HTTP/1.1",
                         headers: [:],
@@ -180,10 +180,10 @@ class RouterSpec: QuickSpec {
                 )
 
                 let folderContent = "<!DOCTYPE html><html><head><title>Directory Listing</title></head>" +
-                    "<body><ul><li><a href=/file1> file1 </a></li><li><a href=/file2> file2 </a></li>" +
-                    "<li><a href=/image.gif> image.gif </a></li><li><a href=/image.jpeg> image.jpeg </a></li>" +
-                    "<li><a href=/image.png> image.png </a></li><li><a href=/partial_content.txt> partial_content.txt </a></li>" +
-                    "<li><a href=/patch-content.txt> patch-content.txt </a></li><li><a href=/text-file.txt> text-file.txt </a></li></ul></body></html>"
+                    "<body><ul><li><a href=/file1> /file1 </a></li><li><a href=/file2> /file2 </a></li>" +
+                    "<li><a href=/image.gif> /image.gif </a></li><li><a href=/image.jpeg> /image.jpeg </a></li>" +
+                    "<li><a href=/image.png> /image.png </a></li><li><a href=/partial_content.txt> /partial_content.txt </a></li>" +
+                    "<li><a href=/patch-content.txt> /patch-content.txt </a></li><li><a href=/text-file.txt> /text-file.txt </a></li></ul></body></html>"
 
                 let responseOK = HttpResponse(
                         statusCode: 200,

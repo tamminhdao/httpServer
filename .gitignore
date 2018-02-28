@@ -1,4 +1,5 @@
 .DS_Store
+server_*
 server.log
 /.idea
 /.build

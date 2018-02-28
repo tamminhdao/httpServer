@@ -16,7 +16,7 @@ public class Server {
     let console = ConsoleDestination()
     let file = FileDestination()
 
-    public init(port: Int, directory: String, router: Router, dataStorage: DataStorage) {
+    public init(port: Int = 5000, directory: String = "./cob_spec/public", router: Router, dataStorage: DataStorage) {
         self.parser = RequestParser()
         self.port = port
         self.directory = directory
@@ -68,7 +68,7 @@ public class Server {
             if let dataToString = String(data: data, encoding: .utf8) {
                 logger.debug("Outgoing response: \n\(dataToString)")
             } else {
-                logger.debug("No Response")
+                logger.debug("Fetching an image file")
             }
         }
         catch let error {
