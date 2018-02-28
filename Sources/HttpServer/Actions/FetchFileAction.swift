@@ -28,15 +28,15 @@ public class FetchFileAction : HttpAction {
 
 //                print(request.returnUrl())
 
-                let fullPath = content.map{"\(path)/\($0)"}
+                let contentWithFullPath = content.map{"\(path)/\($0)"}
 
 //                print(fullPath)
 
-                let htmlContent = convertToHTML(content: fullPath)
+                let htmlContent = convertToHTML(content: contentWithFullPath)
 
 //                print(htmlContent)
 
-                addRoutesToRoutesTable(contentOfDirectory: fullPath)
+                addRoutesToRoutesTable(contentOfDirectory: contentWithFullPath)
                 return ResponseBuilder(
                         routesTable: self.routesTable,
                         dataStorage: self.dataStorage)

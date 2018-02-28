@@ -22,20 +22,6 @@ public class DirectoryNavigator {
         return content
     }
 
-    public func listFilesAndFileTypes(atPath: String) throws -> [(name: String, path: String, type: String)] {
-        var allItems = [String]()
-        do {
-            allItems = try contentsOfDirectory(atPath: "\(directoryPath)\(atPath)")
-        } catch {
-            throw DirectoryNavigatorError.PathDoesNotExist(atPath: atPath)
-        }
-
-        let path = atPath == "/" ? "" : atPath
-        return try allItems.map {
-            ($0, "\(path)/\($0)", try self.fileType(atPath: "\(directoryPath)\(atPath)/\($0)"))
-        }
-    }
-
     public func readFileContents(filePath: String) throws -> Data? {
         let path = "\(directoryPath)/\(filePath)"
 
@@ -51,12 +37,5 @@ public class DirectoryNavigator {
 
     private func fileExists(atPath: String) -> Bool {
         return self.fileManager.fileExists(atPath: atPath)
-    }
-
-    private func fileType(atPath: String) throws -> String {
-        guard fileExists(atPath: atPath) else {
-            throw DirectoryNavigatorError.PathDoesNotExist(atPath: atPath)
-        }
-        return try fileManager.attributesOfItem(atPath: atPath)[FileAttributeKey("NSFileType")] as! String
     }
 }

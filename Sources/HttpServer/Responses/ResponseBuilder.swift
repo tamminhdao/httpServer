@@ -44,11 +44,6 @@ public class ResponseBuilder {
             .setStatusPhrase(statusPhrase: "OK")
             .setContentType(contentType: "\(contentType.fileType)/\(contentType.fileExt)")
             .setBody(body: content)
-//        if let bodyContent = content {
-//            self.setBody(body: bodyContent)
-//        } else {
-//            self.setBody(body: Data())
-//        }
         return self.build()
     }
 
