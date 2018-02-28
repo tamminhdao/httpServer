@@ -22,7 +22,7 @@ let logRequestsAction = LogRequestsAction(routesTable: routesTable, dataStorage:
 let returnCookieInfoAction = ReturnCookieInfoAction(routesTable: routesTable, dataStorage: dataStorage)
 let urlDecodeAction = UrlDecodeAction(routesTable: routesTable, dataStorage: dataStorage)
 
-routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: directoryListingAction))
+routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: fetchFileAction))
 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.head, action: nullAction))
 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.put, action: putAction))
 routesTable.addRoute(route: Route(url: "/", method: HttpMethod.post, action: postAction))

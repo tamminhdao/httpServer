@@ -15,6 +15,9 @@ public class DirectoryListingAction: HttpAction {
     public func execute(request: HttpRequest) -> HttpResponse {
         do {
             let content = try directoryNavigator.contentsOfDirectory(atPath: request.returnUrl())
+
+//            print(try directoryNavigator.listFilesAndFileTypes(atPath: request.returnUrl()))
+
             let htmlContent = convertToHTML(content: content)
             addRoutesToRoutesTable(contentOfDirectory: content)
             return ResponseBuilder(
@@ -31,9 +34,12 @@ public class DirectoryListingAction: HttpAction {
     }
 
     private func addRoutesToRoutesTable(contentOfDirectory: [String]) {
+
+        print(contentOfDirectory)
+
         for item in contentOfDirectory {
             let action = FetchFileAction(directoryNavigator: self.directoryNavigator, routesTable: self.routesTable, dataStorage: self.dataStorage)
-            let newRoute = Route(url: "/\(item)", method: HttpMethod.get, action: action)
+            let newRoute = Route(url: "\(item)", method: HttpMethod.get, action: action)
             if routesTable.verifyRoute(newRoute: newRoute) == false {
                 routesTable.addRoute(route: newRoute)
             }
