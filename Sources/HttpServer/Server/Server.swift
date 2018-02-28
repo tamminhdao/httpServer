@@ -22,7 +22,6 @@ public class Server {
         self.directory = directory
         self.router = router
         self.dataStorage = dataStorage
-        file.logFileURL = URL(string: "/Users/tamdao/Swift/httpServer/server.log")
         logger.addDestination(console)
         logger.addDestination(file)
     }
