@@ -1,0 +1,20 @@
+---
+- name: clone server from github, build and run on aws ubuntu instance
+  hosts: ubuntu
+
+  tasks:
+  - name: clone repo from git
+    git:
+      repo: 'https://github.com/tamminhdao/httpServer.git'
+      dest:  /home/ubuntu/swift_server
+      version: ansible
+
+  - name: build the server
+    command: /home/ubuntu/Swift/usr/bin/swift build
+    args:
+      chdir: /home/ubuntu/swift_server
+
+  - name: run the server
+    command: ./.build/debug/CobSpec -p 5555 -d ./cob_spec/public
+    args:
+      chdir: /home/ubuntu/swift_server
