@@ -26,6 +26,7 @@ public class DirectoryNavigator {
         let path = "\(directoryPath)/\(filePath)"
 
         guard fileExists(atPath: path) else {
+            return nil
             throw DirectoryNavigatorError.PathDoesNotExist(atPath: path)
         }
 
@@ -36,6 +37,16 @@ public class DirectoryNavigator {
     }
 
     private func fileExists(atPath: String) -> Bool {
-        return self.fileManager.fileExists(atPath: atPath)
+        var isDir : ObjCBool = false
+
+        if self.fileManager.fileExists(atPath: atPath, isDirectory: &isDir) {
+            if isDir.boolValue {
+                return false
+            } else {
+                return true
+            }
+        } else {
+            return false
+        }
     }
 }
