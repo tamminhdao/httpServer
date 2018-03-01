@@ -16,6 +16,15 @@ class DirectoryNavigatorSpec : QuickSpec {
                     try directoryNavigator.contentsOfDirectory(atPath: "/invalid/path/")
                 }.to(throwError(DirectoryNavigatorError.PathDoesNotExist(atPath: "/invalid/path/")))
             }
+
+            it ("can distinguish between a directory and a file") {
+                do {
+                    let typeDirectory = try directoryNavigator.fileType(atPath: "./cob_spec/public")
+                    let typeFile = try directoryNavigator.fileType(atPath: "./cob_spec/public/file1")
+                    expect(typeDirectory).to(equal("NSFileTypeDirectory"))
+                    expect(typeFile).to(equal("NSFileTypeRegular"))
+                } catch {}
+            }
         }
     }
 }
