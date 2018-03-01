@@ -21,13 +21,16 @@ git submodule update
 ```
 swift package generate-xcodeproj
 ```
+*Generate an xcode project is not required to run the code or the tests
+
 
 ### Run the code
 
 ```
 swift build
-./.build/debug/CobSpec -p <port number> -d <directory path>
+./run.sh -p <port number> -d <directory path>
 ```
+*The directory path has to be an absolute path
 
 
 ### Run the unit tests
@@ -36,6 +39,8 @@ swift build
 swift build
 swift test
 ```
+*Running these test command from anywhere other than the root folder would cause a few directory related tests to fail
+
 
 ### Run Cob_spec suite of acceptance tests
 
@@ -45,3 +50,11 @@ mvn package
 java -jar fitnesse.jar -c 'PassingTestSuite?suite&format=text'
 ```
 
+
+### Clone, build and run the server on AWS
+```
+cd ansible
+ansible-playbook -i hosts playbook.yml
+```
+*Without the correct credentials for the AWS instance, the ansible playbook would not work
+ 

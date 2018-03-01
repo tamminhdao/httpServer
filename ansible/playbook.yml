@@ -7,14 +7,19 @@
     git:
       repo: 'https://github.com/tamminhdao/httpServer.git'
       dest:  /home/ubuntu/swift_server
-      version: debugging
+      version: logging
 
   - name: build the server
     command: /home/ubuntu/Swift/usr/bin/swift build
     args:
       chdir: /home/ubuntu/swift_server
 
+  - name: change run script mode to 0755
+    file:
+      path: /home/ubuntu/swift_server/run.sh
+      mode: 0755
+
   - name: run the server
-    command: ./.build/debug/CobSpec -p 5555 -d ./cob_spec/public
+    command: ./run.sh -p 5555 -d ./cob_spec/public
     args:
       chdir: /home/ubuntu/swift_server

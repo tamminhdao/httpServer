@@ -22,7 +22,9 @@ public class Server {
         self.directory = directory
         self.router = router
         self.dataStorage = dataStorage
-        file.logFileURL = URL(string: "/Users/tamdao/Swift/httpServer/server.log")
+        if let time_stamp = ProcessInfo.processInfo.environment["LOG_FILE_TIME_STAMP"] {
+            file.logFileURL = URL(string: FileManager.default.currentDirectoryPath + "/server_" + time_stamp)
+        }
         logger.addDestination(console)
         logger.addDestination(file)
     }
