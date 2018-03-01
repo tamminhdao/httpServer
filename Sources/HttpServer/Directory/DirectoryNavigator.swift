@@ -39,7 +39,13 @@ public class DirectoryNavigator {
         guard  fileExists(atPath: atPath) else {
             throw DirectoryNavigatorError.PathDoesNotExist(atPath: atPath)
         }
-        return try fileManager.attributesOfItem(atPath: atPath)[FileAttributeKey("NSFileType")] as! String
+
+        let fileType : Optional<FileAttributeType> = try fileManager.attributesOfItem(atPath: atPath)[FileAttributeKey("NSFileType")] as! Optional<FileAttributeType>
+        if fileType == Optional(FileAttributeType.typeDirectory) {
+            return "NSFileTypeDirectory"
+        } else {
+            return "NSFileTypeRegular"
+        }
     }
 
     private func fileExists(atPath: String) -> Bool {
