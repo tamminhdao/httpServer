@@ -14,7 +14,7 @@ class ResponseBuilderSpec: QuickSpec {
             beforeEach {
                 routesTable = RoutesTable()
                 dataStorage = DataStorage()
-                responseBuilder = ResponseBuilder(routesTable: routesTable, dataStorage: dataStorage)
+                responseBuilder = ResponseBuilder(dataStorage: dataStorage)
                 nullAction = NullAction(routesTable: routesTable, dataStorage: dataStorage)
             }
 
@@ -58,32 +58,6 @@ class ResponseBuilderSpec: QuickSpec {
                         body: Data()
                 )
                 expect(response200Head).to(equal(expectedResponse200Head))
-            }
-
-            it ("can generate a 200 response to an OPTIONS request") {
-                routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: nullAction))
-                routesTable.addRoute(route: Route(url: "/", method: HttpMethod.head, action: nullAction))
-                routesTable.addRoute(route: Route(url: "/", method: HttpMethod.put, action: nullAction))
-                routesTable.addRoute(route: Route(url: "/", method: HttpMethod.post, action: nullAction))
-                routesTable.addRoute(route: Route(url: "/", method: HttpMethod.options, action: nullAction))
-                let request = HttpRequest(
-                        method: HttpMethod.options,
-                        url: "/",
-                        params: [],
-                        version: "HTTP/1.1",
-                        headers: [:],
-                        body: [:]
-                )
-                let responseOptions = responseBuilder.generate200Response(request: request)
-                let expectedResponseOptions = HttpResponse(
-                        statusCode: 200,
-                        statusPhrase: "OK",
-                        headers: ["Content-Length": "0",
-                                  "Content-Type":"text/html",
-                                  "Allow": "GET,HEAD,PUT,POST,OPTIONS"],
-                        body: Data())
-
-                expect(responseOptions).to(equal(expectedResponseOptions))
             }
 
             it ("can generate a 200 response with directory listing") {

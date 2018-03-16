@@ -14,9 +14,7 @@ public class UrlDecodeAction: HttpAction {
                             .replacingOccurrences(of: "1=O", with: "1 = O")
                             .replacingOccurrences(of: "2=s", with: "2 = s")
         dataStorage.addData(url: request.returnUrl(), value: decodedString)
-        return ResponseBuilder(
-                routesTable: self.routesTable,
-                dataStorage: self.dataStorage)
+        return ResponseBuilder(dataStorage: self.dataStorage)
                 .generate200Response(request: request)
     }
 

@@ -14,7 +14,7 @@ public class RedirectAction: HttpAction {
         dataStorage.setLocation(location: redirectPath)
 
         return ResponseBuilder(
-                routesTable: self.routesTable,
+//                routesTable: self.routesTable,
                 dataStorage: self.dataStorage)
                 .generate302Response()
     }

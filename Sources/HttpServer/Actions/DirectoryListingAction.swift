@@ -22,16 +22,12 @@ public class DirectoryListingAction: HttpAction {
                 let listingsWithFullPath = listings.map{"\(path)/\($0)"}
                 let htmlContent = convertToHTML(content: listingsWithFullPath)
                 addRoutesToRoutesTable(contentOfDirectory: listingsWithFullPath)
-                return ResponseBuilder(
-                        routesTable: self.routesTable,
-                        dataStorage: self.dataStorage)
+                return ResponseBuilder(dataStorage: self.dataStorage)
                         .generate200ResponseWithDirectoryListing(directory: htmlContent)
             } else {
                 let fileContent = try directoryNavigator.readFileContents(filePath: request.returnUrl())
                 let contentType = determineFileType(filePath: request.returnUrl())
-                    return ResponseBuilder(
-                            routesTable: self.routesTable,
-                            dataStorage: self.dataStorage)
+                    return ResponseBuilder(dataStorage: self.dataStorage)
                             .generate200ResponseWithFileContent(
                                     content: fileContent,
                                     contentType: contentType)
@@ -39,9 +35,7 @@ public class DirectoryListingAction: HttpAction {
             }
         } catch {
             print(error.localizedDescription)
-            return ResponseBuilder(
-                    routesTable: self.routesTable,
-                    dataStorage: self.dataStorage)
+            return ResponseBuilder(dataStorage: self.dataStorage)
                     .generate404Response()
         }
     }

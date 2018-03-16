@@ -20,7 +20,7 @@ class RouterSpec: QuickSpec {
                 dataStorage = DataStorage()
                 directoryNavigator = DirectoryNavigator(directoryPath: "./cob_spec/public")
                 dataStorage.addData(url: "/form", value: "data=fatcat ")
-                responseBuilder = ResponseBuilder(routesTable: routesTable, dataStorage: dataStorage)
+                responseBuilder = ResponseBuilder(dataStorage: dataStorage)
                 router = Router(routesTable: routesTable, responseBuilder: responseBuilder)
                 nullAction = NullAction(routesTable: routesTable, dataStorage: dataStorage)
                 redirectAction =  RedirectAction(redirectPath: "/", routesTable: routesTable, dataStorage: dataStorage)

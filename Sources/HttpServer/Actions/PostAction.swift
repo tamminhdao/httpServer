@@ -15,9 +15,7 @@ public class PostAction: HttpAction {
             UrlData += "\(item.key)=\(item.value) "
         }
         dataStorage.addData(url: request.returnUrl(), value: UrlData)
-        return ResponseBuilder(
-                routesTable: self.routesTable,
-                dataStorage: self.dataStorage)
+        return ResponseBuilder(dataStorage: self.dataStorage)
                 .generate200Response(request: request)
     }
 }

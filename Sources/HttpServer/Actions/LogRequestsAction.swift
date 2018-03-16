@@ -9,9 +9,7 @@ public class LogRequestsAction: HttpAction {
 
     public func execute(request: HttpRequest) -> HttpResponse {
         dataStorage.addData(url: request.returnUrl(), value: obtainRequestLog())
-        return ResponseBuilder(
-                routesTable: self.routesTable,
-                dataStorage: self.dataStorage)
+        return ResponseBuilder(dataStorage: self.dataStorage)
                 .generate200Response(request: request)
     }
 

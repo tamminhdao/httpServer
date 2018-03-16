@@ -12,9 +12,7 @@ public class DeleteAction: HttpAction {
         for item in dataStorage.logData() {
             dataStorage.removeData(url: item.key)
         }
-         return ResponseBuilder(
-                 routesTable: self.routesTable,
-                 dataStorage: self.dataStorage)
+         return ResponseBuilder(dataStorage: self.dataStorage)
                  .generate200Response(
                      request: request)
     }

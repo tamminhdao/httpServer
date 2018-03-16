@@ -1,7 +1,6 @@
 import Foundation
 
 public class ResponseBuilder {
-    private var routesTable: RoutesTable
     private var dataStorage: DataStorage
     private var statusCode: Int?
     private var statusPhrase: String?
@@ -12,16 +11,26 @@ public class ResponseBuilder {
     private var authenticate: String?
     private var cookieData: String?
 
-    public init(routesTable: RoutesTable, dataStorage: DataStorage) {
-        self.routesTable = routesTable
+    public init(dataStorage: DataStorage) {
         self.dataStorage = dataStorage
+    }
+
+    public func assembleResponse(request: HttpRequest) -> ResponseBuilder {
+        self.resetBuilder()
+                .setStatusCode(statusCode: 200)
+                .setStatusPhrase(statusPhrase: "OK")
+                .setCookie(cookieData: obtainCookieDataByUrl(url: request.returnUrl()))
+        if (request.returnMethod() != HttpMethod.head) {
+            let bodyString = obtainDataByUrlKey(url: request.returnUrl())
+            self.setBody(body: Data(bodyString.utf8))
+        }
+        return self
     }
 
     public func generate200Response(request: HttpRequest) -> HttpResponse {
         self.resetBuilder()
             .setStatusCode(statusCode: 200)
             .setStatusPhrase(statusPhrase: "OK")
-            .setAllow(url: options(url: request.returnUrl()))
             .setCookie(cookieData: obtainCookieDataByUrl(url: request.returnUrl()))
         if (request.returnMethod() != HttpMethod.head) {
             let bodyString = obtainDataByUrlKey(url: request.returnUrl())
@@ -103,7 +112,7 @@ public class ResponseBuilder {
         return self
     }
 
-    private func setAllow(url: String) -> ResponseBuilder {
+    public func setAllow(url: String) -> ResponseBuilder {
         self.allow = url
         return self
     }
@@ -143,7 +152,7 @@ public class ResponseBuilder {
         }
     }
 
-    private func build() -> HttpResponse {
+    public func build() -> HttpResponse {
         let bodyValue = checkField(value: self.body, defaultValue: Data())
         return HttpResponse.emptyResponse()
                             .setResponseStatusCode(status: checkField(value: self.statusCode, defaultValue: 404))
@@ -166,10 +175,5 @@ public class ResponseBuilder {
     public func obtainCookieDataByUrl(url: String) -> String {
         let dataInArray = dataStorage.retrieveCookieByUrl(url: url)
         return dataInArray.joined(separator: ";")
-    }
-
-    private func options(url: String) -> String {
-        let listOfMethods = routesTable.options(url: url)
-        return listOfMethods.joined(separator: ",")
     }
 }

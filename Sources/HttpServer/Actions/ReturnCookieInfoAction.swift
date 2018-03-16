@@ -15,9 +15,7 @@ public class ReturnCookieInfoAction: HttpAction {
             body += "mmmm \(value)\n"
         }
         dataStorage.addData(url: request.returnUrl(), value: body)
-        return ResponseBuilder(
-                routesTable: self.routesTable,
-                dataStorage: self.dataStorage)
+        return ResponseBuilder(dataStorage: self.dataStorage)
                 .generate200Response(request: request)
     }
 

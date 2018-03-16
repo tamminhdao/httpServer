@@ -10,9 +10,15 @@ public class NullAction: HttpAction {
 
     public func execute(request: HttpRequest) -> HttpResponse {
         storeCookieData(request: request, dataStorage: self.dataStorage)
-        return ResponseBuilder(
-                routesTable: self.routesTable,
-                dataStorage: self.dataStorage)
-                .generate200Response(request: request)
+        return ResponseBuilder(dataStorage: self.dataStorage)
+                .assembleResponse(request: request)
+                .setAllow(url: options(url: request.returnUrl()))
+                .build()
     }
+
+
+   private func options(url: String) -> String {
+       let listOfMethods = routesTable.options(url: url)
+       return listOfMethods.joined(separator: ",")
+   }
 }
