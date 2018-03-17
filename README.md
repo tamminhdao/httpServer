@@ -21,7 +21,7 @@ git submodule update
 ```
 swift package generate-xcodeproj
 ```
-*Generate an xcode project is not required to run the code or the tests
+*Generate an xcode project is not required to run the code or the tests. This is only for the purpose of examining the codebase with XCode.
 
 
 ### Run the code
@@ -30,6 +30,7 @@ swift package generate-xcodeproj
 swift build
 ./run.sh -p <port number> -d <directory path>
 ```
+*When building the project for the first time, expect a lot of warnings from the testing framework Quick and Nimble.
 *The directory path has to be an absolute path
 
 
@@ -45,9 +46,9 @@ swift test
 ### Run Cob_spec suite of acceptance tests
 
 ```
-cd cob_spec
-mvn package
-java -jar fitnesse.jar -c 'PassingTestSuite?suite&format=text'
+swift build
+./acceptance_tests.sh
+
 ```
 
 
