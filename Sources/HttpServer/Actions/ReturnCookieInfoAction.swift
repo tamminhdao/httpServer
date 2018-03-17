@@ -1,3 +1,5 @@
+import Foundation
+
 public class ReturnCookieInfoAction: HttpAction {
 
     private var dataStorage: DataStorage
@@ -15,8 +17,11 @@ public class ReturnCookieInfoAction: HttpAction {
             body += "mmmm \(value)\n"
         }
         dataStorage.addData(url: request.returnUrl(), value: body)
+        let bodyString = obtainDataByUrlKey(url: request.returnUrl(), dataStorage: self.dataStorage)
         return ResponseBuilder(dataStorage: self.dataStorage)
-                .generate200Response(request: request)
+                .assemble200Response(request: request)
+                .setBody(body: Data(bodyString.utf8))
+                .build()
     }
 
     private func extractCookieInfoFromHeaders(headers: [String: String]) -> [String] {
