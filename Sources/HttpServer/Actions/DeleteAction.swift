@@ -12,8 +12,8 @@ public class DeleteAction: HttpAction {
         for item in dataStorage.logData() {
             dataStorage.removeData(url: item.key)
         }
-         return ResponseBuilder(dataStorage: self.dataStorage)
-                 .generate200Response(
-                     request: request)
+         return ResponseBuilder()
+                 .assemble200Response(request: request)
+                 .build()
     }
 }

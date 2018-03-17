@@ -1,3 +1,4 @@
+import Foundation
 public class PostAction: HttpAction {
 
     private var dataStorage: DataStorage
@@ -15,7 +16,10 @@ public class PostAction: HttpAction {
             UrlData += "\(item.key)=\(item.value) "
         }
         dataStorage.addData(url: request.returnUrl(), value: UrlData)
-        return ResponseBuilder(dataStorage: self.dataStorage)
-                .generate200Response(request: request)
+        let bodyString = obtainDataByUrlKey(url: request.returnUrl(), dataStorage: self.dataStorage)
+        return ResponseBuilder()
+                .assemble200Response(request: request)
+                .setBody(body: Data(bodyString.utf8))
+                .build()
     }
 }

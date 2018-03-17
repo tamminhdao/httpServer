@@ -18,7 +18,7 @@ public class ReturnCookieInfoAction: HttpAction {
         }
         dataStorage.addData(url: request.returnUrl(), value: body)
         let bodyString = obtainDataByUrlKey(url: request.returnUrl(), dataStorage: self.dataStorage)
-        return ResponseBuilder(dataStorage: self.dataStorage)
+        return ResponseBuilder()
                 .assemble200Response(request: request)
                 .setBody(body: Data(bodyString.utf8))
                 .build()

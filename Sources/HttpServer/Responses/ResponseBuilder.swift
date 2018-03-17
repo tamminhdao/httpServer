@@ -1,7 +1,6 @@
 import Foundation
 
 public class ResponseBuilder {
-    private var dataStorage: DataStorage
     private var statusCode: Int?
     private var statusPhrase: String?
     private var contentType: String?
@@ -11,22 +10,13 @@ public class ResponseBuilder {
     private var authenticate: String?
     private var cookieData: String?
 
-    public init(dataStorage: DataStorage) {
-        self.dataStorage = dataStorage
-    }
+    public init() {}
 
     public func assemble200Response(request: HttpRequest) -> ResponseBuilder {
         self.resetBuilder()
                 .setStatusCode(statusCode: 200)
                 .setStatusPhrase(statusPhrase: "OK")
         return self
-    }
-
-    public func generate200Response(request: HttpRequest) -> HttpResponse {
-        self.resetBuilder()
-            .setStatusCode(statusCode: 200)
-            .setStatusPhrase(statusPhrase: "OK")
-        return self.build()
     }
 
     public func generate200ResponseWithDirectoryListing(directory: String) -> HttpResponse {
@@ -50,12 +40,11 @@ public class ResponseBuilder {
         return self.build()
     }
 
-    public func generate302Response() -> HttpResponse {
+    public func assemble302Response() -> ResponseBuilder {
         self.resetBuilder()
-        .setStatusCode(statusCode: 302)
-        .setStatusPhrase(statusPhrase: "Found")
-        .setLocation(location: dataStorage.getLocation())
-        return self.build()
+                .setStatusCode(statusCode: 302)
+                .setStatusPhrase(statusPhrase: "Found")
+        return self
     }
 
     public func generate401Response(realm: String) -> HttpResponse {
@@ -107,7 +96,7 @@ public class ResponseBuilder {
         return self
     }
 
-    private func setLocation(location: String) -> ResponseBuilder {
+    public func setLocation(location: String) -> ResponseBuilder {
         self.location = location
         return self
     }

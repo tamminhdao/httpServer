@@ -13,7 +13,7 @@ public class NullAction: HttpAction {
     public func execute(request: HttpRequest) -> HttpResponse {
         storeCookieData(request: request, dataStorage: self.dataStorage)
         let bodyString = obtainDataByUrlKey(url: request.returnUrl(), dataStorage: self.dataStorage)
-        return ResponseBuilder(dataStorage: self.dataStorage)
+        return ResponseBuilder()
                 .assemble200Response(request: request)
                 .setAllow(url: options(url: request.returnUrl()))
                 .setCookie(cookieData: obtainCookieDataByUrl(url: request.returnUrl()))

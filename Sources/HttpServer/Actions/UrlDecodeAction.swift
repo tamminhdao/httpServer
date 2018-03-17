@@ -15,7 +15,7 @@ public class UrlDecodeAction: HttpAction {
                             .replacingOccurrences(of: "2=s", with: "2 = s")
         dataStorage.addData(url: request.returnUrl(), value: decodedString)
         let bodyString = obtainDataByUrlKey(url: request.returnUrl(), dataStorage: self.dataStorage)
-        return ResponseBuilder(dataStorage: self.dataStorage)
+        return ResponseBuilder()
                 .assemble200Response(request: request)
                 .setBody(body: Data(bodyString.utf8))
                 .build()

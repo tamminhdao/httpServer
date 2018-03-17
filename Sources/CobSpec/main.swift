@@ -4,7 +4,7 @@ let dataStorage = DataStorage()
 let httpParser = RequestParser()
 let routesTable = RoutesTable()
 
-let responseBuilder = ResponseBuilder(dataStorage: dataStorage)
+let responseBuilder = ResponseBuilder()
 let router = Router(routesTable: routesTable, responseBuilder: responseBuilder)
 let commandLineReader = CommandLineReader(args: CommandLine.arguments)
 let port = try commandLineReader.getPort()
