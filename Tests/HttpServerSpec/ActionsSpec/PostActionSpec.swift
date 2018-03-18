@@ -9,12 +9,10 @@ class PostActionSpec: QuickSpec {
             var action: PostAction!
             var dataStorage: DataStorage!
             var request: HttpRequest!
-            var routesTable: RoutesTable!
 
             beforeEach {
                 dataStorage = DataStorage()
-                routesTable = RoutesTable()
-                action = PostAction(routesTable: routesTable, dataStorage: dataStorage)
+                action = PostAction(dataStorage: dataStorage)
                 request = HttpRequest(
                         method: HttpMethod.post,
                         url: "/form",

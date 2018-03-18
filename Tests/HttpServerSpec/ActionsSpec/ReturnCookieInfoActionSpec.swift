@@ -9,12 +9,10 @@ class ReturnCookieInfoActionSpec: QuickSpec {
             var action: ReturnCookieInfoAction!
             var dataStorage: DataStorage!
             var request: HttpRequest!
-            var routesTable: RoutesTable!
 
             beforeEach {
                 dataStorage = DataStorage()
-                routesTable = RoutesTable()
-                action = ReturnCookieInfoAction(routesTable: routesTable, dataStorage: dataStorage)
+                action = ReturnCookieInfoAction(dataStorage: dataStorage)
                 request = HttpRequest(
                         method: HttpMethod.get,
                         url: "/eat_cookie",

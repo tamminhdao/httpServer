@@ -4,11 +4,9 @@ public class DirectoryListingAction: HttpAction {
 
     private var directoryNavigator: DirectoryNavigator
     private var routesTable: RoutesTable
-    public var dataStorage: DataStorage
 
-    public init(directoryNavigator: DirectoryNavigator, routesTable: RoutesTable, dataStorage: DataStorage) {
+    public init(directoryNavigator: DirectoryNavigator, routesTable: RoutesTable) {
         self.directoryNavigator = directoryNavigator
-        self.dataStorage = dataStorage
         self.routesTable = routesTable
     }
     public func execute(request: HttpRequest) -> HttpResponse {
@@ -63,7 +61,7 @@ public class DirectoryListingAction: HttpAction {
 
     private func addRoutesToRoutesTable(contentOfDirectory: [String]) {
         for item in contentOfDirectory {
-            let action = DirectoryListingAction(directoryNavigator: self.directoryNavigator, routesTable: self.routesTable, dataStorage: self.dataStorage)
+            let action = DirectoryListingAction(directoryNavigator: self.directoryNavigator, routesTable: self.routesTable)
             let newRoute = Route(url: "\(item)", method: HttpMethod.get, action: action)
             if routesTable.verifyRoute(newRoute: newRoute) == false {
                 routesTable.addRoute(route: newRoute)

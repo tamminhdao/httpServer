@@ -1,12 +1,10 @@
 import Foundation
 
 public class UrlDecodeAction: HttpAction {
-    private var routesTable: RoutesTable
     public var dataStorage: DataStorage
 
-    public init(routesTable: RoutesTable, dataStorage: DataStorage) {
+    public init(dataStorage: DataStorage) {
         self.dataStorage = dataStorage
-        self.routesTable = routesTable
     }
 
     public func execute(request: HttpRequest) -> HttpResponse {
