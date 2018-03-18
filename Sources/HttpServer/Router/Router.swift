@@ -1,10 +1,30 @@
 public class Router {
     private var routesTable: RoutesTable
     private var responseBuilder: ResponseBuilder
+    private var nullAction: NullAction
+    private var putAction: PutAction
+    private var postAction: PostAction
+    private var deleteAction: DeleteAction
+    private var directoryListingAction: DirectoryListingAction
+    private var redirectAction: RedirectAction
+    private var logRequestsAction: LogRequestsAction
+    private var returnCookieInfoAction: ReturnCookieInfoAction
+    private var urlDecodeAction: UrlDecodeAction
 
-    public init(routesTable: RoutesTable, responseBuilder: ResponseBuilder) {
-        self.routesTable = routesTable
-        self.responseBuilder = responseBuilder
+    public init(dataStorage: DataStorage, directoryNavigator: DirectoryNavigator) {
+        self.routesTable = RoutesTable()
+        self.responseBuilder = ResponseBuilder()
+        self.nullAction = NullAction(routesTable: routesTable, dataStorage: dataStorage)
+        self.putAction = PutAction(routesTable: routesTable, dataStorage: dataStorage)
+        self.postAction = PostAction(routesTable: routesTable, dataStorage: dataStorage)
+        self.deleteAction = DeleteAction(routesTable: routesTable, dataStorage: dataStorage)
+        self.directoryListingAction = DirectoryListingAction(directoryNavigator: directoryNavigator, routesTable: routesTable, dataStorage: dataStorage)
+        self.redirectAction = RedirectAction(redirectPath: "/", routesTable: routesTable, dataStorage: dataStorage)
+        self.logRequestsAction = LogRequestsAction(routesTable: routesTable, dataStorage: dataStorage)
+        self.returnCookieInfoAction = ReturnCookieInfoAction(routesTable: routesTable, dataStorage: dataStorage)
+        self.urlDecodeAction = UrlDecodeAction(routesTable: routesTable, dataStorage: dataStorage)
+
+        populateRoutesTable()
     }
 
     public func route(request: HttpRequest) -> HttpResponse {
@@ -50,5 +70,31 @@ public class Router {
             }
         }
         return nil
+    }
+
+    private func populateRoutesTable() {
+        routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: directoryListingAction))
+        routesTable.addRoute(route: Route(url: "/", method: HttpMethod.head, action: nullAction))
+        routesTable.addRoute(route: Route(url: "/", method: HttpMethod.put, action: putAction))
+        routesTable.addRoute(route: Route(url: "/", method: HttpMethod.post, action: postAction))
+
+        routesTable.addRoute(route: Route(url: "/form", method: HttpMethod.get, action: nullAction))
+        routesTable.addRoute(route: Route(url: "/form", method: HttpMethod.put, action: putAction))
+        routesTable.addRoute(route: Route(url: "/form", method: HttpMethod.post, action: postAction))
+        routesTable.addRoute(route: Route(url: "/form", method: HttpMethod.delete, action: deleteAction))
+
+        routesTable.addRoute(route: Route(url: "/method_options", method: HttpMethod.head, action: nullAction))
+        routesTable.addRoute(route: Route(url: "/method_options", method: HttpMethod.get, action: nullAction))
+        routesTable.addRoute(route: Route(url: "/method_options", method: HttpMethod.put, action: putAction))
+        routesTable.addRoute(route: Route(url: "/method_options", method: HttpMethod.options, action: nullAction))
+        routesTable.addRoute(route: Route(url: "/method_options", method: HttpMethod.post, action: postAction))
+        routesTable.addRoute(route: Route(url: "/method_options2", method: HttpMethod.get, action: nullAction))
+        routesTable.addRoute(route: Route(url: "/method_options2", method: HttpMethod.options,  action: nullAction))
+
+        routesTable.addRoute(route: Route(url: "/redirect", method: HttpMethod.get, action: redirectAction))
+        routesTable.addRoute(route: Route(url:"/logs", method: HttpMethod.get, action: logRequestsAction, realm: "basic-auth", credentials: "YWRtaW46aHVudGVyMg=="))
+        routesTable.addRoute(route: Route(url:"/cookie", method: HttpMethod.get, action: nullAction))
+        routesTable.addRoute(route: Route(url:"/eat_cookie", method: HttpMethod.get, action: returnCookieInfoAction))
+        routesTable.addRoute(route: Route(url:"/parameters", method: HttpMethod.get, action: urlDecodeAction))
     }
 }

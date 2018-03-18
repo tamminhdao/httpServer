@@ -28,7 +28,6 @@ public class NullAction: HttpAction {
 
     private func obtainCookieDataByUrl(url: String) -> String {
         let dataInArray = dataStorage.retrieveCookieByUrl(url: url)
-        print(dataInArray)
         return dataInArray.joined(separator: ";")
     }
 }

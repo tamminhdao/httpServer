@@ -7,29 +7,13 @@ class RouterSpec: QuickSpec {
     override func spec() {
         describe("#Router") {
             var router: Router!
-            var routesTable: RoutesTable!
-            var responseBuilder: ResponseBuilder!
             var dataStorage: DataStorage!
-            var nullAction: NullAction!
             var directoryNavigator: DirectoryNavigator!
-            var directoryListingAction: DirectoryListingAction!
-            var redirectAction: RedirectAction!
 
             beforeEach {
-                routesTable = RoutesTable()
                 dataStorage = DataStorage()
                 directoryNavigator = DirectoryNavigator(directoryPath: "./cob_spec/public")
-                dataStorage.addData(url: "/form", value: "data=fatcat ")
-                responseBuilder = ResponseBuilder()
-                router = Router(routesTable: routesTable, responseBuilder: responseBuilder)
-                nullAction = NullAction(routesTable: routesTable, dataStorage: dataStorage)
-                redirectAction =  RedirectAction(redirectPath: "/", routesTable: routesTable, dataStorage: dataStorage)
-                directoryListingAction = DirectoryListingAction(directoryNavigator: directoryNavigator, routesTable: routesTable, dataStorage: dataStorage)
-                routesTable.addRoute(route: Route(url: "/form", method: HttpMethod.get, action: nullAction))
-                routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: directoryListingAction))
-                routesTable.addRoute(route: Route(url: "/method_options2", method: HttpMethod.get, action: nullAction))
-                routesTable.addRoute(route: Route(url: "/redirect", method: HttpMethod.get, action: redirectAction))
-                routesTable.addRoute(route: Route(url: "/logs", method: HttpMethod.get, action: nullAction, realm: "basic-auth", credentials: "YWRtaW46aHVudGVyMg=="))
+                router = Router(dataStorage: dataStorage, directoryNavigator: directoryNavigator)
             }
 
             it("returns a 200 OK response with data in the body") {
@@ -41,13 +25,13 @@ class RouterSpec: QuickSpec {
                         headers: [:],
                         body: [:]
                 )
-
+                dataStorage.addData(url: "/form", value: "data=fatcat ")
                 let responseOK = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
                         headers: ["Content-Length": String(("data=fatcat ").count),
                                   "Content-Type": "text/html",
-                                  "Allow": "GET"],
+                                  "Allow": "GET,PUT,POST,DELETE"],
                         body: Data("data=fatcat ".utf8)
                 )
 
@@ -64,15 +48,15 @@ class RouterSpec: QuickSpec {
                         headers: ["Authorization": "Basic YWRtaW46aHVudGVyMg=="],
                         body: [:]
                 )
-
+                dataStorage.addToRequestList(request: "GET /logs HTTP/1.1")
                 let authorizedResponse = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
-                        headers: ["Content-Length": "0",
-                                  "Content-Type":"text/html",
-                                  "Allow": "GET"],
-                        body: Data()
+                        headers: ["Content-Type": "text/html",
+                                  "Content-Length": String(("GET /logs HTTP/1.1\n").count)],
+                        body: Data("GET /logs HTTP/1.1\n".utf8)
                 )
+
                 let response = router.route(request: validRequest)
                 expect(response).to(equal(authorizedResponse))
             }
@@ -101,7 +85,7 @@ class RouterSpec: QuickSpec {
 
             it ("returns a 405 Method Not Allowed if the url exists but it doesn't accept the verb") {
                 let validRequest = HttpRequest(
-                        method: HttpMethod.post,
+                        method: HttpMethod.patch,
                         url: "/",
                         params: [],
                         version: "HTTP/1.1",
