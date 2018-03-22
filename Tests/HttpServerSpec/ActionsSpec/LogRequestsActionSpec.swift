@@ -9,14 +9,12 @@ class LogRequestsActionSpec: QuickSpec {
             var action: LogRequestsAction!
             var dataStorage: DataStorage!
             var request: HttpRequest!
-            var routesTable: RoutesTable!
 
             beforeEach {
                 dataStorage = DataStorage()
                 dataStorage.addToRequestList(request: "PUT /form HTTP/1.1")
                 dataStorage.addToRequestList(request: "HEAD /requests HTTP/1.1")
-                routesTable = RoutesTable()
-                action = LogRequestsAction(routesTable: routesTable, dataStorage: dataStorage)
+                action = LogRequestsAction(dataStorage: dataStorage)
                 request = HttpRequest(
                         method: HttpMethod.get,
                         url: "/logs",

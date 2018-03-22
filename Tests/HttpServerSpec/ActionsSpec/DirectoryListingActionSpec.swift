@@ -7,15 +7,13 @@ class DirectoryListingActionSpec : QuickSpec {
     override func spec() {
         describe("#DirectoryListingAction") {
             var action: DirectoryListingAction!
-            var dataStorage: DataStorage!
             var routesTable: RoutesTable!
             var directoryNavigator: DirectoryNavigator!
 
             beforeEach {
-                dataStorage = DataStorage()
                 routesTable = RoutesTable()
                 directoryNavigator = DirectoryNavigator(directoryPath: "./cob_spec/public")
-                action = DirectoryListingAction(directoryNavigator: directoryNavigator, routesTable: routesTable, dataStorage: dataStorage)
+                action = DirectoryListingAction(directoryNavigator: directoryNavigator, routesTable: routesTable)
             }
 
             it ("fetches the directory content") {

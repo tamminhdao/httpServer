@@ -4,11 +4,9 @@ public class DirectoryListingAction: HttpAction {
 
     private var directoryNavigator: DirectoryNavigator
     private var routesTable: RoutesTable
-    public var dataStorage: DataStorage
 
-    public init(directoryNavigator: DirectoryNavigator, routesTable: RoutesTable, dataStorage: DataStorage) {
+    public init(directoryNavigator: DirectoryNavigator, routesTable: RoutesTable) {
         self.directoryNavigator = directoryNavigator
-        self.dataStorage = dataStorage
         self.routesTable = routesTable
     }
     public func execute(request: HttpRequest) -> HttpResponse {
@@ -22,16 +20,11 @@ public class DirectoryListingAction: HttpAction {
                 let listingsWithFullPath = listings.map{"\(path)/\($0)"}
                 let htmlContent = convertToHTML(content: listingsWithFullPath)
                 addRoutesToRoutesTable(contentOfDirectory: listingsWithFullPath)
-                return ResponseBuilder(
-                        routesTable: self.routesTable,
-                        dataStorage: self.dataStorage)
-                        .generate200ResponseWithDirectoryListing(directory: htmlContent)
+                return ResponseBuilder().generate200ResponseWithDirectoryListing(directory: htmlContent)
             } else {
                 let fileContent = try directoryNavigator.readFileContents(filePath: request.returnUrl())
                 let contentType = determineFileType(filePath: request.returnUrl())
-                    return ResponseBuilder(
-                            routesTable: self.routesTable,
-                            dataStorage: self.dataStorage)
+                    return ResponseBuilder()
                             .generate200ResponseWithFileContent(
                                     content: fileContent,
                                     contentType: contentType)
@@ -39,10 +32,7 @@ public class DirectoryListingAction: HttpAction {
             }
         } catch {
             print(error.localizedDescription)
-            return ResponseBuilder(
-                    routesTable: self.routesTable,
-                    dataStorage: self.dataStorage)
-                    .generate404Response()
+            return ResponseBuilder().generate404Response()
         }
     }
 
@@ -71,7 +61,7 @@ public class DirectoryListingAction: HttpAction {
 
     private func addRoutesToRoutesTable(contentOfDirectory: [String]) {
         for item in contentOfDirectory {
-            let action = DirectoryListingAction(directoryNavigator: self.directoryNavigator, routesTable: self.routesTable, dataStorage: self.dataStorage)
+            let action = DirectoryListingAction(directoryNavigator: self.directoryNavigator, routesTable: self.routesTable)
             let newRoute = Route(url: "\(item)", method: HttpMethod.get, action: action)
             if routesTable.verifyRoute(newRoute: newRoute) == false {
                 routesTable.addRoute(route: newRoute)

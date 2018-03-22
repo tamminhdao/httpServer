@@ -1,8 +1,6 @@
 import Foundation
 
 public class ResponseBuilder {
-    private var routesTable: RoutesTable
-    private var dataStorage: DataStorage
     private var statusCode: Int?
     private var statusPhrase: String?
     private var contentType: String?
@@ -12,22 +10,13 @@ public class ResponseBuilder {
     private var authenticate: String?
     private var cookieData: String?
 
-    public init(routesTable: RoutesTable, dataStorage: DataStorage) {
-        self.routesTable = routesTable
-        self.dataStorage = dataStorage
-    }
+    public init() {}
 
-    public func generate200Response(request: HttpRequest) -> HttpResponse {
+    public func assemble200Response(request: HttpRequest) -> ResponseBuilder {
         self.resetBuilder()
-            .setStatusCode(statusCode: 200)
-            .setStatusPhrase(statusPhrase: "OK")
-            .setAllow(url: options(url: request.returnUrl()))
-            .setCookie(cookieData: obtainCookieDataByUrl(url: request.returnUrl()))
-        if (request.returnMethod() != HttpMethod.head) {
-            let bodyString = obtainDataByUrlKey(url: request.returnUrl())
-            self.setBody(body: Data(bodyString.utf8))
-        }
-        return self.build()
+                .setStatusCode(statusCode: 200)
+                .setStatusPhrase(statusPhrase: "OK")
+        return self
     }
 
     public func generate200ResponseWithDirectoryListing(directory: String) -> HttpResponse {
@@ -51,12 +40,11 @@ public class ResponseBuilder {
         return self.build()
     }
 
-    public func generate302Response() -> HttpResponse {
+    public func assemble302Response() -> ResponseBuilder {
         self.resetBuilder()
-        .setStatusCode(statusCode: 302)
-        .setStatusPhrase(statusPhrase: "Found")
-        .setLocation(location: dataStorage.getLocation())
-        return self.build()
+                .setStatusCode(statusCode: 302)
+                .setStatusPhrase(statusPhrase: "Found")
+        return self
     }
 
     public func generate401Response(realm: String) -> HttpResponse {
@@ -98,17 +86,17 @@ public class ResponseBuilder {
         return self
     }
 
-    private func setBody(body: Data) -> ResponseBuilder {
+    public func setBody(body: Data) -> ResponseBuilder {
         self.body = body
         return self
     }
 
-    private func setAllow(url: String) -> ResponseBuilder {
+    public func setAllow(url: String) -> ResponseBuilder {
         self.allow = url
         return self
     }
 
-    private func setLocation(location: String) -> ResponseBuilder {
+    public func setLocation(location: String) -> ResponseBuilder {
         self.location = location
         return self
     }
@@ -118,7 +106,7 @@ public class ResponseBuilder {
         return self
     }
 
-    private func setCookie(cookieData: String) -> ResponseBuilder {
+    public func setCookie(cookieData: String) -> ResponseBuilder {
         self.cookieData = cookieData
         return self
     }
@@ -143,7 +131,7 @@ public class ResponseBuilder {
         }
     }
 
-    private func build() -> HttpResponse {
+    public func build() -> HttpResponse {
         let bodyValue = checkField(value: self.body, defaultValue: Data())
         return HttpResponse.emptyResponse()
                             .setResponseStatusCode(status: checkField(value: self.statusCode, defaultValue: 404))
@@ -155,21 +143,5 @@ public class ResponseBuilder {
                             .setResponseWWWAuthenticate(authenticate: checkField(value: self.authenticate, defaultValue: ""))
                             .setResponseCookie(cookie: checkField(value: self.cookieData, defaultValue: ""))
                             .setResponseBody(body: bodyValue)
-    }
-
-    private func obtainDataByUrlKey(url: String) -> String {
-        var result = ""
-        result += dataStorage.logDataByUrl(url: url)
-        return result
-    }
-
-    public func obtainCookieDataByUrl(url: String) -> String {
-        let dataInArray = dataStorage.retrieveCookieByUrl(url: url)
-        return dataInArray.joined(separator: ";")
-    }
-
-    private func options(url: String) -> String {
-        let listOfMethods = routesTable.options(url: url)
-        return listOfMethods.joined(separator: ",")
     }
 }

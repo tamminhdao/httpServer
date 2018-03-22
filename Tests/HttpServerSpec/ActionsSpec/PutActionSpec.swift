@@ -9,12 +9,10 @@ class PutActionSpec: QuickSpec {
             var action: PutAction!
             var dataStorage: DataStorage!
             var request: HttpRequest!
-            var routesTable: RoutesTable!
 
             beforeEach {
                 dataStorage = DataStorage()
-                routesTable = RoutesTable()
-                action = PutAction(routesTable: routesTable, dataStorage: dataStorage)
+                action = PutAction(dataStorage: dataStorage)
                 request = HttpRequest(
                         method: HttpMethod.put,
                         url: "/form",

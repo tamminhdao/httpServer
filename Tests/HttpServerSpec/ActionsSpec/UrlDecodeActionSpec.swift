@@ -9,12 +9,10 @@ class UrlDecodeActionSpec: QuickSpec {
             var action: UrlDecodeAction!
             var dataStorage: DataStorage!
             var request: HttpRequest!
-            var routesTable: RoutesTable!
 
             beforeEach {
                 dataStorage = DataStorage()
-                routesTable = RoutesTable()
-                action = UrlDecodeAction(routesTable: routesTable, dataStorage: dataStorage)
+                action = UrlDecodeAction(dataStorage: dataStorage)
                 request = HttpRequest(
                         method: HttpMethod.get,
                         url: "/params",

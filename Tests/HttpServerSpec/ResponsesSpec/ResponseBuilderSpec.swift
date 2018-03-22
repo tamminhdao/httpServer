@@ -7,36 +7,11 @@ class ResponseBuilderSpec: QuickSpec {
     override func spec() {
         describe("#ResponseBuilder") {
             var responseBuilder: ResponseBuilder!
-            var routesTable: RoutesTable!
             var dataStorage: DataStorage!
-            var nullAction: NullAction!
 
             beforeEach {
-                routesTable = RoutesTable()
                 dataStorage = DataStorage()
-                responseBuilder = ResponseBuilder(routesTable: routesTable, dataStorage: dataStorage)
-                nullAction = NullAction(routesTable: routesTable, dataStorage: dataStorage)
-            }
-
-            it ("can generate a 200 response putting url data in the body") {
-                dataStorage.addData(url: "/", value: "data=fatcat ")
-                let request = HttpRequest(
-                        method: HttpMethod.get,
-                        url: "/",
-                        params: [],
-                        version: "HTTP/1.1",
-                        headers: [:],
-                        body: [:]
-                )
-                let response200 = responseBuilder.generate200Response(request: request)
-                let expectedResponse200 = HttpResponse(
-                        statusCode: 200,
-                        statusPhrase: "OK",
-                        headers: ["Content-Length":String(Data("data=fatcat ".utf8).count),
-                                  "Content-Type":"text/html"],
-                        body: Data("data=fatcat ".utf8)
-                )
-                expect(response200).to(equal(expectedResponse200))
+                responseBuilder = ResponseBuilder()
             }
 
             it ("can generate a 200 response with an empty body to a HEAD request") {
@@ -49,7 +24,7 @@ class ResponseBuilderSpec: QuickSpec {
                         headers: [:],
                         body: [:]
                 )
-                let response200Head = responseBuilder.generate200Response(request: request)
+                let response200Head = responseBuilder.assemble200Response(request: request).build()
                 let expectedResponse200Head = HttpResponse(
                         statusCode: 200,
                         statusPhrase: "OK",
@@ -58,32 +33,6 @@ class ResponseBuilderSpec: QuickSpec {
                         body: Data()
                 )
                 expect(response200Head).to(equal(expectedResponse200Head))
-            }
-
-            it ("can generate a 200 response to an OPTIONS request") {
-                routesTable.addRoute(route: Route(url: "/", method: HttpMethod.get, action: nullAction))
-                routesTable.addRoute(route: Route(url: "/", method: HttpMethod.head, action: nullAction))
-                routesTable.addRoute(route: Route(url: "/", method: HttpMethod.put, action: nullAction))
-                routesTable.addRoute(route: Route(url: "/", method: HttpMethod.post, action: nullAction))
-                routesTable.addRoute(route: Route(url: "/", method: HttpMethod.options, action: nullAction))
-                let request = HttpRequest(
-                        method: HttpMethod.options,
-                        url: "/",
-                        params: [],
-                        version: "HTTP/1.1",
-                        headers: [:],
-                        body: [:]
-                )
-                let responseOptions = responseBuilder.generate200Response(request: request)
-                let expectedResponseOptions = HttpResponse(
-                        statusCode: 200,
-                        statusPhrase: "OK",
-                        headers: ["Content-Length": "0",
-                                  "Content-Type":"text/html",
-                                  "Allow": "GET,HEAD,PUT,POST,OPTIONS"],
-                        body: Data())
-
-                expect(responseOptions).to(equal(expectedResponseOptions))
             }
 
             it ("can generate a 200 response with directory listing") {
@@ -128,43 +77,18 @@ class ResponseBuilderSpec: QuickSpec {
                 expect(response200FileContent).to(equal(expectedResponse200FileContent))
             }
 
-            it ("can set cookie with parameters from the url") {
-                let request = HttpRequest(
-                        method: HttpMethod.get,
-                        url: "/my_cookie",
-                        params: ["type=chocolate"],
-                        version: "HTTP/1.1",
-                        headers: [:],
-                        body: [:]
-                )
-                dataStorage.saveCookie(url: "/my_cookie", value: ["type=chocolate"])
-                let response200Cookie = responseBuilder.generate200Response(request: request)
-
-                let expectedResponse200Cookie = HttpResponse(
-                        statusCode: 200,
-                        statusPhrase: "OK",
-                        headers: ["Content-Length": "0",
-                                  "Content-Type": "text/html",
-                                  "Set-Cookie": "type=chocolate"],
-                        body: Data()
-                )
-
-                expect(response200Cookie).to(equal(expectedResponse200Cookie))
-            }
-
             it ("can generate a 302 response") {
-                let response302 = responseBuilder.generate302Response()
+                let response302 = responseBuilder.assemble302Response().build()
                 let expectedResponse302 = HttpResponse(
-                statusCode: 302,
-                statusPhrase: "Found",
-                headers: ["Content-Length": "0",
-                          "Content-Type":"text/html"],
-                body: Data()
+                        statusCode: 302,
+                        statusPhrase: "Found",
+                        headers: ["Content-Length": "0",
+                                  "Content-Type":"text/html"],
+                        body: Data()
                 )
 
                 expect(response302).to(equal(expectedResponse302))
             }
-
 
             it ("can generate a 401 response") {
                 let response401 = responseBuilder.generate401Response(realm: "basic-auth")

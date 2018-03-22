@@ -1,12 +1,10 @@
 import Foundation
 
 public class UrlDecodeAction: HttpAction {
-    private var routesTable: RoutesTable
     public var dataStorage: DataStorage
 
-    public init(routesTable: RoutesTable, dataStorage: DataStorage) {
+    public init(dataStorage: DataStorage) {
         self.dataStorage = dataStorage
-        self.routesTable = routesTable
     }
 
     public func execute(request: HttpRequest) -> HttpResponse {
@@ -14,10 +12,11 @@ public class UrlDecodeAction: HttpAction {
                             .replacingOccurrences(of: "1=O", with: "1 = O")
                             .replacingOccurrences(of: "2=s", with: "2 = s")
         dataStorage.addData(url: request.returnUrl(), value: decodedString)
-        return ResponseBuilder(
-                routesTable: self.routesTable,
-                dataStorage: self.dataStorage)
-                .generate200Response(request: request)
+        let bodyString = obtainDataByUrlKey(url: request.returnUrl(), dataStorage: self.dataStorage)
+        return ResponseBuilder()
+                .assemble200Response(request: request)
+                .setBody(body: Data(bodyString.utf8))
+                .build()
     }
 
 

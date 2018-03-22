@@ -1,11 +1,10 @@
+import Foundation
 public class PutAction: HttpAction {
 
     private var dataStorage: DataStorage
-    private var routesTable: RoutesTable
 
-    public init(routesTable: RoutesTable, dataStorage: DataStorage) {
+    public init(dataStorage: DataStorage) {
         self.dataStorage = dataStorage
-        self.routesTable = routesTable
     }
 
     public func execute(request: HttpRequest) -> HttpResponse {
@@ -15,9 +14,10 @@ public class PutAction: HttpAction {
             UrlData += "\(item.key)=\(item.value) "
         }
         dataStorage.addData(url: request.returnUrl(), value: UrlData)
-        return ResponseBuilder(
-                routesTable: self.routesTable,
-                dataStorage: self.dataStorage)
-                .generate200Response(request: request)
+        let bodyString = obtainDataByUrlKey(url: request.returnUrl(), dataStorage: self.dataStorage)
+        return ResponseBuilder()
+                .assemble200Response(request: request)
+                .setBody(body: Data(bodyString.utf8))
+                .build()
     }
 }
