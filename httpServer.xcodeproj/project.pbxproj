@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		BE52DC5F2093A5F00040847F /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE52DC5E2093A5F00040847F /* XCTest.framework */; };
+		BE52DC602093A7230040847F /* QuickConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_96 /* QuickConfiguration.swift */; };
 		OBJ_196 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_202 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_74 /* Package.swift */; };
 		OBJ_208 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_118 /* Package.swift */; };
@@ -104,7 +106,6 @@
 		OBJ_323 /* Behavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_92 /* Behavior.swift */; };
 		OBJ_324 /* Callsite.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_93 /* Callsite.swift */; };
 		OBJ_325 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_95 /* Configuration.swift */; };
-		OBJ_326 /* QuickConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_96 /* QuickConfiguration.swift */; };
 		OBJ_327 /* DSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_98 /* DSL.swift */; };
 		OBJ_328 /* World+DSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_99 /* World+DSL.swift */; };
 		OBJ_329 /* ErrorUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_100 /* ErrorUtility.swift */; };
@@ -264,6 +265,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BE52DC5E2093A5F00040847F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		"Nimble::Nimble::Product" /* Nimble.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Nimble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_10 /* ActionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionProtocol.swift; sourceTree = "<group>"; };
 		OBJ_100 /* ErrorUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorUtility.swift; sourceTree = "<group>"; };
@@ -444,6 +446,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
+				BE52DC5F2093A5F00040847F /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -483,6 +486,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BE52DC5D2093A5F00040847F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BE52DC5E2093A5F00040847F /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		OBJ_105 /* Hooks */ = {
 			isa = PBXGroup;
 			children = (
@@ -745,7 +756,7 @@
 			path = ActionsSpec;
 			sourceTree = "<group>";
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -754,8 +765,8 @@
 				OBJ_71 /* cob_spec */,
 				OBJ_72 /* Dependencies */,
 				OBJ_182 /* Products */,
+				BE52DC5D2093A5F00040847F /* Frameworks */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_54 /* CommandLineReaderSpec */ = {
@@ -1191,7 +1202,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_182 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1345,12 +1356,12 @@
 				OBJ_323 /* Behavior.swift in Sources */,
 				OBJ_324 /* Callsite.swift in Sources */,
 				OBJ_325 /* Configuration.swift in Sources */,
-				OBJ_326 /* QuickConfiguration.swift in Sources */,
 				OBJ_327 /* DSL.swift in Sources */,
 				OBJ_328 /* World+DSL.swift in Sources */,
 				OBJ_329 /* ErrorUtility.swift in Sources */,
 				OBJ_330 /* Example.swift in Sources */,
 				OBJ_331 /* ExampleGroup.swift in Sources */,
+				BE52DC602093A7230040847F /* QuickConfiguration.swift in Sources */,
 				OBJ_332 /* ExampleMetadata.swift in Sources */,
 				OBJ_333 /* Filter.swift in Sources */,
 				OBJ_334 /* Closures.swift in Sources */,

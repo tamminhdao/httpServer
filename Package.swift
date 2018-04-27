@@ -9,8 +9,8 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
 	    .package(url: "https://github.com/IBM-Swift/BlueSocket.git", .upToNextMinor(from: "0.12.76")),
-	    .package(url: "https://github.com/Quick/Quick.git", from: "1.2.0"),
-        .package(url: "https://github.com/Quick/Nimble.git", from: "7.0.3"),
+	    .package(url: "https://github.com/Quick/Quick.git", from: "1.1.0"),
+        .package(url: "https://github.com/Quick/Nimble.git", from: "7.0.0"),
         .package(url: "https://github.com/SwiftyBeaver/SwiftyBeaver.git", from: "1.0.0")
     ],
     targets: [
